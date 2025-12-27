@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import img1 from "../assets/Group 1116606595 (1).png"
 import { Input } from '@/components/ui/input'
