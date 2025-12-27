@@ -1,3 +1,4 @@
+import { Input } from '@/components/ui/input'
 import React from 'react'
 
 const Login = () => {
@@ -5,8 +6,8 @@ const Login = () => {
         <div>
             <h1>Log in </h1>
             <form>
-                <input type="text" />
-                <input type="text" />
+                <Input className='w-[420px]' type="text" />
+                <Input className='w-[420px]' type="text" />
                 <button>Log in </button>
             </form>
         </div>
