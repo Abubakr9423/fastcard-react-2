@@ -18,6 +18,7 @@ const Layout = () => {
           <img className='md:block hidden' src={img1} alt="" />
           <div className='md:flex gap-6  hidden font-medium'>
             <Link to="/home">Home</Link>
+            <Link to="/products">Product</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/about">About</Link>
             <Link to="/register">Sign Up</Link>

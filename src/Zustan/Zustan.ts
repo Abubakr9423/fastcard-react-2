@@ -4,16 +4,7 @@ export const api = import.meta.env.VITE_API
 
 export const useTodo = create((set, get) => ({
     Data: [],
-
-    GetData: async () => {
-        set({ Data: [] })
-        try {
-            const { data } = await axios.get(`${api}Product/get-products`)
-            set({ Data: data.data.products })
-        } catch (error) {
-            console.error(error);
-        }
-    },
+    Categoria: [],
 
     AddnewUser: async (NewUser) => {
         try {
