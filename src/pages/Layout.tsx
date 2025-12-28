@@ -13,6 +13,7 @@ const Layout = () => {
           <img src={img1} alt="" />
           <div className='flex gap-5'>
             <Link to="/home">Home</Link>
+            <Link to="/products">Product</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/about">About</Link>
             <Link to="/sign">Sign Up</Link>
