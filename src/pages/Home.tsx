@@ -10,7 +10,6 @@ import img7 from '../assets/Frame 707.png'
 import img8 from '../assets/652e82cd70aa6522dd785109a455904c.png'
 import { MoveLeft, MoveRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { api } from '@/Zustan/Zustan'
 import { useEffect } from 'react'
 import Rating from '@/components/Rating'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -21,7 +20,7 @@ import '../swiper.css';
 
 import { Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom'
-import { GetToken } from '@/utils/axios'
+import { axiosRequest, GetToken } from '@/utils/axios'
 import { useCategory, useProductStore } from '@/store/store'
 
 const Home = () => {
@@ -156,7 +155,7 @@ const Home = () => {
                 <SwiperSlide>
                   <div key={e.id} className="product-card">
                     <div className="image-container">
-                      <img src={`${api}images/${e.image}`} alt={e.productName} />
+                      <img src={`${axiosRequest}images/${e.image}`} alt={e.productName} />
                       <button className="add-to-cart">Add to Cart</button>
                     </div>
                     <div className="info">
