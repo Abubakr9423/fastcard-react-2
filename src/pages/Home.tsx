@@ -1,9 +1,18 @@
 import imgIphone from '../assets/hero_endframe__cvklg0xk3w6e_large 2.png'
 import LogoIphone from '../assets/1200px-Apple_gray_logo 1.png'
-import { MoveLeft, MoveRight, Search } from 'lucide-react'
+import { Heart, MoveLeft, MoveRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
+import { api, useTodo } from '@/Zustan/Zustan'
+import { useEffect } from 'react'
+import Rating from '@/components/Rating'
 
 const Home = () => {
+  const { Data, GetData } = useTodo((state) => state)
+
+  useEffect(() => {
+    GetData()
+  }, [])
+
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
       <section className='flex md:flex-row flex-col'>
@@ -91,6 +100,35 @@ const Home = () => {
             <button className='bg-[#F5F5F5] rounded-full p-4'><MoveLeft /></button>
             <button className='bg-[#F5F5F5] rounded-full p-4'><MoveRight /></button>
           </div>
+        </div>
+        <section>
+          {
+            Data?.map((prod) => (
+              <div>
+                <div style={{ backgroundImage: `url('${api}images/${prod.image}')` }} className='w-80 h-50 bg-cover flex justify-between items-start p-2 rounded-t-sm'>
+                  <p className='bg-[#DB4444] rounded-sm text-white p-2'>-{prod.quantity}%</p>
+                  <div className='flex flex-col gap-2'>
+                    <button className='bg-[#FFFFFF] p-2 rounded-full'><Heart /></button>
+                    <button className='bg-[#FFFFFF] p-2 rounded-full'><Heart /></button>
+                  </div>
+                </div>
+                <div>
+                  <h1 className='font-bold'>{prod.productName}</h1>
+                  <div className='flex gap-3'>
+                    <span className='text-[#DB4444] font-bold text-[18px]'>${prod.price}</span>
+                    <span className='text-gray-500 line-through text-[18px] font-bold'>${prod.discountPrice}</span>
+                  </div>
+                  <div className='flex gap-3'>
+                    <Rating />
+                    <span className='font-black'>({prod.quantity})</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          }
+        </section>
+        <div>
+          <button className='bg-[#DB4444] rounded-sm px-3 py-2'>View All Products</button>
         </div>
       </section>
     </main>
