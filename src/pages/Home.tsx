@@ -20,8 +20,8 @@ import '../swiper.css';
 
 import { Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom'
-import { axiosRequest, GetToken } from '@/utils/axios'
-import { useCategory, useProductStore } from '@/store/store'
+import { GetToken } from '@/utils/axios'
+import { api, useCategory, useProductStore } from '@/store/store'
 
 const Home = () => {
   const { data, fetchProducts } = useProductStore();
@@ -155,7 +155,7 @@ const Home = () => {
                 <SwiperSlide>
                   <div key={e.id} className="product-card">
                     <div className="image-container">
-                      <img src={`${axiosRequest}images/${e.image}`} alt={e.productName} />
+                      <img src={`${api}images/${e.image}`} alt={e.productName} />
                       <button className="add-to-cart">Add to Cart</button>
                     </div>
                     <div className="info">

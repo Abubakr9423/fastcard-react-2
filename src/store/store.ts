@@ -1,6 +1,7 @@
 // store/store.ts
 import { axiosRequest, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
+export const api = import.meta.env.VITE_API
 
 interface LogState {
     user: any | null;
