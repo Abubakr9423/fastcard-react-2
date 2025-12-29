@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import img2 from "../assets/Wishlist (1).png"
 import img3 from "../assets/Cart1 (1).png"
 import img4 from "../assets/Frame 741.png"
-import { Menu, User } from 'lucide-react'
+import { Heart, Menu, ShoppingCart, User } from 'lucide-react'
 
 const Layout = () => {
   return (
@@ -25,8 +25,14 @@ const Layout = () => {
           </div>
           <div className='flex gap-5 items-center'>
             <Input type="search" placeholder='search' className='md:block w-70 hidden' />
-            <img className='md:block hidden' src={img2} alt="" />
-            <img src={img3} alt="" />
+            <div className="top-2 right-2 flex-row gap-2 flex">
+              <button>
+                <Heart className="w-5 h-5 text-red-500" />
+              </button>
+              <button>
+                <ShoppingCart className="w-5 h-5 text-blue-600" />
+              </button>
+            </div>
             <Link to={'/account'}>
               <User className='md:block hidden' />
             </Link>
