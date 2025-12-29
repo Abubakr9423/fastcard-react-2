@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useProductStore } from "../store/store";
 import "../App.css";
+import { Heart, ShoppingCart } from "lucide-react";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
@@ -158,7 +159,7 @@ const Products = () => {
                   type="radio"
                   name="condition"
                   onChange={() => {
-                    setFilters({ subcategoryId: idx + 10 }); 
+                    setFilters({ subcategoryId: idx + 10 });
                     fetchProducts();
                   }}
                 />
@@ -187,15 +188,41 @@ const Products = () => {
         <div className="flex flex-wrap gap-10">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
-              <div key={e.id} className="product-card">
-                <div className="image-container">
-                  <img src={e.image} alt={e.productName} />
-                  <button className="add-to-cart">Add to Cart</button>
+              <div key={e.id} className="product-card border rounded shadow-md p-4 w-64">
+                <div className="image-container relative">
+                  <img
+                    src={`https://store-api.softclub.tj/images/${e.image}`}
+                    alt={e.productName}
+                    className="w-32 h-32 object-contain mx-auto"
+                  />
+
+                  <div className="absolute top-2 right-2 flex flex-col gap-2">
+                    <button className="bg-white rounded-full p-2 shadow">
+                      <Heart className="w-5 h-5 text-red-500" />
+                    </button>
+                    <button className="bg-white rounded-full p-2 shadow">
+                      <ShoppingCart className="w-5 h-5 text-blue-600" />
+                    </button>
+                  </div>
                 </div>
-                <div className="info">
-                  <h1>{e.productName}</h1>
-                  <p className="color">Color: {e.color}</p>
-                  <p className="price">${e.price}</p>
+
+                <div className="info mt-3 text-center">
+                  <h1 className="text-lg font-semibold">{e.productName}</h1>
+                  <p className="text-sm text-gray-600">Color: {e.color}</p>
+
+                  {e.hasDiscount ? (
+                    <div className="flex justify-center gap-2 items-baseline">
+                      <p className="text-red-600 font-bold">${e.price}</p>
+                      <p className="line-through text-gray-500">${e.discountPrice}</p>
+                    </div>
+                  ) : (
+                    <p className="text-blue-600 font-bold">${e.price}</p>
+                  )}
+
+                  <p className="text-xs text-gray-500 mt-1">
+                    {e.quantity > 0 ? `In stock: ${e.quantity}` : "Out of stock"}
+                  </p>
+                  <p className="text-xs text-gray-400">{e.categoryName}</p>
                 </div>
               </div>
             ))
