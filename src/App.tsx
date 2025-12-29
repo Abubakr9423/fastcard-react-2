@@ -10,6 +10,7 @@ import Products from './pages/Products'
 import Productsdetail from './pages/Productsdetail'
 import Wishlist from './pages/Wishlist'
 import Accaount from './pages/Accaount'
+import Register from './pages/Register'
 
 const App = () => {
   const router = createBrowserRouter([
@@ -26,7 +27,8 @@ const App = () => {
         { path: "/products", element: <Products /> },
         { path: "/productsdetail", element: <Productsdetail /> },
         { path: "/wishlist", element: <Wishlist /> },
-        { path: "/account", element: <Accaount /> }
+        { path: "/account", element: <Accaount /> },
+        { path: "/register", element: <Register /> }
       ]
     }
   ])
