@@ -33,10 +33,12 @@ const Layout = () => {
                 <ShoppingCart className="w-5 h-5 text-blue-600" />
               </button>
             </div>
-            <User className='md:block hidden' />
+            <Link to={'/account'}>
+              <User className='md:block hidden' />
+            </Link>
           </div>
         </nav>
-      </header>
+      </header >
       <div>
         <Outlet />
       </div>
