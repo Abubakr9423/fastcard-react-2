@@ -29,7 +29,6 @@ const Products = () => {
 
   return (
     <>
-      <h2>Products</h2>
       <div className="flex justify-evenly p-10 gap-25">
         <div className="flex flex-col gap-5">
           <div>
@@ -158,7 +157,7 @@ const Products = () => {
                   type="radio"
                   name="condition"
                   onChange={() => {
-                    setFilters({ subcategoryId: idx + 10 }); 
+                    setFilters({ subcategoryId: idx + 10 });
                     fetchProducts();
                   }}
                 />
