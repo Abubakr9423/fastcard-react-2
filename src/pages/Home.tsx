@@ -38,10 +38,10 @@ const Home = () => {
 
   useEffect(() => {
     const token = GetToken();
-    // if (!token) {
-    //   naviget('/');
-    //   return;
-    // }
+    if (!token) {
+      naviget('/');
+      return;
+    }
     fetchProducts();
     getCategory();
     const timer = setInterval(() => {

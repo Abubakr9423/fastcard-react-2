@@ -27,10 +27,12 @@ const Layout = () => {
             <Input type="search" placeholder='search' className='md:block w-70 hidden' />
             <img className='md:block hidden' src={img2} alt="" />
             <img src={img3} alt="" />
-            <User className='md:block hidden' />
+            <Link to={'/account'}>
+              <User className='md:block hidden' />
+            </Link>
           </div>
         </nav>
-      </header>
+      </header >
       <div>
         <Outlet />
       </div>
