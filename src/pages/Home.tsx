@@ -7,7 +7,7 @@ import img5 from '../assets/ps5-slim-goedkope-playstation_large 1.png'
 import img6 from '../assets/attractive-woman-wearing-hat-posing-black-background 1.png'
 import img7 from '../assets/Frame 707.png'
 import img8 from '../assets/652e82cd70aa6522dd785109a455904c.png'
-import { MoveLeft, MoveRight } from 'lucide-react'
+import { Heart, MoveLeft, MoveRight, ShoppingCart } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
 import Rating from '@/components/Rating'
@@ -23,6 +23,9 @@ import { GetToken } from '@/utils/axios'
 import { api, useCategory, useProductStore } from '@/store/store'
 import SwipperHeader from '@/components/SwiperHeader'
 import { NumberTicker } from '@/components/ui/number-ticker'
+import { useRef } from "react";
+import type { Swiper as SwiperType } from "swiper";
+
 
 const Home = () => {
   const { data, fetchProducts } = useProductStore();
@@ -34,6 +37,8 @@ const Home = () => {
   const Hours = time.getHours();
   const Minut = time.getMinutes();
   const Second = time.getSeconds();
+  const swiperRef = useRef<SwiperType | null>(null);
+  const swiperRef2 = useRef<SwiperType | null>(null);
 
 
   useEffect(() => {
@@ -117,14 +122,15 @@ const Home = () => {
             </div>
           </div>
           <div className='md:flex hidden items-center gap-2'>
-            <button className='bg-[#F5F5F5] rounded-full p-4'><MoveLeft /></button>
-            <button className='bg-[#F5F5F5] rounded-full p-4'><MoveRight /></button>
+            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef.current?.slidePrev()}><MoveLeft /></button>
+            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef.current?.slideNext()}><MoveRight /></button>
           </div>
         </div>
         <div className='my-5'>
           <Swiper
-            slidesPerView={4}
-            spaceBetween={10}
+            slidesPerView={1}
+            spaceBetween={5}
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -135,7 +141,7 @@ const Home = () => {
                 spaceBetween: 50,
               },
               1024: {
-                slidesPerView: 5,
+                slidesPerView: 4,
                 spaceBetween: 60,
               },
             }}
@@ -145,23 +151,56 @@ const Home = () => {
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide>
-                  <div key={e.id} className="product-card">
-                    <div className="image-container">
-                      <img src={`${api}images/${e.image}`} alt={e.productName} />
-                      <button className="add-to-cart">Add to Cart</button>
-                    </div>
-                    <div className="info">
-                      <h1>{e.productName}</h1>
-                      <p className="color">Color: {e.color}</p>
-                      <div className='flex gap-2'>
-                        <p className="price ">${e.price}</p>
-                        <p className="line-through text-gray-400">${e.discountPrice}</p>
-                      </div>
-                      <Rating
-                        value={4}
-                        max={5}
-                        className="my-rating"
+                  <div key={e.id} className="product-card border rounded shadow-md p-4 w-90">
+                    <div className="image-container relative">
+                      <img
+                        src={`https://store-api.softclub.tj/images/${e.image}`}
+                        alt={e.productName}
+                        className="w-32 h-32 object-contain mx-auto"
                       />
+
+                      <div className="absolute top-2 right-2 flex flex-col gap-2">
+                        <button className="bg-white rounded-full p-2 shadow">
+                          <Heart className="w-5 h-5 text-red-500" />
+                        </button>
+                        <button className="bg-white rounded-full p-2 shadow">
+                          <ShoppingCart className="w-5 h-5 text-blue-600" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="info mt-3 text-center">
+                      <h1 className="text-lg font-semibold">{e.productName}</h1>
+                      <p className="text-sm text-gray-600">Color: {e.color}</p>
+
+                      {e.hasDiscount ? (
+                        <div className="flex justify-center gap-2 items-baseline">
+                          <div className='flex gap-2 items-end'>
+                            <div>
+                              <span className='text-red-600'>$</span>
+                              <NumberTicker
+                                value={e.price}
+                                // decimalPlaces={3}
+                                className="text-red-600 font-bold"
+                              />
+                            </div>
+                            <div>
+                              <span className='text-gray-400'>$</span>
+                              <NumberTicker
+                                value={e.discountPrice}
+                                className=" font-medium tracking-tighter whitespace-pre-wrap line-through text-gray-400 dark:text-white"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-blue-600 font-bold">${e.price}</p>
+                      )}
+
+                      <p className="text-xs text-gray-500 mt-1">
+                        {e.quantity > 0 ? `In stock: ${e.quantity}` : "Out of stock"}
+                      </p>
+                      <p className="text-xs text-gray-400">{e.categoryName}</p>
                     </div>
                   </div>
                 </SwiperSlide>
@@ -187,14 +226,15 @@ const Home = () => {
             <h1 className='text-4xl font-bold'>Browse By Category</h1>
           </div>
           <div className='md:flex hidden items-center gap-2'>
-            <button className='bg-[#F5F5F5] rounded-full p-4'><MoveLeft /></button>
-            <button className='bg-[#F5F5F5] rounded-full p-4'><MoveRight /></button>
+            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef2.current?.slidePrev()}><MoveLeft /></button>
+            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef2.current?.slideNext()}><MoveRight /></button>
           </div>
         </div>
         <div className='my-5'>
           <Swiper
-            slidesPerView={7}
+            slidesPerView={2}
             spaceBetween={10}
+            onSwiper={(swiper) => (swiperRef2.current = swiper)}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -238,7 +278,7 @@ const Home = () => {
         </div>
         <div className='my-5'>
           <Swiper
-            slidesPerView={4}
+            slidesPerView={2}
             spaceBetween={10}
             breakpoints={{
               640: {
@@ -255,8 +295,7 @@ const Home = () => {
               },
             }}
             modules={[Pagination]}
-            className="mySwiper"
-          >
+            className="mySwiper">
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide>
@@ -268,10 +307,6 @@ const Home = () => {
                     <div className="info">
                       <h1>{e.productName}</h1>
                       <p className="color">Color: {e.color}</p>
-                      <div className='flex gap-2'>
-                        <p className="price ">${e.price}</p>
-                        <p className="line-through text-gray-400">${e.discountPrice}</p>
-                      </div>
                       <div className='flex gap-2 items-end'>
                         <div>
                           <span className='text-blue-700'>$</span>
@@ -285,7 +320,6 @@ const Home = () => {
                           <span className='text-gray-400'>$</span>
                           <NumberTicker
                             value={350}
-                            // decimalPlaces={3}
                             className=" font-medium tracking-tighter whitespace-pre-wrap line-through text-gray-400 dark:text-white"
                           />
                         </div>
