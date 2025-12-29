@@ -151,14 +151,14 @@ const Home = () => {
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide>
-                  <div key={e.id} className="product-card border rounded shadow-md p-4 w-90">
+                  <div key={e.id} className="product-card border rounded  w-64">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
                         alt={e.productName}
-                        className="w-32 h-32 object-contain mx-auto"
+                        className="w-full object-cover h-32 mx-auto"
                       />
-
+                      <button className="add-to-cart">Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button className="bg-white rounded-full p-2 shadow">
                           <Heart className="w-5 h-5 text-red-500" />
@@ -175,23 +175,8 @@ const Home = () => {
 
                       {e.hasDiscount ? (
                         <div className="flex justify-center gap-2 items-baseline">
-                          <div className='flex gap-2 items-end'>
-                            <div>
-                              <span className='text-red-600'>$</span>
-                              <NumberTicker
-                                value={e.price}
-                                // decimalPlaces={3}
-                                className="text-red-600 font-bold"
-                              />
-                            </div>
-                            <div>
-                              <span className='text-gray-400'>$</span>
-                              <NumberTicker
-                                value={e.discountPrice}
-                                className=" font-medium tracking-tighter whitespace-pre-wrap line-through text-gray-400 dark:text-white"
-                              />
-                            </div>
-                          </div>
+                          <p className="text-red-600 font-bold">${e.price}</p>
+                          <p className="line-through text-gray-500">${e.discountPrice}</p>
                         </div>
                       ) : (
                         <p className="text-blue-600 font-bold">${e.price}</p>
