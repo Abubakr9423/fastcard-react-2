@@ -30,10 +30,10 @@ const Products = () => {
 
   return (
     <>
-      <div className="flex md:flex-row flex-col justify-evenly p-10 gap-25">
-        <div className="flex flex-col gap-5">
-          <div>
-            <h1>Category</h1>
+      <div className="flex md:flex-row flex-col justify-evenly p-10 gap-25 items-start">
+        <div className="flex flex-col gap-6 w-[300px] mx-auto">
+          <div className="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 className="text-lg font-semibold mb-3">Category</h2>
             {[
               { id: undefined, name: "All products" },
               { id: 1, name: "Electronics" },
@@ -47,55 +47,54 @@ const Products = () => {
                   setFilters({ categoryId: cat.id });
                   fetchProducts();
                 }}
-                className="cursor-pointer hover:text-blue-600"
+                className="cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition"
               >
                 {cat.name}
               </p>
             ))}
           </div>
 
-          <div>
-            <h1>Brands</h1>
+          <div className="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 className="text-lg font-semibold mb-3">Brands</h2>
             {["Samsung", "Apple", "Huawei", "Pocco", "Lenovo"].map((brand, idx) => (
-              <div key={brand} className="flex gap-2 items-center">
+              <label key={brand} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   onChange={(e) => {
                     setFilters({ brandId: e.target.checked ? idx + 1 : undefined });
                     fetchProducts();
                   }}
+                  className="accent-blue-600"
                 />
-                <h1>{brand}</h1>
-              </div>
+                <span className="text-gray-700">{brand}</span>
+              </label>
             ))}
-            <h1>See all</h1>
+            <button className="mt-2 text-sm text-blue-600 hover:underline">See all</button>
           </div>
-
-          <div>
-            <h1>Features</h1>
+          <div className="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 className="text-lg font-semibold mb-3">Features</h2>
             {["Metallic", "Plastic cover", "8GB Ram", "Super power", "Large Memory"].map(
               (feature, idx) => (
-                <div key={feature} className="flex gap-2 items-center">
+                <label key={feature} className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     onChange={(e) => {
                       setFilters({ subcategoryId: e.target.checked ? idx + 1 : undefined });
                       fetchProducts();
                     }}
+                    className="accent-blue-600"
                   />
-                  <h1>{feature}</h1>
-                </div>
+                  <span className="text-gray-700">{feature}</span>
+                </label>
               )
             )}
-            <h1>See all</h1>
+            <button className="mt-2 text-sm text-blue-600 hover:underline">See all</button>
           </div>
 
-          <div className="w-80 p-4 border rounded-lg shadow-md bg-white">
-            <h1 className="text-lg font-semibold mb-4">Price range</h1>
-
+          <div className="p-4 border rounded-lg shadow-md bg-white">
+            <h2 className="text-lg font-semibold mb-4">Price Range</h2>
             <div className="relative h-6 mb-6">
-              <div className="absolute w-full h-1 bg-gray-300 rounded top-1/2 -translate-y-1/2" />
-
+              <div className="absolute w-full h-1 bg-gray-200 rounded top-1/2 -translate-y-1/2" />
               <div
                 className="absolute h-1 bg-blue-600 rounded top-1/2 -translate-y-1/2"
                 style={{
@@ -103,7 +102,6 @@ const Products = () => {
                   width: `${((max - min) / 5000) * 100}%`,
                 }}
               />
-
               <input
                 type="range"
                 min="0"
@@ -111,10 +109,9 @@ const Products = () => {
                 step="50"
                 value={min}
                 onChange={handleMinChange}
-                className="absolute w-full appearance-none bg-transparent pointer-events-auto"
+                className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-blue-600"
                 style={{ zIndex: 3 }}
               />
-
               <input
                 type="range"
                 min="0"
@@ -122,26 +119,24 @@ const Products = () => {
                 step="50"
                 value={max}
                 onChange={handleMaxChange}
-                className="absolute w-full appearance-none bg-transparent pointer-events-auto"
+                className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-blue-600"
                 style={{ zIndex: 4 }}
               />
             </div>
-
             <div className="flex justify-between mb-4">
               <input
                 type="text"
                 value={min}
                 readOnly
-                className="w-1/2 mr-2 border rounded px-2 py-1 text-center"
+                className="w-1/2 mr-2 border rounded px-2 py-1 text-center bg-gray-50"
               />
               <input
                 type="text"
                 value={max}
                 readOnly
-                className="w-1/2 ml-2 border rounded px-2 py-1 text-center"
+                className="w-1/2 ml-2 border rounded px-2 py-1 text-center bg-gray-50"
               />
             </div>
-
             <button
               onClick={applyPriceFilter}
               className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
@@ -150,10 +145,10 @@ const Products = () => {
             </button>
           </div>
 
-          <div>
-            <h1>Condition</h1>
+          <div className="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 className="text-lg font-semibold mb-3">Condition</h2>
             {["Refurbished", "Brand new", "Old items"].map((condition, idx) => (
-              <div key={condition} className="flex gap-2 items-center">
+              <label key={condition} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="condition"
@@ -161,40 +156,42 @@ const Products = () => {
                     setFilters({ subcategoryId: idx + 10 });
                     fetchProducts();
                   }}
+                  className="accent-blue-600"
                 />
-                <h1>{condition}</h1>
-              </div>
+                <span className="text-gray-700">{condition}</span>
+              </label>
             ))}
           </div>
 
-          <div>
-            <h1>Ratings</h1>
+          <div className="p-4 border rounded-lg shadow-sm bg-white">
+            <h2 className="text-lg font-semibold mb-3">Ratings</h2>
             {[1, 2, 3, 4, 5].map((rating) => (
-              <div key={rating} className="flex gap-2 items-center">
+              <label key={rating} className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
                   onChange={(e) => {
                     setFilters({ colorId: e.target.checked ? rating : undefined });
                     fetchProducts();
                   }}
+                  className="accent-blue-600"
                 />
-                <h1>{rating} Stars</h1>
-              </div>
+                <span className="text-gray-700">{rating} Stars</span>
+              </label>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-10">
+        <div className="flex flex-wrap">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
-              <div key={e.id} className="product-card border rounded shadow-md p-4 w-64">
+              <div key={e.id} className="product-card border rounded  w-64">
                 <div className="image-container relative">
                   <img
                     src={`https://store-api.softclub.tj/images/${e.image}`}
                     alt={e.productName}
-                    className="w-32 h-32 object-contain mx-auto"
+                    className="w-full object-cover h-32 mx-auto"
                   />
-
+                  <button className="add-to-cart">Add to Cart</button>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button className="bg-white rounded-full p-2 shadow">
                       <Heart className="w-5 h-5 text-red-500" />
