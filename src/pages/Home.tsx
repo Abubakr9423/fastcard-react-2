@@ -1,5 +1,4 @@
-import imgIphone from '../assets/hero_endframe__cvklg0xk3w6e_large 2.png'
-import LogoIphone from '../assets/1200px-Apple_gray_logo 1.png'
+
 import img1 from '../assets/Frame 694.png'
 import img2 from '../assets/Services.png'
 import img3 from '../assets/Services (1).png'
@@ -10,7 +9,7 @@ import img7 from '../assets/Frame 707.png'
 import img8 from '../assets/652e82cd70aa6522dd785109a455904c.png'
 import { MoveLeft, MoveRight } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Rating from '@/components/Rating'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -22,27 +21,39 @@ import { Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
 import { api, useCategory, useProductStore } from '@/store/store'
+import SwipperHeader from '@/components/SwiperHeader'
+import { NumberTicker } from '@/components/ui/number-ticker'
 
 const Home = () => {
   const { data, fetchProducts } = useProductStore();
   const { isCategoria, getCategory } = useCategory();
+  const [time, setTime] = useState(new Date());
 
   const naviget = useNavigate()
+  const Day = time.getDate();
+  const Hours = time.getHours();
+  const Minut = time.getMinutes();
+  const Second = time.getSeconds();
+
 
   useEffect(() => {
     const token = GetToken();
-    if (!token) {
-      naviget('/');
-      return;
-    }
+    // if (!token) {
+    //   naviget('/');
+    //   return;
+    // }
     fetchProducts();
     getCategory();
+    const timer = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
   }, [fetchProducts, getCategory, naviget]);
 
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
       <section className='flex mt-5 mb-8 md:flex-row flex-col'>
-        <aside className='md:flex hidden flex-col font-bold items-start gap-3 w-[20%]'>
+        <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
           <select name="" id="">
             <option value="">Woman’s Fashion</option>
           </select>
@@ -73,27 +84,11 @@ const Home = () => {
           </div>
         </aside>
 
-        <aside className='bg-black text-white md:w-[80%] rounded-sm flex md:flex-row flex-col md:gap-0 gap-3  md:px-20 md:py-0 py-10  items-center justify-between'>
-          <div className='flex flex-col justify-between gap-5'>
-            <div className='flex items-center gap-2'>
-              <img src={LogoIphone} alt="" />
-              <h1 >iPhone 14 Series</h1>
-            </div>
-            <div>
-              <h1 className='md:text-6xl text-2xl font-bold'>Up to 10% off Voucher</h1>
-            </div>
-            <div>
-              <p className='text-2xl'>Shop Now {'->'}</p>
-            </div>
-          </div>
-          <div className='md:w-140'>
-            <img className='w-full' src={imgIphone} alt="" />
-          </div>
-        </aside>
+        <SwipperHeader />
       </section>
       <section className='my-5'>
         <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-[4px]  py-2 px-1'>O</div>
+          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
           <p className='font-bold text-xl'>Today’s</p>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
@@ -102,22 +97,22 @@ const Home = () => {
             <div className='flex items-center gap-2'>
               <div>
                 <p className='font-bold'>Days</p>
-                <h1 className='text-5xl font-bold'>03</h1>
+                <h1 className='text-5xl font-bold'>{Day}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
                 <p className='font-bold'>Hours</p>
-                <h1 className='text-5xl font-bold'>23</h1>
+                <h1 className='text-5xl font-bold'>{Hours}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
                 <p className='font-bold'>Minutes</p>
-                <h1 className='text-5xl font-bold'>19</h1>
+                <h1 className='text-5xl font-bold'>{Minut}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
                 <p className='font-bold'>Seconds</p>
-                <h1 className='text-5xl font-bold'>19</h1>
+                <h1 className='text-5xl font-bold'>{Second}</h1>
               </div>
             </div>
           </div>
@@ -130,9 +125,6 @@ const Home = () => {
           <Swiper
             slidesPerView={4}
             spaceBetween={10}
-            // pagination={{
-            //   clickable: true,
-            // }}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -175,7 +167,9 @@ const Home = () => {
                 </SwiperSlide>
               ))
             ) : (
-              <p>Маълумот ёфт нашуд...</p>
+              <div className='flex items-center justify-center mt-10'>
+                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+              </div>
             )}
           </Swiper>
         </div>
@@ -185,7 +179,7 @@ const Home = () => {
       </section>
       <section className='my-8'>
         <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-[4px]  py-2 px-1'>O</div>
+          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
           <p className='font-bold text-xl'>Categories</p>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
@@ -201,9 +195,6 @@ const Home = () => {
           <Swiper
             slidesPerView={7}
             spaceBetween={10}
-            // pagination={{
-            //   clickable: true,
-            // }}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -235,7 +226,9 @@ const Home = () => {
                 </SwiperSlide>
               ))
             ) : (
-              <p>Маълумот ёфт нашуд...</p>
+              <div className='flex items-center justify-center mt-10'>
+                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+              </div>
             )}
           </Swiper>
         </div>
@@ -247,9 +240,6 @@ const Home = () => {
           <Swiper
             slidesPerView={4}
             spaceBetween={10}
-            // pagination={{
-            //   clickable: true,
-            // }}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -282,6 +272,24 @@ const Home = () => {
                         <p className="price ">${e.price}</p>
                         <p className="line-through text-gray-400">${e.discountPrice}</p>
                       </div>
+                      <div className='flex gap-2 items-end'>
+                        <div>
+                          <span className='text-blue-700'>$</span>
+                          <NumberTicker
+                            value={350}
+                            // decimalPlaces={3}
+                            className="text-blue-700 font-medium text-[25px] tracking-tighter whitespace-pre-wrap  dark:text-white"
+                          />
+                        </div>
+                        <div>
+                          <span className='text-gray-400'>$</span>
+                          <NumberTicker
+                            value={350}
+                            // decimalPlaces={3}
+                            className=" font-medium tracking-tighter whitespace-pre-wrap line-through text-gray-400 dark:text-white"
+                          />
+                        </div>
+                      </div>
                       <Rating
                         value={4}
                         max={5}
@@ -292,30 +300,36 @@ const Home = () => {
                 </SwiperSlide>
               ))
             ) : (
-              <p>Маълумот ёфт нашуд...</p>
+              <div className='flex items-center justify-center mt-10'>
+                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+              </div>
             )}
           </Swiper>
-        </div>
-      </section>
+        </div >
+      </section >
       <section className='bg-[#000000] flex md:flex-row flex-col items-center justify-between text-white rounded-sm md:p-10 p-5'>
         <aside className='flex flex-col items-start gap-5 md:w-[50%]'>
           <p className='text-[#00FF66]'>Categories</p>
           <h1 className='text-6xl'>Enhance Your Music Experience</h1>
           <div className='text-black text-center flex gap-2'>
-            <div className='bg-white rounded-full w-15 h-15 p-1'>
-              <p className='font-bold'>23</p>
+            <div className='bg-white rounded-full w-18 h-17 p-2'>
+              <p className='font-bold'>{Hours}</p>
               <p>Hours</p>
             </div>
-            <div className='bg-white rounded-full w-15 h-15 p-1'>
-              <p className='font-bold'>23</p>
-              <p>Hours</p>
+            <div className='bg-white rounded-full w-18 h-17 p-2'>
+              <p className='font-bold'>{Day}</p>
+              <p>Days</p>
             </div>
-            <div className='bg-white rounded-full w-15 h-15 p-1'>
-              <p className='font-bold'>23</p>
-              <p>Hours</p>
+            <div className='bg-white rounded-full w-18 h-17 p-2'>
+              <p className='font-bold'>{Minut}</p>
+              <p>Minutes</p>
+            </div>
+            <div className='bg-white rounded-full w-18 h-17 p-1'>
+              <p className='font-bold'>{Second}</p>
+              <p>Seconds</p>
             </div>
           </div>
-          <button className='bg-[#00FF66] text-black rounded-sm px-5 py-2'>Buy Now!</button>
+          <button className='bg-[#00FF66] text-black rounded-sm px-8 py-3 font-bold'>Buy Now!</button>
         </aside>
         <aside className='md:w-[50%]'>
           <img src={img1} alt="" />
@@ -323,7 +337,7 @@ const Home = () => {
       </section>
       <section className='my-8'>
         <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-[4px]  py-2 px-1'>O</div>
+          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
           <p className='font-bold text-xl'>Our Products</p>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
@@ -360,22 +374,22 @@ const Home = () => {
           )}
         </div>
         <div className='flex justify-center'>
-          <button className='px-5 py-2 rounded-sm text-white bg-[#DB4444]'>View All Products</button>
+          <button className='px-5 py-2 rounded-sm text-white bg-[#DB4444]' onClick={() => naviget('/products')}>View All Products</button>
         </div>
       </section>
       <section>
         <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-[4px]  py-2 px-1'>O</div>
+          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
           <p className='font-bold text-xl'>Featured</p>
         </div>
         <h1 className='text-4xl font-bold'>New Arrival</h1>
-        <div className='flex gap-1'>
+        <div className='flex md:flex-row flex-col gap-1'>
           <aside
             style={{
               backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img5}')`
             }}
-            className='w-[50%] bg-black p-8 text-white bg-cover bg-center h-[600px] flex flex-col justify-end rounded-lg'>
-            <div className='max-w-[250px] space-y-2'>
+            className='md:w-[50%] bg-black p-8 text-white bg-cover bg-center md:h-150 flex flex-col justify-end rounded-lg'>
+            <div className='max-w-62.5 space-y-2'>
               <h1 className='text-3xl font-bold tracking-wider'>PlayStation 5</h1>
               <p className='text-sm text-gray-200'>
                 Black and White version of the PS5 coming out on sale.
@@ -385,25 +399,25 @@ const Home = () => {
               </button>
             </div>
           </aside>
-          <aside className='flex flex-col gap-1 w-[50%]'>
+          <aside className='flex flex-col gap-1 md:w-[50%]'>
             <div
               style={{
                 backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img6}')`
               }}
-              className='w-[50%] bg-black p-8 text-white bg-cover bg-center h-75  w-full flex flex-col justify-end rounded-lg'>
+              className=' bg-black p-8 text-white bg-cover bg-center md:h-75  w-full flex flex-col justify-end rounded-lg'>
               <h1 className='text-2xl font-bold'>Women’s Collections</h1>
               <p>Featured woman collections that give you another vibe.</p>
               <h1>Shop Now</h1>
             </div>
-            <div className='flex gap-2'>
+            <div className='flex md:flex-row flex-col gap-2'>
               <div style={{ backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img7}')` }}
-                className='w-[50%] bg-black p-8 text-white bg-cover bg-center h-75 w-full flex flex-col justify-end rounded-lg'>
+                className='md:w-[50%] bg-black p-8 text-white bg-cover bg-center md:h-75 flex flex-col justify-end rounded-lg'>
                 <h1 className='text-2xl font-bold'>PlayStation 5</h1>
                 <p>Black and White version of the PS5 coming out on sale.</p>
                 <h1>Shop Now</h1>
               </div>
               <div style={{ backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img8}')` }}
-                className='w-[50%] bg-black p-8 text-white bg-cover bg-center h-75 w-full flex flex-col justify-end rounded-lg'>
+                className='md:w-[50%] bg-black p-8 text-white bg-cover bg-center md:h-75 w-full flex flex-col justify-end rounded-lg'>
                 <h1 className='text-2xl font-bold'>PlayStation 5</h1>
                 <p>Black and White version of the PS5 coming out on sale.</p>
                 <h1>Shop Now</h1>
@@ -412,7 +426,7 @@ const Home = () => {
           </aside>
         </div>
       </section>
-      <section className='flex items-start justify-between my-20'>
+      <section className='flex md:flex-row flex-col md:items-start md:gap-0 gap-15 justify-between my-20'>
         <div className='flex flex-col items-center gap-2'>
           <img src={img2} alt="" />
           <h1 className='text-2xl font-bold'>FREE AND FAST DELIVERY</h1>
@@ -429,7 +443,7 @@ const Home = () => {
           <p>We reurn money within 30 days</p>
         </div>
       </section>
-    </main>
+    </main >
   )
 }
 

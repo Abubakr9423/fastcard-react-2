@@ -30,8 +30,7 @@ const Products = () => {
 
   return (
     <>
-      <h2>Products</h2>
-      <div className="flex justify-evenly p-10 gap-25">
+      <div className="flex md:flex-row flex-col justify-evenly p-10 gap-25">
         <div className="flex flex-col gap-5">
           <div>
             <h1>Category</h1>
