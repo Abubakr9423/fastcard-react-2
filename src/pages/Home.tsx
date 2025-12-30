@@ -7,7 +7,7 @@ import img5 from '../assets/ps5-slim-goedkope-playstation_large 1.png'
 import img6 from '../assets/attractive-woman-wearing-hat-posing-black-background 1.png'
 import img7 from '../assets/Frame 707.png'
 import img8 from '../assets/652e82cd70aa6522dd785109a455904c.png'
-import { Heart, MoveLeft, MoveRight, ShoppingCart } from 'lucide-react'
+import { Heart, Minus, MoveLeft, MoveRight, ShoppingCart } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
 import Rating from '@/components/Rating'
@@ -31,15 +31,29 @@ const Home = () => {
   const { data, fetchProducts } = useProductStore();
   const { isCategoria, getCategory } = useCategory();
   const { AddToCard } = useAddToCards();
-  const [time, setTime] = useState(new Date());
-
   const naviget = useNavigate()
-  const Day = time.getDate();
-  const Hours = time.getHours();
-  const Minut = time.getMinutes();
-  const Second = time.getSeconds();
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const now = new Date();
+      const tomorrow = new Date();
+      tomorrow.setDate(now.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+
+      const diff = tomorrow.getTime() - now.getTime();
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      setTimeLeft({ hours, minutes, seconds });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
 
 
   useEffect(() => {
@@ -59,11 +73,11 @@ const Home = () => {
 
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
-      <section className='flex mt-5 mb-8 md:flex-row flex-col gap-3'>
+      <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
           {Array?.isArray(isCategoria) ? (
             isCategoria.slice(0, 6).map((e) => (
-              <h1 className='text-[17px] w-full flex justify-between ga items-center font-bold '>
+              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center font-bold '>
                 {e.subCategoryName}
                 <MoveRight />
               </h1>
@@ -102,23 +116,18 @@ const Home = () => {
             <h1 className='text-5xl font-bold'>Flash Sales</h1>
             <div className='flex items-center gap-2'>
               <div>
-                <p className='font-bold'>Days</p>
-                <h1 className='text-5xl font-bold'>{Day}</h1>
-              </div>
-              <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
-              <div>
                 <p className='font-bold'>Hours</p>
-                <h1 className='text-5xl font-bold'>{Hours}</h1>
+                <h1 className='text-5xl font-bold'>{timeLeft.hours}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
                 <p className='font-bold'>Minutes</p>
-                <h1 className='text-5xl font-bold'>{Minut}</h1>
+                <h1 className='text-5xl font-bold'>{timeLeft.minutes}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
                 <p className='font-bold'>Seconds</p>
-                <h1 className='text-5xl font-bold'>{Second}</h1>
+                <h1 className='text-5xl font-bold'>{timeLeft.seconds}</h1>
               </div>
             </div>
           </div>
@@ -316,13 +325,13 @@ const Home = () => {
                         <div>
                           <span className='text-red-600'>$</span>
                           <NumberTicker
-                              value={
-                                e?.price > 4000
-                                  ? (Number(e?.price.toString().slice(0, 4)) || 0)
-                                  : (Number(e?.price) || 0)
-                              }
-                              className="text-red-600 font-bold"
-                            />
+                            value={
+                              e?.price > 4000
+                                ? (Number(e?.price.toString().slice(0, 4)) || 0)
+                                : (Number(e?.price) || 0)
+                            }
+                            className="text-red-600 font-bold"
+                          />
                         </div>
                         <div>
                           <span className='text-gray-400'>$</span>
@@ -359,19 +368,15 @@ const Home = () => {
           <h1 className='text-6xl'>Enhance Your Music Experience</h1>
           <div className='text-black text-center flex gap-2'>
             <div className='bg-white rounded-full w-18 h-17 p-2'>
-              <p className='font-bold'>{Hours}</p>
+              <p className='font-bold'>{timeLeft.hours}</p>
               <p>Hours</p>
             </div>
             <div className='bg-white rounded-full w-18 h-17 p-2'>
-              <p className='font-bold'>{Day}</p>
-              <p>Days</p>
-            </div>
-            <div className='bg-white rounded-full w-18 h-17 p-2'>
-              <p className='font-bold'>{Minut}</p>
+              <p className='font-bold'>{timeLeft.minutes}</p>
               <p>Minutes</p>
             </div>
             <div className='bg-white rounded-full w-18 h-17 p-1'>
-              <p className='font-bold'>{Second}</p>
+              <p className='font-bold'>{timeLeft.seconds}</p>
               <p>Seconds</p>
             </div>
           </div>
