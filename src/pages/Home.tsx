@@ -7,7 +7,7 @@ import img5 from '../assets/ps5-slim-goedkope-playstation_large 1.png'
 import img6 from '../assets/attractive-woman-wearing-hat-posing-black-background 1.png'
 import img7 from '../assets/Frame 707.png'
 import img8 from '../assets/652e82cd70aa6522dd785109a455904c.png'
-import { Heart, Minus, MoveLeft, MoveRight, ShoppingCart } from 'lucide-react'
+import { Eye, Heart, Minus, MoveLeft, MoveRight, ShoppingCart } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { useEffect, useState } from 'react'
 import Rating from '@/components/Rating'
@@ -18,7 +18,7 @@ import 'swiper/css/navigation';
 import '../swiper.css';
 
 import { Pagination } from 'swiper/modules';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
 import { api, useAddToCards, useCategory, useProductStore } from '@/store/store'
 import SwipperHeader from '@/components/SwiperHeader'
@@ -64,11 +64,6 @@ const Home = () => {
     }
     fetchProducts();
     getCategory();
-    // AddToCard()
-    const timer = setInterval(() => {
-      setTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
   }, [fetchProducts, getCategory, naviget, AddToCard]);
 
   return (
@@ -173,9 +168,9 @@ const Home = () => {
                         <button className="bg-white rounded-full p-2 shadow">
                           <Heart className="w-5 h-5 text-red-500" />
                         </button>
-                        <button onClick={() => AddToCard(e.id)} className="bg-white rounded-full cursor-pointer p-2 shadow">
-                          <ShoppingCart className="w-5 h-5 text-blue-600" />
-                        </button>
+                        <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
+                          <Eye className="w-5 h-5 text-blue-600" />
+                        </Link>
                       </div>
                     </div>
 
