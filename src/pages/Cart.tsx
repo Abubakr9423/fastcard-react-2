@@ -1,13 +1,21 @@
 import { Input } from "@/components/ui/input";
 import { api, useCards, useDeleteToCard } from "@/store/store";
+import { GetToken } from "@/utils/axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { isCards, getCategory } = useCards();
   const { DeleteToCard } = useDeleteToCard();
   const [Value, setValue] = useState(1)
+  const naviget = useNavigate()
 
   useEffect(() => {
+    const token = GetToken();
+    if (!token) {
+      naviget('/');
+      return;
+    }
     getCategory()
   }, [])
 
