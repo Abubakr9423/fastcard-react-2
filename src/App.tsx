@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { lazy, Suspense } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Layout = lazy(() => import("./pages/Layout"));
 const Login = lazy(() => import("./pages/Login"));
@@ -14,27 +15,33 @@ const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Accaount = lazy(() => import("./pages/Accaount"));
 const Register = lazy(() => import("./pages/Register"));
 
+const Loader = () => (
+  <div className="flex justify-center items-center h-screen">
+    <CircularProgress size={80} />
+  </div>
+);
+
 const App = () => {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <Layout />
         </Suspense>
       ),
       children: [
-        { index: true, element: <Suspense fallback={<div>Loading...</div>}><Login /></Suspense> },
-        { path: "/home", element: <Suspense fallback={<div>Loading...</div>}><Home /></Suspense> },
-        { path: "/about", element: <Suspense fallback={<div>Loading...</div>}><About /></Suspense> },
-        { path: "/cart", element: <Suspense fallback={<div>Loading...</div>}><Cart /></Suspense> },
-        { path: "/contact", element: <Suspense fallback={<div>Loading...</div>}><Contact /></Suspense> },
-        { path: "/checkout", element: <Suspense fallback={<div>Loading...</div>}><Checkout /></Suspense> },
-        { path: "/products", element: <Suspense fallback={<div>Loading...</div>}><Products /></Suspense> },
-        { path: "/productsdetail/:id", element: <Suspense fallback={<div>Loading...</div>}><Productsdetail /></Suspense> },
-        { path: "/wishlist", element: <Suspense fallback={<div>Loading...</div>}><Wishlist /></Suspense> },
-        { path: "/account", element: <Suspense fallback={<div>Loading...</div>}><Accaount /></Suspense> },
-        { path: "/register", element: <Suspense fallback={<div>Loading...</div>}><Register /></Suspense> }
+        { index: true, element: <Suspense fallback={<Loader />}><Login /></Suspense> },
+        { path: "/home", element: <Suspense fallback={<Loader />}><Home /></Suspense> },
+        { path: "/about", element: <Suspense fallback={<Loader />}><About /></Suspense> },
+        { path: "/cart", element: <Suspense fallback={<Loader />}><Cart /></Suspense> },
+        { path: "/contact", element: <Suspense fallback={<Loader />}><Contact /></Suspense> },
+        { path: "/checkout", element: <Suspense fallback={<Loader />}><Checkout /></Suspense> },
+        { path: "/products", element: <Suspense fallback={<Loader />}><Products /></Suspense> },
+        { path: "/productsdetail/:id", element: <Suspense fallback={<Loader />}><Productsdetail /></Suspense> },
+        { path: "/wishlist", element: <Suspense fallback={<Loader />}><Wishlist /></Suspense> },
+        { path: "/account", element: <Suspense fallback={<Loader />}><Accaount /></Suspense> },
+        { path: "/register", element: <Suspense fallback={<Loader />}><Register /></Suspense> }
       ]
     }
   ]);
