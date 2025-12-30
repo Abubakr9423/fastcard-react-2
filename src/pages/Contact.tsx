@@ -25,32 +25,23 @@ const Contact = () => {
               <img src={img2} alt="" />
               <h1 className="text-[20px] font-bold">Write To US</h1>
             </div>
-            <ul className="text-gray-400 ml-4 ">
-              <li className="hover:text-red-600">My Returns</li>
-              <li className="hover:text-red-600">My Cancellations</li>
+            <ul className="text-gray-400 ml-4 mt-5 ">
+              <li className="hover:text-red-600">Fill out our form and we will contact you within 24 hours.</li>
+              <li className="hover:text-red-600">Emails: customer@exclusive.com</li>
             </ul>
           </div>
-          <h1 className="text-[20px] font-bold">My WishList</h1>
+          <h1 className="text-[18px] font-bold">Emails: support@exclusive.com</h1>
         </aside>
 
         <aside className="md:w-[60%] shadow-sm md:px-8 px-3 py-5">
           <form action="">
-            <label className="text-red-600 font-bold text-2xl mb-3" htmlFor="">Profile</label><br />
             <div className="flex justify-between md:gap-10 gap-2">
-              <Input type="text" />
-              <Input type="text" />
+              <Input placeholder="Name" type="text" />
+              <Input placeholder="Email" type="text" />
+              <Input placeholder="Phone" type="text" />
             </div>
-            <div className="flex justify-between my-3 md:gap-10 gap-2">
-              <Input type="text" />
-              <Input type="text" />
-            </div>
-            <div className="md:mt-10 mt-5">
-              <label htmlFor="" className="font-bold">Password Changes</label>
-              <Input type="text" />
-              <div className="flex md:mt-5 mt-3 gap-8">
-                <Input type="text" />
-                <Input type="text" />
-              </div>
+            <div className="md:mt-5 mt-5">
+              <Input className="h-50 py-0" placeholder="Your Massage" type="text" />
             </div>
             <div className="flex justify-end gap-8 md:my-5 my-3">
               <button>Cancel</button>
