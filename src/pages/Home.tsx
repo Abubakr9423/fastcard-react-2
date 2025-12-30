@@ -20,7 +20,7 @@ import '../swiper.css';
 import { Pagination } from 'swiper/modules';
 import { useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
-import { api, useCategory, useProductStore } from '@/store/store'
+import { api, useAddToCards, useCategory, useProductStore } from '@/store/store'
 import SwipperHeader from '@/components/SwiperHeader'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { useRef } from "react";
@@ -30,6 +30,7 @@ import type { Swiper as SwiperType } from "swiper";
 const Home = () => {
   const { data, fetchProducts } = useProductStore();
   const { isCategoria, getCategory } = useCategory();
+  const { AddToCard } = useAddToCards();
   const [time, setTime] = useState(new Date());
 
   const naviget = useNavigate()
@@ -49,29 +50,29 @@ const Home = () => {
     }
     fetchProducts();
     getCategory();
+    // AddToCard()
     const timer = setInterval(() => {
       setTime(new Date());
     }, 1000);
     return () => clearInterval(timer);
-  }, [fetchProducts, getCategory, naviget]);
+  }, [fetchProducts, getCategory, naviget, AddToCard]);
 
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
-      <section className='flex mt-5 mb-8 md:flex-row flex-col'>
+      <section className='flex mt-5 mb-8 md:flex-row flex-col gap-3'>
         <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
-          <select name="" id="">
-            <option value="">Woman’s Fashion</option>
-          </select>
-          <select name="" id="">
-            <option value="">Woman’s Fashion</option>
-          </select>
-          <p>Electronics</p>
-          <p>Home & Lifestyle</p>
-          <p>Medicine</p>
-          <p>Sports & Outdoor</p>
-          <p>Baby’s & Toys</p>
-          <p>Groceries & Pets</p>
-          <p>Health & Beauty</p>
+          {Array?.isArray(isCategoria) ? (
+            isCategoria.slice(0, 6).map((e) => (
+              <h1 className='text-[17px] w-full flex justify-between ga items-center font-bold '>
+                {e.subCategoryName}
+                <MoveRight />
+              </h1>
+            ))
+          ) : (
+            <div className='flex items-center justify-center mt-10'>
+              <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+            </div>
+          )}
         </aside>
 
         <aside className='my-2 md:hidden block'>
@@ -158,34 +159,53 @@ const Home = () => {
                         alt={e.productName}
                         className="w-full object-cover h-32 mx-auto"
                       />
-                      <button className="add-to-cart">Add to Cart</button>
+                      <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button className="bg-white rounded-full p-2 shadow">
                           <Heart className="w-5 h-5 text-red-500" />
                         </button>
-                        <button className="bg-white rounded-full p-2 shadow">
+                        <button onClick={() => AddToCard(e.id)} className="bg-white rounded-full cursor-pointer p-2 shadow">
                           <ShoppingCart className="w-5 h-5 text-blue-600" />
                         </button>
                       </div>
                     </div>
 
-                    <div className="info mt-3 text-center">
+                    <div className="info mt-3 text-start">
                       <h1 className="text-lg font-semibold">{e.productName}</h1>
-                      <p className="text-sm text-gray-600">Color: {e.color}</p>
-
                       {e.hasDiscount ? (
-                        <div className="flex justify-center gap-2 items-baseline">
-                          <p className="text-red-600 font-bold">${e.price}</p>
-                          <p className="line-through text-gray-500">${e.discountPrice}</p>
+                        <div className='flex gap-3 items-end'>
+                          <div className="flex justify-center  items-baseline">
+                            <span className="text-red-600 font-bold">$</span>
+                            <NumberTicker
+                              value={
+                                e?.price > 4000
+                                  ? (Number(e?.price.toString().slice(0, 4)) || 0)
+                                  : (Number(e?.price) || 0)
+                              }
+                              className="text-red-600 font-bold"
+                            />
+                          </div>
+                          <div>
+                            <span className='text-gray-400'>$</span>
+                            <NumberTicker
+                              value={
+                                e?.price > 4000
+                                  ? (Number(e?.price.toString().slice(0, 4)) || 0)
+                                  : (Number(e?.price) || 0)
+                              }
+                              className="line-through text-gray-500"
+                            />
+                          </div>
                         </div>
                       ) : (
                         <p className="text-blue-600 font-bold">${e.price}</p>
                       )}
-
-                      <p className="text-xs text-gray-500 mt-1">
-                        {e.quantity > 0 ? `In stock: ${e.quantity}` : "Out of stock"}
-                      </p>
                       <p className="text-xs text-gray-400">{e.categoryName}</p>
+                      <Rating
+                        value={4}
+                        max={5}
+                        className="my-rating"
+                      />
                     </div>
                   </div>
                 </SwiperSlide>
@@ -276,7 +296,7 @@ const Home = () => {
               },
               1024: {
                 slidesPerView: 5,
-                spaceBetween: 60,
+                spaceBetween: 10,
               },
             }}
             modules={[Pagination]}
@@ -294,18 +314,25 @@ const Home = () => {
                       <p className="color">Color: {e.color}</p>
                       <div className='flex gap-2 items-end'>
                         <div>
-                          <span className='text-blue-700'>$</span>
+                          <span className='text-red-600'>$</span>
                           <NumberTicker
-                            value={350}
-                            // decimalPlaces={3}
-                            className="text-blue-700 font-medium text-[25px] tracking-tighter whitespace-pre-wrap  dark:text-white"
-                          />
+                              value={
+                                e?.price > 4000
+                                  ? (Number(e?.price.toString().slice(0, 4)) || 0)
+                                  : (Number(e?.price) || 0)
+                              }
+                              className="text-red-600 font-bold"
+                            />
                         </div>
                         <div>
                           <span className='text-gray-400'>$</span>
                           <NumberTicker
-                            value={350}
-                            className=" font-medium tracking-tighter whitespace-pre-wrap line-through text-gray-400 dark:text-white"
+                            value={
+                              e?.price > 4000
+                                ? (Number(e?.price.toString().slice(0, 4)) || 0)
+                                : (Number(e?.price) || 0)
+                            }
+                            className="line-through text-gray-500"
                           />
                         </div>
                       </div>

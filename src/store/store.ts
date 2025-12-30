@@ -174,3 +174,84 @@ export const useUserStore = create<AddUserState>((set) => ({
         }
     },
 }));
+interface ProductInCart {
+    id: number;
+    quantity: number;
+    product: Product;
+}
+
+
+interface CardsState {
+    isCards: ProductInCart[];
+    loading: boolean;
+    getCategory: () => Promise<void>;
+}
+
+
+export const useCards = create<CardsState>((set) => ({
+    isCards: [],
+    loading: false,
+
+    getCategory: async () => {
+        set({ loading: true });
+        try {
+            const { data } = await axiosRequest.get("/Cart/get-products-from-cart");
+
+            const cartData = data?.data?.[0]?.productsInCart;
+            console.log(data);
+
+
+            set({
+                isCards: cartData,
+                loading: false,
+            });
+
+        } catch (error) {
+            console.error("Хатогӣ ҳангоми гирифтани сабади маҳсулот:", error);
+            set({ loading: false });
+        }
+    },
+}));
+
+interface AddToCardsState {
+    loading: boolean;
+    AddToCard: (id: number) => Promise<void>;
+}
+
+export const useAddToCards = create<AddToCardsState>((set) => ({
+    loading: false,
+    AddToCard: async (id: number) => {
+        set({ loading: true });
+        try {
+            await axiosRequest.post(`/Cart/add-product-to-cart?id=${id}`);
+            alert("Маҳсулот бо муваффақият илова шуд!");
+            set({ loading: false });
+        } catch (error) {
+            const message = "Бубахшед ин алакай ба сабади шумо хаст!!";
+            console.error("Хатогӣ ҳангоми илова ба сабад:", error);
+            set({ loading: false });
+            alert(message)
+        }
+    },
+}));
+
+interface DeleteToCardsState {
+    loading: boolean;
+    DeleteToCard: (id: number) => Promise<void>;
+}
+
+export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
+    loading: false,
+    DeleteToCard: async (id: number) => {
+        set({ loading: true });
+        try {
+            await axiosRequest.delete(`/Cart/delete-product-from-cart?id=${id}`);
+            useCards.getState().getCategory();
+            alert("Маҳсулот бо муваффақият бекор шуд");
+            set({ loading: false });
+        } catch (error) {
+            console.error("Хатогӣ ҳангоми нест кардан:", error);
+            set({ loading: false });
+        }
+    },
+}));

@@ -1,8 +1,6 @@
 import { Link, Outlet } from 'react-router-dom'
 import img1 from "../assets/Group 1116606595 (1).png"
 import { Input } from '@/components/ui/input'
-import img2 from "../assets/Wishlist (1).png"
-import img3 from "../assets/Cart1 (1).png"
 import img4 from "../assets/Frame 741.png"
 import { Heart, Menu, ShoppingCart, User } from 'lucide-react'
 
@@ -29,9 +27,9 @@ const Layout = () => {
               <button>
                 <Heart className="w-5 h-5 text-red-500" />
               </button>
-              <button>
+              <Link to={'/cart'}>
                 <ShoppingCart className="w-5 h-5 text-blue-600" />
-              </button>
+              </Link>
             </div>
             <Link to={'/account'}>
               <User className='md:block hidden' />
