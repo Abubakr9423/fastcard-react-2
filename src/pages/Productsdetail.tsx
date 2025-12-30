@@ -8,7 +8,7 @@ import { useAddToCards } from "@/store/store";
 
 const ProductsDetail = () => {
   const { id } = useParams();
-  const [info, setInfo] = useState(null);
+  const [info, setInfo] = useState<any>(null);
 
   async function getById() {
     try {
@@ -43,7 +43,7 @@ const ProductsDetail = () => {
             <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
           </div>
           <div className="w-[500px] h-[600px] rounded-[4px] bg-[#F5F5F5]">
-            {info.images?.map((e, idx) => (
+            {info.images?.map((e: any, idx:any) => (
               <div key={idx} className="overflow-hidden rounded-lg shadow-md">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.images}`}
