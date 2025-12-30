@@ -47,7 +47,7 @@ const Login = () => {
                 <Card className='m-auto flex items-center p-30'>
                     <MagicCard
                         gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-                        className="p-0 w-[1000px] h-[500px] flex flex-col justify-evenly"
+                        className="p-0 w-[350px] md:w-[1000px] h-[600px] md:h-[500px] flex flex-col justify-evenly"
                     >
                         <CardHeader className="">
                             <CardTitle>
@@ -56,8 +56,8 @@ const Login = () => {
                         </CardHeader>
                         <CardContent className="p-4">
                             <form onSubmit={handleSubmit} className='flex flex-col gap-5 items-center'>
-                                <Input name='email' onChange={handleChange} value={values.email} className='w-[420px] border-gray-600' type="text" placeholder='rimel1111@gmail.com' />
-                                <Input name='password' onChange={handleChange} value={values.password} className='w-[420px] border-gray-600' type="password" placeholder='**********' />
+                                <Input name='email' onChange={handleChange} value={values.email} className='md:w-[420px] mt-10 md:mt-0 border-gray-600' type="text" placeholder='rimel1111@gmail.com' />
+                                <Input name='password' onChange={handleChange} value={values.password} className='md:w-[420px] border-gray-600' type="password" placeholder='**********' />
                                 <div className='flex gap-5'>
                                     <Button disabled={loading}>Log in</Button>
                                     <Link to='/register'>
