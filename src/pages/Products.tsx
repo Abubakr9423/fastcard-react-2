@@ -5,6 +5,8 @@ import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { MorphingText } from "@/components/ui/morphing-text";
 import { GetToken } from "@/utils/axios";
+import Rating from "@/components/Rating";
+import { NumberTicker } from "@/components/ui/number-ticker";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
@@ -225,7 +227,7 @@ const Products = () => {
                     alt={e.productName}
                     className="w-full object-cover h-32 mx-auto"
                   />
-                  <button className="add-to-cart">Add to Cart</button>
+                  <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button className="bg-white rounded-full p-2 shadow">
                       <Heart className="w-5 h-5 text-red-500" />
@@ -236,25 +238,45 @@ const Products = () => {
                   </div>
                 </div>
 
-                <div className="info mt-3 text-center">
+                <div className="info mt-3 text-start">
                   <h1 className="text-lg font-semibold">{e.productName}</h1>
-                  <p className="text-sm text-gray-600">Color: {e.color}</p>
-
                   {e.hasDiscount ? (
-                    <div className="flex justify-center gap-2 items-baseline">
-                      <p className="text-red-600 font-bold">${e.price}</p>
-                      <p className="line-through text-gray-500">${e.discountPrice}</p>
+                    <div className='flex gap-3 items-end'>
+                      <div className="flex justify-center  items-baseline">
+                        <span className="text-red-600 font-bold">$</span>
+                        <NumberTicker
+                          value={
+                            e?.price > 4000
+                              ? (Number(e?.price.toString().slice(0, 4)) || 0)
+                              : (Number(e?.price) || 0)
+                          }
+                          className="text-red-600 font-bold"
+                        />
+                      </div>
+                      <div>
+                        <span className='text-gray-400'>$</span>
+                        <NumberTicker
+                          value={
+                            e?.price > 4000
+                              ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
+                              : (Number(e?.discountPrice) || 0)
+                          }
+                          className="line-through text-gray-500"
+                        />
+                      </div>
                     </div>
                   ) : (
                     <p className="text-blue-600 font-bold">${e.price}</p>
                   )}
-
-                  <p className="text-xs text-gray-500 mt-1">
-                    {e.quantity > 0 ? `In stock: ${e.quantity}` : "Out of stock"}
-                  </p>
                   <p className="text-xs text-gray-400">{e.categoryName}</p>
+                  <Rating
+                    value={4}
+                    max={5}
+                    className="my-rating"
+                  />
                 </div>
               </div>
+
             ))
           ) : (
             <MorphingText className='font-serif-[Inter]' texts={["No product is Availabel", "Please Cahnge your filter"]} />
