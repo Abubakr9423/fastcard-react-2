@@ -3,6 +3,7 @@ import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import img1 from "../assets/Frame 911.png"
+import { useAddToCards } from "@/store/store";
 
 
 const ProductsDetail = () => {
@@ -17,12 +18,16 @@ const ProductsDetail = () => {
       console.error(error);
     }
   }
+  const { AddToCard } = useAddToCards();
 
   useEffect(() => {
     if (id) getById();
-  }, [id]);
+  }, [id, AddToCard]);
 
   console.log(info);
+
+
+
 
 
 
@@ -41,7 +46,7 @@ const ProductsDetail = () => {
             {info.images?.map((e, idx) => (
               <div key={idx} className="overflow-hidden rounded-lg shadow-md">
                 <img
-                  src={`https://store-api.softclub.tj/images/${e.images[1]}`}
+                  src={`https://store-api.softclub.tj/images/${e.images}`}
                   alt={`Product ${idx}`}
                   className="w-full h-auto transform transition duration-300 hover:scale-105"
                 />
@@ -83,7 +88,7 @@ const ProductsDetail = () => {
                 <button className="w-[40px] h-[44px] border-[#00000080] border-[1px] flex justify-center items-center">+</button>
               </div>
               <div className="flex gap-2 items-center">
-                <button className="w-[165px] h-[44px] bg-[#DB4444] pt-[10px] pb-[10px] pl-[48px] pr-[48px] text-white">Buy now</button>
+                <button onClick={() => AddToCard(info.id)} className="w-[165px] h-[44px] bg-[#DB4444] pt-[10px] pb-[10px] pl-[48px] pr-[48px] text-white">Buy now</button>
                 <button className="w-[40px] h-[40px] border-[1px] border-[#00000080] rounded-[4px] flex items-center justify-center"><Heart></Heart></button>
               </div>
             </div>
