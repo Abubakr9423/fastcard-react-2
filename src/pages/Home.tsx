@@ -71,9 +71,9 @@ const Home = () => {
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
           {Array?.isArray(isCategoria) ? (
-            isCategoria.slice(0, 6).map((e) => (
-              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center font-bold '>
-                {e.subCategoryName}
+            isCategoria.slice(0, 9).map((e) => (
+              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center  '>
+                {e.subCategoryName.slice(0,18) + '...'}
                 <MoveRight />
               </h1>
             ))

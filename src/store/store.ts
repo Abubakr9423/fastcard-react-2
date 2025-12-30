@@ -255,3 +255,20 @@ export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
         }
     },
 }));
+
+const addToWishlist = (product) => {
+    // 1. Гирифтани маълумотҳои кӯҳна аз localStorage
+    const existingWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+    // 2. Санҷиш: оё ин маҳсулот аллакай дар wishlist ҳаст?
+    const isExist = existingWishlist.find(item => item.id === product.id);
+
+    if (!isExist) {
+        // 3. Илова кардани маҳсулоти нав
+        const updatedWishlist = [...existingWishlist, product];
+        localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+        alert("Ба рӯйхати хоҳишҳо илова шуд!");
+    } else {
+        alert("Ин маҳсулот аллакай илова шудааст");
+    }
+};
