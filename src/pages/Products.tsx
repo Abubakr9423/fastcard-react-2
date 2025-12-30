@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useCategory, useProductStore } from "../store/store";
+import { useAddToCards, useCategory, useProductStore } from "../store/store";
 import "../App.css";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { NumberTicker } from "@/components/ui/number-ticker";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
-
+  const { AddToCard } = useAddToCards();
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
   const naviget = useNavigate()
@@ -70,12 +70,14 @@ const Products = () => {
             ))} */}
             {Array?.isArray(isCategoria) ? (
               isCategoria.slice(0, slice2).map((e) => (
-                <h1 onClick={() => {
-                  setFilters({ categoryId: e.id });
-                  fetchProducts();
-                }} className='cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition'>
-                  {e.subCategoryName}
-                </h1>
+                <div key={e.id}>
+                  <h1 onClick={() => {
+                    setFilters({ categoryId: e.id });
+                    fetchProducts();
+                  }} className='cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition'>
+                    {e.subCategoryName}
+                  </h1>
+                </div>
               ))
             ) : (
               <div className='flex items-center justify-center mt-10'>

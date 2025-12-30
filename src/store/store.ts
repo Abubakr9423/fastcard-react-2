@@ -2,6 +2,8 @@
 import { axiosRequest, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
 export const api = import.meta.env.VITE_API
+import { toast } from "react-toastify";
+
 
 interface LogState {
     user: any | null;
@@ -224,13 +226,13 @@ export const useAddToCards = create<AddToCardsState>((set) => ({
         set({ loading: true });
         try {
             await axiosRequest.post(`/Cart/add-product-to-cart?id=${id}`);
-            alert("Маҳсулот бо муваффақият илова шуд!");
+            toast("Маҳсулот бо муваффақият илова шуд!");
             set({ loading: false });
         } catch (error) {
             const message = "Бубахшед ин алакай ба сабади шумо хаст!!";
             console.error("Хатогӣ ҳангоми илова ба сабад:", error);
             set({ loading: false });
-            alert(message)
+            toast(message)
         }
     },
 }));
@@ -247,10 +249,34 @@ export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
         try {
             await axiosRequest.delete(`/Cart/delete-product-from-cart?id=${id}`);
             useCards.getState().getCategory();
-            alert("Маҳсулот бо муваффақият бекор шуд");
+            toast("Маҳсулот бо муваффақият бекор шуд");
             set({ loading: false });
         } catch (error) {
             console.error("Хатогӣ ҳангоми нест кардан:", error);
+            set({ loading: false });
+        }
+    },
+}));
+
+
+interface DeleteToCardsStateAll {
+    loading: boolean;
+    DeleteToCardAll: (id?: number) => Promise<void>;
+}
+
+export const useDeleteToCardAll = create<DeleteToCardsStateAll>((set) => ({
+    loading: false,
+    DeleteToCardAll: async () => {
+        set({ loading: true });
+        try {
+            await axiosRequest.delete(`/Cart/clear-cart`);
+            useCards.getState().getCategory();
+            toast.success("Маҳсулот бо муваффақият бекор шуд");
+
+            set({ loading: false });
+        } catch (error) {
+            console.error("Хатогӣ ҳангоми нест кардан:", error);
+            toast.error("Хатогӣ ҳангоми нест кардан");
             set({ loading: false });
         }
     },

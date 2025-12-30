@@ -25,6 +25,7 @@ import SwipperHeader from '@/components/SwiperHeader'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper";
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const Home = () => {
@@ -35,6 +36,8 @@ const Home = () => {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
+  const notify = () => toast("Wow so easy!");
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -163,7 +166,11 @@ const Home = () => {
                         alt={e.productName}
                         className="w-full object-cover h-32 mx-auto"
                       />
-                      <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                      <button className="add-to-cart" onClick={() => {
+                        AddToCard(e.id)
+                        notify
+                      }
+                      }>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button className="bg-white rounded-full p-2 shadow">
                           <Heart className="w-5 h-5 text-red-500" />
@@ -419,7 +426,10 @@ const Home = () => {
                     alt={e.productName}
                     className="w-full object-cover h-32 mx-auto"
                   />
-                  <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                  <div>
+                    <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                    <ToastContainer />
+                  </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button className="bg-white rounded-full p-2 shadow">
                       <Heart className="w-5 h-5 text-red-500" />
