@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useProductStore } from "../store/store";
+import { useCategory, useProductStore } from "../store/store";
 import "../App.css";
 import { Eye, Heart, ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ const Products = () => {
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
   const naviget = useNavigate()
+  const { isCategoria, getCategory } = useCategory();
 
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Products = () => {
       return;
     }
     fetchProducts();
-
+    getCategory()
   }, [fetchProducts]);
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,31 +40,53 @@ const Products = () => {
     fetchProducts();
   };
 
+
+  const [slice2, setslice2] = useState(6)
+
+  const handleSeeMore = () => {
+    setslice2(prev => prev + 6);
+  };
+
+
+
   return (
     <>
       <div className="flex md:flex-row flex-col justify-center p-10 gap-25 items-start">
         <div className="flex flex-col gap-6 w-[300px] mx-auto">
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
-            {[
-              { id: undefined, name: "All products" },
-              { id: 1, name: "Electronics" },
-              { id: 2, name: "Home & Lifestyle" },
-              { id: 3, name: "Medicine" },
-              { id: 4, name: "Sports & Outdoor" },
-              
-            ].map((cat) => (
+            {/* {isCategoria.map((cat) => (
               <p
                 key={cat.id ?? "all"}
                 onClick={() => {
                   setFilters({ categoryId: cat.id });
                   fetchProducts();
                 }}
-                className="cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition"
               >
-                {cat.name}
+                {cat.categoryName}
               </p>
-            ))}
+            ))} */}
+            {Array?.isArray(isCategoria) ? (
+              isCategoria.slice(0, slice2).map((e) => (
+                <h1 onClick={() => {
+                  setFilters({ categoryId: e.id });
+                  fetchProducts();
+                }} className='cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition'>
+                  {e.subCategoryName}
+                </h1>
+              ))
+            ) : (
+              <div className='flex items-center justify-center mt-10'>
+                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+              </div>
+            )}
+            <button
+              onClick={handleSeeMore}
+              className="cursor-pointer py-1 px-2 rounded hover:bg-red-50 hover:text-red-600 transition"
+            >
+              See more
+            </button>
+
           </div>
 
           <div className="p-4 border rounded-lg shadow-sm bg-white">
@@ -238,7 +261,7 @@ const Products = () => {
 
           )}
         </div>
-      </div>
+      </div >
     </>
   );
 };
