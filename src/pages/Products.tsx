@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useProductStore } from "../store/store";
 import "../App.css";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Eye, Heart, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
@@ -196,9 +197,9 @@ const Products = () => {
                     <button className="bg-white rounded-full p-2 shadow">
                       <Heart className="w-5 h-5 text-red-500" />
                     </button>
-                    <button className="bg-white rounded-full p-2 shadow">
-                      <ShoppingCart className="w-5 h-5 text-blue-600" />
-                    </button>
+                    <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
+                      <Eye className="w-5 h-5 text-blue-600" />
+                    </Link>
                   </div>
                 </div>
 
