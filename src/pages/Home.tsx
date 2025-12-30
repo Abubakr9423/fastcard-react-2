@@ -16,7 +16,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import '../swiper.css';
-
+import "../App.css"
 import { Pagination } from 'swiper/modules';
 import { Link, useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
