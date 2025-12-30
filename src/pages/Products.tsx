@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
 import { useProductStore } from "../store/store";
 import "../App.css";
-import { Heart, ShoppingCart } from "lucide-react";
+import { Eye, Heart, ShoppingCart } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { MorphingText } from "@/components/ui/morphing-text";
+import { GetToken } from "@/utils/axios";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
 
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
+  const naviget = useNavigate()
+
 
   useEffect(() => {
+    const token = GetToken();
+    if (!token) {
+      naviget('/');
+      return;
+    }
     fetchProducts();
+
   }, [fetchProducts]);
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +41,7 @@ const Products = () => {
 
   return (
     <>
-      <div className="flex md:flex-row flex-col justify-evenly p-10 gap-25 items-start">
+      <div className="flex md:flex-row flex-col justify-center p-10 gap-25 items-start">
         <div className="flex flex-col gap-6 w-[300px] mx-auto">
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
@@ -40,6 +51,7 @@ const Products = () => {
               { id: 2, name: "Home & Lifestyle" },
               { id: 3, name: "Medicine" },
               { id: 4, name: "Sports & Outdoor" },
+              
             ].map((cat) => (
               <p
                 key={cat.id ?? "all"}
@@ -180,8 +192,7 @@ const Products = () => {
             ))}
           </div>
         </div>
-
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap md:w-[1000px]">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
               <div key={e.id} className="product-card border rounded  w-64">
@@ -196,9 +207,9 @@ const Products = () => {
                     <button className="bg-white rounded-full p-2 shadow">
                       <Heart className="w-5 h-5 text-red-500" />
                     </button>
-                    <button className="bg-white rounded-full p-2 shadow">
-                      <ShoppingCart className="w-5 h-5 text-blue-600" />
-                    </button>
+                    <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
+                      <Eye className="w-5 h-5 text-blue-600" />
+                    </Link>
                   </div>
                 </div>
 
@@ -223,7 +234,8 @@ const Products = () => {
               </div>
             ))
           ) : (
-            <p>No products available</p>
+            <MorphingText className='font-serif-[Inter]' texts={["No product is Availabel", "Please Cahnge your filter"]} />
+
           )}
         </div>
       </div>

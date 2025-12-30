@@ -1,12 +1,18 @@
 import { Link, Outlet } from 'react-router-dom'
 import img1 from "../assets/Group 1116606595 (1).png"
 import { Input } from '@/components/ui/input'
-import img2 from "../assets/Wishlist (1).png"
-import img3 from "../assets/Cart1 (1).png"
 import img4 from "../assets/Frame 741.png"
-import { Heart, Menu, ShoppingCart, User } from 'lucide-react'
+import { Heart, Menu, Moon, ShoppingCart, Sun, User } from 'lucide-react'
+import { useTheme } from '@/components/theme-provider'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { Button } from '@/components/ui/button'
 
 const Layout = () => {
+
+    const { setTheme } = useTheme()
+
+
+
   return (
     <>
       <header className='border'>
@@ -29,14 +35,34 @@ const Layout = () => {
               <button>
                 <Heart className="w-5 h-5 text-red-500" />
               </button>
-              <button>
+              <Link to={'/cart'}>
                 <ShoppingCart className="w-5 h-5 text-blue-600" />
-              </button>
+              </Link>
             </div>
             <Link to={'/account'}>
               <User className='md:block hidden' />
             </Link>
           </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setTheme("light")}>
+                Light
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")}>
+                Dark
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")}>
+                System
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </nav>
       </header >
       <div>

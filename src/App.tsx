@@ -25,7 +25,7 @@ const App = () => {
         { path: "/contact", element: <Contact /> },
         { path: "/checkout", element: <Checkout /> },
         { path: "/products", element: <Products /> },
-        { path: "/productsdetail", element: <Productsdetail /> },
+        { path: "/productsdetail/:id", element: <Productsdetail /> },
         { path: "/wishlist", element: <Wishlist /> },
         { path: "/account", element: <Accaount /> },
         { path: "/register", element: <Register /> }
