@@ -1,7 +1,7 @@
-import { axiosRequest } from "@/utils/axios";
+import { axiosRequest, GetToken } from "@/utils/axios";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import img1 from "../assets/Frame 911.png"
 import { useAddToCards } from "@/store/store";
 
@@ -19,39 +19,52 @@ const ProductsDetail = () => {
     }
   }
   const { AddToCard } = useAddToCards();
+  const naviget = useNavigate()
 
   useEffect(() => {
+    const token = GetToken();
+    if (!token) {
+      naviget('/');
+      return;
+    }
     if (id) getById();
   }, [id, AddToCard]);
 
   console.log(info);
 
 
-
+  const [imgidx, setimgidx] = useState(0)
 
 
 
   return (
     <div>
-      Products Detail
       {info && (
         <div className="flex justify-center gap-10 items-center p-20">
-          <div className="flex flex-col gap-5">
-            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
-            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
-            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
-            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
-          </div>
-          <div className="w-[500px] h-[600px] rounded-[4px] bg-[#F5F5F5]">
-            {info.images?.map((e: any, idx:any) => (
-              <div key={idx} className="overflow-hidden rounded-lg shadow-md">
+          <div className="flex flex-col justify-evenly gap-5">
+            {info.images?.map((e: any, idx: any) => (
+              <div key={idx} className="w-[170px] object-cover h-[138px] rounded-[4px] bg-[#F5F5F5]">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.images}`}
                   alt={`Product ${idx}`}
-                  className="w-full h-auto transform transition duration-300 hover:scale-105"
+                  className="w-full h-full object-cover"
+                  onClick={() => setimgidx(idx)}
                 />
               </div>
             ))}
+            {/* <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
+            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
+            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1>
+            <h1 className="w-[170px] h-[138px] rounded-[4px] bg-[#F5F5F5]"></h1> */}
+          </div>
+          <div className="w-[500px] h-[600px] object-cover rounded-[4px] flex justify-center items-center bg-[#F5F5F5]">
+            {info.images?.[imgidx] && (
+              <img
+                src={`https://store-api.softclub.tj/images/${info.images[imgidx].images}`}
+                alt="Product"
+                className="w-full h-full transform transition duration-300 hover:scale-105"
+              />
+            )}
           </div>
           <div className="flex flex-col justify-evenly gap-5">
             <h1 className="w-[302px] text-[24px] font-[500]">{info.productName}</h1>
