@@ -2,6 +2,8 @@
 import { axiosRequest, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
 export const api = import.meta.env.VITE_API
+import { toast } from "react-toastify";
+
 
 interface LogState {
     user: any | null;
@@ -199,8 +201,6 @@ export const useCards = create<CardsState>((set) => ({
 
             const cartData = data?.data?.[0]?.productsInCart;
             console.log(data);
-
-
             set({
                 isCards: cartData,
                 loading: false,
@@ -224,13 +224,13 @@ export const useAddToCards = create<AddToCardsState>((set) => ({
         set({ loading: true });
         try {
             await axiosRequest.post(`/Cart/add-product-to-cart?id=${id}`);
-            alert("Маҳсулот бо муваффақият илова шуд!");
+            toast("Маҳсулот бо муваффақият илова шуд!");
             set({ loading: false });
         } catch (error) {
             const message = "Бубахшед ин алакай ба сабади шумо хаст!!";
             console.error("Хатогӣ ҳангоми илова ба сабад:", error);
             set({ loading: false });
-            alert(message)
+            toast(message)
         }
     },
 }));
@@ -247,7 +247,7 @@ export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
         try {
             await axiosRequest.delete(`/Cart/delete-product-from-cart?id=${id}`);
             useCards.getState().getCategory();
-            alert("Маҳсулот бо муваффақият бекор шуд");
+            toast("Маҳсулот бо муваффақият бекор шуд");
             set({ loading: false });
         } catch (error) {
             console.error("Хатогӣ ҳангоми нест кардан:", error);
@@ -256,19 +256,58 @@ export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
     },
 }));
 
-const addToWishlist = (product) => {
-    // 1. Гирифтани маълумотҳои кӯҳна аз localStorage
-    const existingWishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
 
-    // 2. Санҷиш: оё ин маҳсулот аллакай дар wishlist ҳаст?
-    const isExist = existingWishlist.find(item => item.id === product.id);
+interface DeleteToCardsStateAll {
+    loading: boolean;
+    DeleteToCardAll: (id?: number) => Promise<void>;
+}
+
+export const useDeleteToCardAll = create<DeleteToCardsStateAll>((set) => ({
+    loading: false,
+    DeleteToCardAll: async () => {
+        set({ loading: true });
+        try {
+            await axiosRequest.delete(`/Cart/clear-cart`);
+            useCards.getState().getCategory();
+            toast.success("Маҳсулот бо муваффақият бекор шуд");
+
+            set({ loading: false });
+        } catch (error) {
+            console.error("Хатогӣ ҳангоми нест кардан:", error);
+            toast.error("Хатогӣ ҳангоми нест кардан");
+            set({ loading: false });
+        }
+    },
+}));
+
+export interface Product {
+    productName?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    brandId?: number;
+    colorId?: number;
+    categoryId?: number;
+    subcategoryId?: number;
+    pageNumber?: number;
+    pageSize?: number;
+}
+
+interface addToWishlist {
+    loading: boolean;
+    addToWishlist: (product?: []) => Promise<void>;
+}
+
+export const addToWishlist = (product: Product): void => {
+    const wishlistData = localStorage.getItem('wishlist');
+    const existingWishlist: Product[] = wishlistData ? JSON.parse(wishlistData) : [];
+
+    const isExist = existingWishlist.find((item: Product) => item.id === product.id);
 
     if (!isExist) {
-        // 3. Илова кардани маҳсулоти нав
         const updatedWishlist = [...existingWishlist, product];
         localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-        alert("Ба рӯйхати хоҳишҳо илова шуд!");
+        toast.success("Маҳсулот бо муваффақият илова шуд");
     } else {
-        alert("Ин маҳсулот аллакай илова шудааст");
+        toast.error("Ин маҳсулот аллакай илова шудааст");
     }
 };

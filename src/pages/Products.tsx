@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { useCategory, useProductStore } from "../store/store";
+import { addToWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
 import "../App.css";
-import { Eye, Heart, ShoppingCart } from "lucide-react";
+import { Eye, Heart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { MorphingText } from "@/components/ui/morphing-text";
 import { GetToken } from "@/utils/axios";
 import Rating from "@/components/Rating";
 import { NumberTicker } from "@/components/ui/number-ticker";
+import { ToastContainer } from "react-toastify";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
-
+  const { AddToCard } = useAddToCards();
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
   const naviget = useNavigate()
@@ -54,6 +55,7 @@ const Products = () => {
   return (
     <>
       <div className="flex md:flex-row flex-col justify-center p-10 gap-25 items-start">
+        <ToastContainer />
         <div className="flex flex-col gap-6 w-[300px] mx-auto">
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
@@ -70,12 +72,14 @@ const Products = () => {
             ))} */}
             {Array?.isArray(isCategoria) ? (
               isCategoria.slice(0, slice2).map((e) => (
-                <h1 onClick={() => {
-                  setFilters({ categoryId: e.id });
-                  fetchProducts();
-                }} className='cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition'>
-                  {e.subCategoryName}
-                </h1>
+                <div key={e.id}>
+                  <h1 onClick={() => {
+                    setFilters({ categoryId: e.id });
+                    fetchProducts();
+                  }} className='cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition'>
+                    {e.subCategoryName}
+                  </h1>
+                </div>
               ))
             ) : (
               <div className='flex items-center justify-center mt-10'>
@@ -229,7 +233,10 @@ const Products = () => {
                   />
                   <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
-                    <button className="bg-white rounded-full p-2 shadow">
+                    <button
+                      onClick={() => addToWishlist(e)}
+                      className="bg-white rounded-full p-2 shadow"
+                    >
                       <Heart className="w-5 h-5 text-red-500" />
                     </button>
                     <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
