@@ -96,7 +96,7 @@ const Cart = () => {
               );
             })
           ) : (
-            <tr className="text-end w-full shadow-sm rounded-sm">
+            <tr className="text-center w-full shadow-sm rounded-sm">
               <td colSpan={4}>
                 <p className="font-bold py-5 text-2xl">
                   Маълумот ёфт нашуд...
