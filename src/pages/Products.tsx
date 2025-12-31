@@ -7,6 +7,7 @@ import { MorphingText } from "@/components/ui/morphing-text";
 import { GetToken } from "@/utils/axios";
 import Rating from "@/components/Rating";
 import { NumberTicker } from "@/components/ui/number-ticker";
+import { ToastContainer } from "react-toastify";
 
 const Products = () => {
   const { data, fetchProducts, setFilters } = useProductStore((state) => state);
@@ -229,7 +230,10 @@ const Products = () => {
                     alt={e.productName}
                     className="w-full object-cover h-32 mx-auto"
                   />
-                  <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                  <div>
+                    <button className="add-to-cart" onClick={() => { AddToCard(e.id) }}>Add to Cart</button>
+                    <ToastContainer />
+                  </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button className="bg-white rounded-full p-2 shadow">
                       <Heart className="w-5 h-5 text-red-500" />

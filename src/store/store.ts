@@ -281,3 +281,43 @@ export const useDeleteToCardAll = create<DeleteToCardsStateAll>((set) => ({
         }
     },
 }));
+
+interface UserRole {
+    id: string;
+    name: string;
+}
+
+interface UserProfile {
+    userName: string;
+    userId: string;
+    image: string;
+    userRoles: UserRole[];
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    dob: string;
+}
+
+interface UserProfileGet {
+    data: UserProfile[];
+    loading: boolean;
+    getProfile: (username: string) => Promise<void>;
+}
+
+export const userProfile = create<UserProfileGet>((set) => ({
+    data: [],
+    loading: false,
+    getProfile: async (username: string) => {
+        set({ loading: true });
+        try {
+            const { data } = await axiosRequest.get(
+                `/UserProfile/get-user-profiles?UserName=${username}`
+            );
+            set({ data: data.data, loading: false });
+        } catch (error) {
+            console.error("Хатогӣ ҳангоми гирифтани профил:", error);
+            set({ loading: false });
+        }
+    },
+}));
