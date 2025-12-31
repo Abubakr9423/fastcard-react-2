@@ -76,10 +76,12 @@ const Home = () => {
         <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
           {Array?.isArray(isCategoria) ? (
             isCategoria.slice(0, 9).map((e) => (
-              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center  '>
-                {e.subCategoryName.slice(0, 18) + '...'}
-                <MoveRight />
-              </h1>
+              <div key={e.id}>
+                <h1 className='text-[17px] w-[95%] flex justify-between ga items-center  '>
+                  {e.subCategoryName.slice(0, 18) + '...'}
+                  <MoveRight />
+                </h1>
+              </div>
             ))
           ) : (
             <div className='flex items-center justify-center mt-10'>
@@ -276,7 +278,7 @@ const Home = () => {
               isCategoria.map((e) => (
                 <SwiperSlide key={e.id}>
                   <div
-                    
+
                     className='border hover:bg-[#DB4444] transition-colors duration-500 hover:text-white rounded-sm py-5 px-3 w-40 h-30 flex flex-col items-center justify-center'
                   >
                     <span className='text-[17px] font-bold text-center'>

@@ -273,3 +273,42 @@ export const addToWishlist = (product: Product): void => {
         toast.error("Ин маҳсулот аллакай илова шудааст");
     }
 };
+
+
+
+
+export const getProfile = async (): Promise<void> => {
+    const username = localStorage.getItem("user");
+    if (!username) {
+        console.warn("No user found in localStorage");
+        return;
+    }
+
+    try {
+        const { data } = await axiosRequest.get(`/UserProfile/get-user-profiles?UserName=${username}`);
+        console.log(data.data[0].userId);
+    } catch (error) {
+        console.error("Failed to fetch profile:", error);
+    }
+};
+
+
+export const getProfileInfo = async (id: number): Promise<any> => {
+    try {
+        const { data } = await axiosRequest.get(`/UserProfile/get-user-profile-by-id?id=${id}`);
+        return data.data; // ✅ return payload
+    } catch (error) {
+        console.error(error);
+        throw error; // rethrow so caller can handle
+    }
+};
+
+
+export const editProfile = async (edited:any): Promise<any> => {
+    try {
+        await axiosRequest.put(`/UserProfile/update-user-profile`,edited)
+    } catch (error) {
+        console.error(error);
+        
+    }
+}

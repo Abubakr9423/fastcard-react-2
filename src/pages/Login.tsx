@@ -15,7 +15,6 @@ const Login = () => {
     const navigate = useNavigate()
     const { theme } = useTheme()
 
-
     const loginUser = useBeras((state: any) => state.loginUser);
     const loading = useBeras((state: any) => state.loading);
     const error = useBeras((state: any) => state.error);
@@ -24,8 +23,9 @@ const Login = () => {
         initialValues: { email: "", password: "" },
         onSubmit: (values) => {
             loginUser({ userName: values.email, password: values.password });
+            localStorage.setItem('user', values.email);
             resetForm();
-            navigate("/home")
+            navigate("/home");
         }
     });
 

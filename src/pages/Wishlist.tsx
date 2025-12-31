@@ -173,7 +173,6 @@ const Wishlist = () => {
                     />
                     <button className="add-to-cart" onClick={() => {
                       AddToCard(e.id)
-                      notify()
                     }
                     }>Add to Cart</button>
                     <div className="absolute top-2 right-2 flex flex-col gap-2">
