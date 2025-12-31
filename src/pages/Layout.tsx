@@ -6,11 +6,16 @@ import { Heart, Menu, Moon, ShoppingCart, Sun, User } from 'lucide-react'
 import { useTheme } from '@/components/theme-provider'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@/components/ui/button'
+import { GetToken } from '@/utils/axios'
+import { useEffect, useState } from 'react'
 
 const Layout = () => {
+  const [token, setToken] = useState(GetToken());
+  const { setTheme } = useTheme()
 
-    const { setTheme } = useTheme()
-
+  useEffect(() => {
+    setToken(GetToken());
+  }, []);
 
 
   return (
@@ -32,9 +37,9 @@ const Layout = () => {
           <div className='flex gap-5 items-center'>
             <Input type="search" placeholder='search' className='md:block w-70 hidden' />
             <div className="top-2 right-2 flex-row gap-2 flex">
-              <button>
+              <Link to={'/wishlist'}>
                 <Heart className="w-5 h-5 text-red-500" />
-              </button>
+              </Link>
               <Link to={'/cart'}>
                 <ShoppingCart className="w-5 h-5 text-blue-600" />
               </Link>

@@ -14,6 +14,7 @@ const Productsdetail = lazy(() => import("./pages/Productsdetail"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Accaount = lazy(() => import("./pages/Accaount"));
 const Register = lazy(() => import("./pages/Register"));
+// const Text = lazy(() => import("./pages/text"));
 
 const Loader = () => (
   <div className="flex justify-center items-center h-screen">
@@ -41,7 +42,8 @@ const App = () => {
         { path: "/productsdetail/:id", element: <Suspense fallback={<Loader />}><Productsdetail /></Suspense> },
         { path: "/wishlist", element: <Suspense fallback={<Loader />}><Wishlist /></Suspense> },
         { path: "/account", element: <Suspense fallback={<Loader />}><Accaount /></Suspense> },
-        { path: "/register", element: <Suspense fallback={<Loader />}><Register /></Suspense> }
+        { path: "/register", element: <Suspense fallback={<Loader />}><Register /></Suspense> },
+        // { path: "/test", element: <Suspense fallback={<Loader />}><Text /></Suspense> }
       ]
     }
   ]);

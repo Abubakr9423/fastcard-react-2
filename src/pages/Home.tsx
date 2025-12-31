@@ -20,11 +20,12 @@ import "../App.css"
 import { Pagination } from 'swiper/modules';
 import { Link, useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
-import { useAddToCards, useCategory, useProductStore } from '@/store/store'
+import { addToWishlist, useAddToCards, useCategory, useProductStore } from '@/store/store'
 import SwipperHeader from '@/components/SwiperHeader'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper";
+import { toast, ToastContainer } from 'react-toastify'
 
 
 const Home = () => {
@@ -35,6 +36,8 @@ const Home = () => {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
+  const notify = () => toast("Wow so easy!");
+
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -68,14 +71,17 @@ const Home = () => {
 
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
+      <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
           {Array?.isArray(isCategoria) ? (
-            isCategoria.slice(0, 6).map((e) => (
-              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center font-bold '>
-                {e.subCategoryName}
-                <MoveRight />
-              </h1>
+            isCategoria.slice(0, 9).map((e) => (
+              <div key={e.id}>
+                <h1 className='text-[17px] w-[95%] flex justify-between ga items-center  '>
+                  {e.subCategoryName.slice(0, 18) + '...'}
+                  <MoveRight />
+                </h1>
+              </div>
             ))
           ) : (
             <div className='flex items-center justify-center mt-10'>
@@ -163,9 +169,16 @@ const Home = () => {
                         alt={e.productName}
                         className="w-full object-cover h-32 mx-auto"
                       />
-                      <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                      <button className="add-to-cart" onClick={() => {
+                        AddToCard(e.id)
+                        notify()
+                      }
+                      }>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
-                        <button className="bg-white rounded-full p-2 shadow">
+                        <button
+                          onClick={() => addToWishlist(e)}
+                          className="bg-white rounded-full p-2 shadow"
+                        >
                           <Heart className="w-5 h-5 text-red-500" />
                         </button>
                         <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
@@ -254,7 +267,7 @@ const Home = () => {
                 spaceBetween: 40,
               },
               1024: {
-                slidesPerView: 5,
+                slidesPerView: 6,
                 spaceBetween: 50,
               },
             }}
@@ -263,9 +276,9 @@ const Home = () => {
           >
             {Array.isArray(isCategoria) ? (
               isCategoria.map((e) => (
-                <SwiperSlide>
+                <SwiperSlide key={e.id}>
                   <div
-                    key={e.id}
+
                     className='border hover:bg-[#DB4444] transition-colors duration-500 hover:text-white rounded-sm py-5 px-3 w-40 h-30 flex flex-col items-center justify-center'
                   >
                     <span className='text-[17px] font-bold text-center'>
@@ -283,23 +296,23 @@ const Home = () => {
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
           <h1 className='text-4xl font-bold'>Best Selling Products</h1>
-          <button className='bg-[#DB4444] px-3 py-2 rounded-sm text-white'>View All</button>
+          <button className='bg-[#DB4444] px-3 py-2 rounded-sm text-white' onClick={() => naviget('/products')}>View All</button>
         </div>
         <div className='my-5'>
           <Swiper
-            slidesPerView={2}
-            spaceBetween={10}
+            slidesPerView={1}
+            spaceBetween={2}
             breakpoints={{
               640: {
                 slidesPerView: 2,
                 spaceBetween: 20,
               },
               768: {
-                slidesPerView: 4,
+                slidesPerView: 2,
                 spaceBetween: 50,
               },
               1024: {
-                slidesPerView: 5,
+                slidesPerView: 4,
                 spaceBetween: 10,
               },
             }}
@@ -307,8 +320,8 @@ const Home = () => {
             className="mySwiper">
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
-                <SwiperSlide>
-                  <div key={e.id} className="product-card border rounded  w-64">
+                <SwiperSlide  key={e.id}>
+                  <div className="product-card border rounded ">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -317,7 +330,10 @@ const Home = () => {
                       />
                       <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
-                        <button className="bg-white rounded-full p-2 shadow">
+                        <button
+                          onClick={() => addToWishlist(e)}
+                          className="bg-white rounded-full p-2 shadow"
+                        >
                           <Heart className="w-5 h-5 text-red-500" />
                         </button>
                         <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
@@ -409,7 +425,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='my-5 grid md:grid-cols-4 grid-cols-1 gap-3'>
+        <div className='my-5 grid md:grid-cols-4 grid-cols-1  justify-items-center md:gap-3'>
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
               <div key={e.id} className="product-card border rounded  w-64">
@@ -419,9 +435,14 @@ const Home = () => {
                     alt={e.productName}
                     className="w-full object-cover h-32 mx-auto"
                   />
-                  <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                  <div>
+                    <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                  </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
-                    <button className="bg-white rounded-full p-2 shadow">
+                    <button
+                      onClick={() => addToWishlist(e)}
+                      className="bg-white rounded-full p-2 shadow"
+                    >
                       <Heart className="w-5 h-5 text-red-500" />
                     </button>
                     <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
