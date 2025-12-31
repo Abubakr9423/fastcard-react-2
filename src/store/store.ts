@@ -1,61 +1,8 @@
-// store/store.ts
 import { axiosRequest, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
-export const api = import.meta.env.VITE_API
 import { toast } from "react-toastify";
 
-
-interface LogState {
-    user: any | null;
-    token: string | null;
-    loading: boolean;
-    error: string | null;
-    loginUser: (values: any) => Promise<void>;
-}
-
-export const useBeras = create<LogState>((set) => ({
-    user: null,
-    token: null,
-    loading: false,
-    error: null,
-
-    loginUser: async (values) => {
-        set({ loading: true, error: null });
-        try {
-            const response = await axiosRequest.post("/Account/login", values);
-            const token = response.data.data;
-            SaveToken(token);
-            set({
-                user: response.data.user || null,
-                token,
-                loading: false,
-                error: null,
-            });
-        } catch (err: any) {
-            let message = "Unexpected error";
-            if (err.response?.data) {
-                if (typeof err.response.data === "string") {
-                    message = err.response.data;
-                } else if (err.response.data.errors) {
-                    message = JSON.stringify(err.response.data.errors);
-                } else {
-                    message = JSON.stringify(err.response.data);
-                }
-            } else if (err.message) {
-                message = err.message;
-            }
-
-            set({
-                loading: false,
-                error: message,
-            });
-        }
-    },
-}));
-
-
-
-
+export const api = import.meta.env.VITE_API;
 
 export interface Product {
     id: number;
@@ -72,11 +19,15 @@ export interface Product {
     productInfoFromCart: any;
 }
 
-export interface ProductsData {
-    products: Product[];
+interface LogState {
+    user: any | null;
+    token: string | null;
+    loading: boolean;
+    error: string | null;
+    loginUser: (values: any) => Promise<void>;
 }
 
-export interface ProductFilters {
+interface ProductFilters {
     productName?: string;
     minPrice?: number;
     maxPrice?: number;
@@ -88,6 +39,10 @@ export interface ProductFilters {
     pageSize?: number;
 }
 
+interface ProductsData {
+    products: Product[];
+}
+
 interface ProductState {
     data: ProductsData | null;
     filters: ProductFilters;
@@ -95,31 +50,6 @@ interface ProductState {
     fetchProducts: () => Promise<void>;
 }
 
-export const useProductStore = create<ProductState>((set, get) => ({
-    data: null,
-    filters: {
-        pageNumber: 1,
-        pageSize: 10,
-    },
-
-    setFilters: (newFilters) =>
-        set((state) => ({
-            filters: { ...state.filters, ...newFilters },
-        })),
-
-    fetchProducts: async () => {
-        try {
-            const { filters } = get();
-            const response = await axiosRequest.get<{ data: ProductsData }>(
-                "/Product/get-products",
-                { params: filters }
-            );
-            set({ data: response.data.data });
-        } catch (error) {
-            console.error("Failed to fetch products:", error);
-        }
-    },
-}));
 interface SubCategory {
     id: number;
     subCategoryName: string;
@@ -131,57 +61,17 @@ interface CategoryState {
     getCategory: () => Promise<void>;
 }
 
-export const useCategory = create<CategoryState>((set) => ({
-    isCategoria: [],
-    loading: false,
-    getCategory: async () => {
-        set({ loading: true });
-        try {
-            const { data } = await axiosRequest.get("/SubCategory/get-sub-category");
-            set({ isCategoria: data.data, loading: false });
-        } catch (error) {
-            console.error("Хатогӣ ҳангоми гирифтани категорияҳо:", error);
-            set({ loading: false });
-        }
-    },
-}));
-
 interface AddUserState {
     loading: boolean;
     error: string | null;
     addUser: (newUser: any) => Promise<boolean>;
 }
 
-export const useUserStore = create<AddUserState>((set) => ({
-    loading: false,
-    error: null,
-
-    addUser: async (newUser) => {
-        set({ loading: true, error: null });
-        try {
-            const response = await axiosRequest.post("/Account/register", newUser);
-
-            if (response.status === 200 || response.status === 201) {
-                set({ loading: false });
-                return true;
-            }
-            return false;
-        } catch (error: any) {
-            console.error("Registration error:", error);
-            set({
-                loading: false,
-                error: error.response?.data?.message || "Хатогӣ ҳангоми сабт"
-            });
-            return false;
-        }
-    },
-}));
 interface ProductInCart {
     id: number;
     quantity: number;
     product: Product;
 }
-
 
 interface CardsState {
     isCards: ProductInCart[];
@@ -189,98 +79,20 @@ interface CardsState {
     getCategory: () => Promise<void>;
 }
 
-
-export const useCards = create<CardsState>((set) => ({
-    isCards: [],
-    loading: false,
-
-    getCategory: async () => {
-        set({ loading: true });
-        try {
-            const { data } = await axiosRequest.get("/Cart/get-products-from-cart");
-
-            const cartData = data?.data?.[0]?.productsInCart;
-            console.log(data);
-
-
-            set({
-                isCards: cartData,
-                loading: false,
-            });
-
-        } catch (error) {
-            console.error("Хатогӣ ҳангоми гирифтани сабади маҳсулот:", error);
-            set({ loading: false });
-        }
-    },
-}));
-
 interface AddToCardsState {
     loading: boolean;
     AddToCard: (id: number) => Promise<void>;
 }
-
-export const useAddToCards = create<AddToCardsState>((set) => ({
-    loading: false,
-    AddToCard: async (id: number) => {
-        set({ loading: true });
-        try {
-            await axiosRequest.post(`/Cart/add-product-to-cart?id=${id}`);
-            toast("Маҳсулот бо муваффақият илова шуд!");
-            set({ loading: false });
-        } catch (error) {
-            const message = "Бубахшед ин алакай ба сабади шумо хаст!!";
-            console.error("Хатогӣ ҳангоми илова ба сабад:", error);
-            set({ loading: false });
-            toast(message)
-        }
-    },
-}));
 
 interface DeleteToCardsState {
     loading: boolean;
     DeleteToCard: (id: number) => Promise<void>;
 }
 
-export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
-    loading: false,
-    DeleteToCard: async (id: number) => {
-        set({ loading: true });
-        try {
-            await axiosRequest.delete(`/Cart/delete-product-from-cart?id=${id}`);
-            useCards.getState().getCategory();
-            toast("Маҳсулот бо муваффақият бекор шуд");
-            set({ loading: false });
-        } catch (error) {
-            console.error("Хатогӣ ҳангоми нест кардан:", error);
-            set({ loading: false });
-        }
-    },
-}));
-
-
 interface DeleteToCardsStateAll {
     loading: boolean;
-    DeleteToCardAll: (id?: number) => Promise<void>;
+    DeleteToCardAll: () => Promise<void>;
 }
-
-export const useDeleteToCardAll = create<DeleteToCardsStateAll>((set) => ({
-    loading: false,
-    DeleteToCardAll: async () => {
-        set({ loading: true });
-        try {
-            await axiosRequest.delete(`/Cart/clear-cart`);
-            useCards.getState().getCategory();
-            toast.success("Маҳсулот бо муваффақият бекор шуд");
-
-            set({ loading: false });
-        } catch (error) {
-            console.error("Хатогӣ ҳангоми нест кардан:", error);
-            toast.error("Хатогӣ ҳангоми нест кардан");
-            set({ loading: false });
-        }
-    },
-}));
 
 interface UserRole {
     id: string;
@@ -305,19 +117,159 @@ interface UserProfileGet {
     getProfile: (username: string) => Promise<void>;
 }
 
-export const userProfile = create<UserProfileGet>((set) => ({
-    data: [],
+export const useBeras = create<LogState>((set) => ({
+    user: null,
+    token: null,
     loading: false,
-    getProfile: async (username: string) => {
+    error: null,
+    loginUser: async (values) => {
+        set({ loading: true, error: null });
+        try {
+            const response = await axiosRequest.post("/Account/login", values);
+            const token = response.data.data;
+            SaveToken(token);
+            set({
+                user: response.data.user || null,
+                token,
+                loading: false,
+                error: null,
+            });
+        } catch (err: any) {
+            let message = err.response?.data?.message || err.message || "Unexpected error";
+            set({ loading: false, error: message });
+        }
+    },
+}));
+
+export const useProductStore = create<ProductState>((set, get) => ({
+    data: null,
+    filters: { pageNumber: 1, pageSize: 10 },
+    setFilters: (newFilters) => set((state) => ({ filters: { ...state.filters, ...newFilters } })),
+    fetchProducts: async () => {
+        try {
+            const { filters } = get();
+            const response = await axiosRequest.get<{ data: ProductsData }>("/Product/get-products", { params: filters });
+            set({ data: response.data.data });
+        } catch (error) {
+            console.error("Failed to fetch products:", error);
+        }
+    },
+}));
+
+export const useCategory = create<CategoryState>((set) => ({
+    isCategoria: [],
+    loading: false,
+    getCategory: async () => {
         set({ loading: true });
         try {
-            const { data } = await axiosRequest.get(
-                `/UserProfile/get-user-profiles?UserName=${username}`
-            );
-            set({ data: data.data, loading: false });
+            const { data } = await axiosRequest.get("/SubCategory/get-sub-category");
+            set({ isCategoria: data.data, loading: false });
         } catch (error) {
-            console.error("Хатогӣ ҳангоми гирифтани профил:", error);
             set({ loading: false });
         }
     },
 }));
+
+export const useUserStore = create<AddUserState>((set) => ({
+    loading: false,
+    error: null,
+    addUser: async (newUser) => {
+        set({ loading: true, error: null });
+        try {
+            const response = await axiosRequest.post("/Account/register", newUser);
+            set({ loading: false });
+            return response.status === 200 || response.status === 201;
+        } catch (error: any) {
+            set({ loading: false, error: error.response?.data?.message || "Error" });
+            return false;
+        }
+    },
+}));
+
+export const useCards = create<CardsState>((set) => ({
+    isCards: [],
+    loading: false,
+    getCategory: async () => {
+        set({ loading: true });
+        try {
+            const { data } = await axiosRequest.get("/Cart/get-products-from-cart");
+            set({ isCards: data?.data?.[0]?.productsInCart || [], loading: false });
+        } catch (error) {
+            set({ loading: false });
+        }
+    },
+}));
+
+export const useAddToCards = create<AddToCardsState>((set) => ({
+    loading: false,
+    AddToCard: async (id) => {
+        set({ loading: true });
+        try {
+            await axiosRequest.post(`/Cart/add-product-to-cart?id=${id}`);
+            toast.success("Маҳсулот ба сабад илова шуд!");
+            useCards.getState().getCategory();
+            set({ loading: false });
+        } catch (error) {
+            toast.error("Маҳсулот аллакай дар сабад аст!");
+            set({ loading: false });
+        }
+    },
+}));
+
+export const useDeleteToCard = create<DeleteToCardsState>((set) => ({
+    loading: false,
+    DeleteToCard: async (id) => {
+        set({ loading: true });
+        try {
+            await axiosRequest.delete(`/Cart/delete-product-from-cart?id=${id}`);
+            useCards.getState().getCategory();
+            toast.info("Маҳсулот нест карда шуд");
+            set({ loading: false });
+        } catch (error) {
+            set({ loading: false });
+        }
+    },
+}));
+
+export const useDeleteToCardAll = create<DeleteToCardsStateAll>((set) => ({
+    loading: false,
+    DeleteToCardAll: async () => {
+        set({ loading: true });
+        try {
+            await axiosRequest.delete(`/Cart/clear-cart`);
+            useCards.getState().getCategory();
+            toast.success("Сабад тоза шуд");
+            set({ loading: false });
+        } catch (error) {
+            set({ loading: false });
+        }
+    },
+}));
+
+export const userProfile = create<UserProfileGet>((set) => ({
+    data: [],
+    loading: false,
+    getProfile: async (username) => {
+        set({ loading: true });
+        try {
+            const { data } = await axiosRequest.get(`/UserProfile/get-user-profiles?UserName=${username}`);
+            set({ data: data.data, loading: false });
+        } catch (error) {
+            set({ loading: false });
+        }
+    },
+}));
+
+export const addToWishlist = (product: Product): void => {
+    const wishlistData = localStorage.getItem('wishlist');
+    const existingWishlist: Product[] = wishlistData ? JSON.parse(wishlistData) : [];
+    const isExist = existingWishlist.find((item) => item.id === product.id);
+
+    if (!isExist) {
+        const updatedWishlist = [...existingWishlist, product];
+        localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
+        toast.success("Ба рӯйхати хоҳишҳо илова шуд");
+    } else {
+        toast.error("Ин маҳсулот аллакай илова шудааст");
+    }
+};

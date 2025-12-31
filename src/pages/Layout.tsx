@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button'
 
 const Layout = () => {
 
-    const { setTheme } = useTheme()
+  const { setTheme } = useTheme()
 
 
 
@@ -32,9 +32,9 @@ const Layout = () => {
           <div className='flex gap-5 items-center'>
             <Input type="search" placeholder='search' className='md:block w-70 hidden' />
             <div className="top-2 right-2 flex-row gap-2 flex">
-              <button>
+              <Link to={'/wishlist'}>
                 <Heart className="w-5 h-5 text-red-500" />
-              </button>
+              </Link>
               <Link to={'/cart'}>
                 <ShoppingCart className="w-5 h-5 text-blue-600" />
               </Link>

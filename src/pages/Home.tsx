@@ -20,7 +20,7 @@ import "../App.css"
 import { Pagination } from 'swiper/modules';
 import { Link, useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
-import { useAddToCards, useCategory, useProductStore } from '@/store/store'
+import { addToWishlist, useAddToCards, useCategory, useProductStore } from '@/store/store'
 import SwipperHeader from '@/components/SwiperHeader'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { useRef } from "react";
@@ -71,12 +71,13 @@ const Home = () => {
 
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
+      <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
           {Array?.isArray(isCategoria) ? (
-            isCategoria.slice(0, 6).map((e) => (
-              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center font-bold '>
-                {e.subCategoryName}
+            isCategoria.slice(0, 9).map((e) => (
+              <h1 className='text-[17px] w-[95%] flex justify-between ga items-center  '>
+                {e.subCategoryName.slice(0, 18) + '...'}
                 <MoveRight />
               </h1>
             ))
@@ -168,11 +169,14 @@ const Home = () => {
                       />
                       <button className="add-to-cart" onClick={() => {
                         AddToCard(e.id)
-                        notify
+                        notify()
                       }
                       }>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
-                        <button className="bg-white rounded-full p-2 shadow">
+                        <button
+                          onClick={() => addToWishlist(e)}
+                          className="bg-white rounded-full p-2 shadow"
+                        >
                           <Heart className="w-5 h-5 text-red-500" />
                         </button>
                         <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
@@ -261,7 +265,7 @@ const Home = () => {
                 spaceBetween: 40,
               },
               1024: {
-                slidesPerView: 5,
+                slidesPerView: 6,
                 spaceBetween: 50,
               },
             }}
@@ -270,9 +274,9 @@ const Home = () => {
           >
             {Array.isArray(isCategoria) ? (
               isCategoria.map((e) => (
-                <SwiperSlide>
+                <SwiperSlide key={e.id}>
                   <div
-                    key={e.id}
+                    
                     className='border hover:bg-[#DB4444] transition-colors duration-500 hover:text-white rounded-sm py-5 px-3 w-40 h-30 flex flex-col items-center justify-center'
                   >
                     <span className='text-[17px] font-bold text-center'>
@@ -290,12 +294,12 @@ const Home = () => {
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
           <h1 className='text-4xl font-bold'>Best Selling Products</h1>
-          <button className='bg-[#DB4444] px-3 py-2 rounded-sm text-white'>View All</button>
+          <button className='bg-[#DB4444] px-3 py-2 rounded-sm text-white' onClick={() => naviget('/products')}>View All</button>
         </div>
         <div className='my-5'>
           <Swiper
-            slidesPerView={2}
-            spaceBetween={10}
+            slidesPerView={4}
+            spaceBetween={5}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -306,7 +310,7 @@ const Home = () => {
                 spaceBetween: 50,
               },
               1024: {
-                slidesPerView: 5,
+                slidesPerView: 4,
                 spaceBetween: 10,
               },
             }}
@@ -324,7 +328,10 @@ const Home = () => {
                       />
                       <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
-                        <button className="bg-white rounded-full p-2 shadow">
+                        <button
+                          onClick={() => addToWishlist(e)}
+                          className="bg-white rounded-full p-2 shadow"
+                        >
                           <Heart className="w-5 h-5 text-red-500" />
                         </button>
                         <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
@@ -428,10 +435,12 @@ const Home = () => {
                   />
                   <div>
                     <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
-                    <ToastContainer />
                   </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
-                    <button className="bg-white rounded-full p-2 shadow">
+                    <button
+                      onClick={() => addToWishlist(e)}
+                      className="bg-white rounded-full p-2 shadow"
+                    >
                       <Heart className="w-5 h-5 text-red-500" />
                     </button>
                     <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
