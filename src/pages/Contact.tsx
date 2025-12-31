@@ -41,7 +41,7 @@ const Contact = () => {
               <Input placeholder="Phone" type="text" />
             </div>
             <div className="md:mt-5 mt-5">
-              <Input className="h-50 py-0" placeholder="Your Massage" type="text" />
+              <Input className="h-50 py-0" placeholder="Your Massage" type='text' />
             </div>
             <div className="flex justify-end gap-8 md:my-5 my-3">
               <button>Cancel</button>

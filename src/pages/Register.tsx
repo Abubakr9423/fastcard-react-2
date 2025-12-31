@@ -43,7 +43,7 @@ function Register() {
                     <button className="bg-[#DB4444] text-white py-2 px-2 rounded-sm font-medium" type="submit">Create Account</button>
                     <button className="text-black py-2 px-2 rounded-sm border flex justify-center items-center gap-2"><Globe /> <span>Sign up with Google</span></button>
                 </form>
-                <p className="text-center">Already have account? <span className="font-bold underline" onClick={() => naviget('/')}>Log in</span></p>
+                <p className="text-center">Already have account? <span className="font-bold underline hover:cursor-pointer" onClick={() => naviget('/')}>Log in</span></p>
             </div>
         </div>
     )

@@ -54,9 +54,9 @@ const Products = () => {
 
   return (
     <>
-      <div className="flex md:flex-row flex-col justify-center p-10 gap-25 items-start">
+      <div className="flex md:flex-row flex-col justify-center md:p-10 md:px-0 px-3 md:gap-25 gap-5 items-start">
         <ToastContainer />
-        <div className="flex flex-col gap-6 w-[300px] mx-auto">
+        <div className="flex flex-col gap-6 md:w-[300px]  mx-auto">
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
             {/* {isCategoria.map((cat) => (
