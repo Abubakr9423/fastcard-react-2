@@ -13,7 +13,7 @@ import img10 from "../assets/Services (7).png"
 const About = () => {
   return (
     <div>
-      <div className="flex flex-col items-center md:text-start text-center gap-5 md:flex-row justify-evenly md:p-10">
+      <div className="flex flex-col items-center md:text-start text-center md:px-0 px-3 gap-5 md:flex-row justify-evenly md:p-10">
         <aside className="flex flex-col gap-5">
           <TextAnimate animation="blurInUp" by="character" once className="md:w-[277px] text-[54px] font-[600]">Our Story</TextAnimate>
           <p className="md:w-[525px] text-[16px] font-[400]">Launced in 2015, Exclusive is South Asia’s premier online shopping makterplace with an active presense in Bangladesh. Supported by wide range of tailored marketing, data and service solutions, Exclusive has 10,500 sallers and 300 brands and serves 3 millioons customers across the region. </p>
@@ -61,7 +61,7 @@ const About = () => {
       </div>
       <div className="flex justify-evenly flex-col gap-15 md:flex-row items-center md:p-10">
         <article className="flex flex-col gap-2 items-start">
-          <div className="w-[370px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
+          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
             <img src={img6} alt="" />
           </div>
           <h1 className="font-[500] text-[32px]">Tom Cruise</h1>
@@ -69,7 +69,7 @@ const About = () => {
           <img src={img7} alt="" />
         </article>
         <article className="flex flex-col gap-2 items-start">
-          <div className="w-[370px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
+          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
             <img src={img8} alt="" />
           </div>
           <h1 className="font-[500] text-[32px]">Tom Cruise</h1>
@@ -77,7 +77,7 @@ const About = () => {
           <img src={img7} alt="" />
         </article>
         <article className="flex flex-col gap-2 items-start">
-          <div className="w-[370px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
+          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
             <img src={img9} alt="" />
           </div>
           <h1 className="font-[500] text-[32px]">Tom Cruise</h1>
@@ -85,7 +85,7 @@ const About = () => {
           <img src={img7} alt="" />
         </article>
       </div>
-      <div className="flex justify-evenly p-10 mt-20 mb-20 flex-col md:flex-row">
+      <div className="flex justify-evenly md:gap-0 gap-6 p-10 mt-20 mb-20 flex-col md:flex-row">
         <article className="flex flex-col gap-2 items-center">
           <img src={img10} alt="" />
           <TextAnimate animation="blurInUp" by="character" className="w-[272px] text-[20px] font-[600]" delay={2}>

@@ -61,7 +61,7 @@ const Wishlist = () => {
           <h2 className="text-xl text-gray-500">Рӯйхати хоҳишҳои шумо холӣ аст.</h2>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center lg:grid-cols-4 gap-6">
           {items.map((item) => (
             <div key={item.id} className="product-card border rounded  w-64">
               <div className="image-container relative">
@@ -126,7 +126,7 @@ const Wishlist = () => {
         </div>
       )}
       <div className="flex items-center justify-between mb-10">
-        <h1 className="text-2xl font-bold">Just For You ({items.length})</h1>
+        <h1 className="text-2xl font-bold">Just For You</h1>
         {items.length > 0 && (
           <button
             onClick={() => {
@@ -136,7 +136,7 @@ const Wishlist = () => {
             }}
             className="border border-black px-5 py-2 rounded-sm hover:bg-black hover:text-white transition-all"
           >
-            Move All To Bag
+            See All
           </button>
         )}
       </div>
