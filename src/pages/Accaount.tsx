@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input"
 
 const Accaount = () => {
+
   return (
     <div className="max-w-337.5 m-auto my-10 md:px-0 px-4">
       <div>

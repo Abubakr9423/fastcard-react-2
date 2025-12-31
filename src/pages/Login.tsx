@@ -30,7 +30,6 @@ const Login = () => {
     });
 
 
-
     return (
         <>
             {/* <MorphingText className='font-serif-[Inter]' texts={["Welcome", "Please Log in"]} />
