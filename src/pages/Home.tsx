@@ -276,7 +276,7 @@ const Home = () => {
               isCategoria.map((e) => (
                 <SwiperSlide key={e.id}>
                   <div
-                    
+
                     className='border hover:bg-[#DB4444] transition-colors duration-500 hover:text-white rounded-sm py-5 px-3 w-40 h-30 flex flex-col items-center justify-center'
                   >
                     <span className='text-[17px] font-bold text-center'>
@@ -298,15 +298,15 @@ const Home = () => {
         </div>
         <div className='my-5'>
           <Swiper
-            slidesPerView={4}
-            spaceBetween={5}
+            slidesPerView={1}
+            spaceBetween={2}
             breakpoints={{
               640: {
                 slidesPerView: 2,
                 spaceBetween: 20,
               },
               768: {
-                slidesPerView: 4,
+                slidesPerView: 2,
                 spaceBetween: 50,
               },
               1024: {
@@ -318,8 +318,8 @@ const Home = () => {
             className="mySwiper">
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
-                <SwiperSlide>
-                  <div key={e.id} className="product-card border rounded  w-64">
+                <SwiperSlide  key={e.id}>
+                  <div className="product-card border rounded ">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -423,7 +423,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='my-5 grid md:grid-cols-4 grid-cols-1 gap-3'>
+        <div className='my-5 grid md:grid-cols-4 grid-cols-1  justify-items-center md:gap-3'>
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
               <div key={e.id} className="product-card border rounded  w-64">

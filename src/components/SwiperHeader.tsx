@@ -44,7 +44,7 @@ export default function SwipperHeader() {
                     </aside>
                 </SwiperSlide>
                 <SwiperSlide>
-                    <aside className='bg-black text-white  rounded-sm flex h-84 md:flex-row-reverse flex-col md:gap-5 gap-3  md:px-20 md:py-5 py-10  items-center justify-between'>
+                    <aside className='bg-black text-white  rounded-sm flex md:flex-row-reverse flex-col md:gap-4 gap-3  md:px-30 md:py-6 py-6 px-10  items-center justify-between'>
                         <div className='flex flex-col justify-between gap-8'>
                             <div className='flex items-center gap-2'>
                                 <img className='w-10' src={LogoIphone} alt="" />
@@ -57,8 +57,8 @@ export default function SwipperHeader() {
                                 <p className='text-[20px] underline'>Shop Now {'->'}</p>
                             </div>
                         </div>
-                        <div className='md:w-50'>
-                            <img className='w-full h-70 rounded-2xl' src={'https://i.pinimg.com/736x/ba/d5/35/bad535436fd6f2895c99fbe4047f46b3.jpg'} alt="" />
+                        <div>
+                            <img className='w-45 h-70 rounded-2xl' src={'https://i.pinimg.com/736x/ba/d5/35/bad535436fd6f2895c99fbe4047f46b3.jpg'} alt="" />
                         </div>
                     </aside>
                 </SwiperSlide>
