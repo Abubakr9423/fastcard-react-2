@@ -14,8 +14,10 @@ const Products = () => {
   const { AddToCard } = useAddToCards();
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
+  const { data, fetchProducts, setFilters, resetFilters } = useProductStore();
   const naviget = useNavigate()
   const { isCategoria, getCategory } = useCategory();
+  const [wishlistIds, setWishlistIds] = useState<number[]>([]);
 
 
   useEffect(() => {

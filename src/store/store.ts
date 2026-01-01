@@ -49,6 +49,7 @@ interface ProductState {
     filters: ProductFilters;
     setFilters: (filters: Partial<ProductFilters>) => void;
     fetchProducts: () => Promise<void>;
+    resetFilters: () => void;
 }
 
 interface SubCategory {
