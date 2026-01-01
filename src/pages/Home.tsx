@@ -226,7 +226,7 @@ const Home = () => {
                             <span className='text-gray-400'>$</span>
                             <NumberTicker
                               value={
-                                e?.price > 4000
+                                e?.discountPrice > 4000
                                   ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
                                   : (Number(e?.discountPrice) || 0)
                               }
