@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import img from "../assets/Frame 834.png";
-import confetti from "canvas-confetti"
+import confetti from "canvas-confetti";
 
 const Checkout = () => {
   const { isCards, getCategory } = useCards();
@@ -139,7 +139,10 @@ const Checkout = () => {
               <button className="border-2 text-red-500 border-red-500 rounded-sm px-5 py-1">Apply</button>
             </div>
             <div className="relative">
-              <button className="border-2 my-3 text-white bg-red-500 rounded-sm px-5 py-2" onClick={() => { handleClick, DeleteToCardAll() }}>Place Order</button>
+              <button className="border-2 my-3 text-white bg-red-500 rounded-sm px-5 py-2" onClick={() => {
+                handleClick()
+                DeleteToCardAll()
+              }}>Place Order</button>
             </div>
           </div>
         </aside>

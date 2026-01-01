@@ -1,6 +1,7 @@
 import { axiosRequest, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 export const api = import.meta.env.VITE_API;
 
@@ -141,9 +142,13 @@ export const useBeras = create<LogState>((set) => ({
     },
 }));
 
+// const navigat = useNavigate()
+
+
 export const useProductStore = create<ProductState>((set, get) => ({
     data: null,
     filters: { pageNumber: 1, pageSize: 10 },
+
     setFilters: (newFilters) => set((state) => ({ filters: { ...state.filters, ...newFilters } })),
     fetchProducts: async () => {
         try {
