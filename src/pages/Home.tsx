@@ -73,15 +73,13 @@ const Home = () => {
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
       <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
-        <aside className='md:flex hidden flex-col font-medium items-start gap-3 w-[20%]'>
+        <aside className='md:flex hidden gap-3 flex-col  items-start  w-[20%]'>
           {Array?.isArray(isCategoria) ? (
             isCategoria.slice(0, 9).map((e) => (
-              <div key={e.id}>
-                <h1 className='text-[17px] w-[95%] flex justify-between ga items-center  '>
-                  {e.subCategoryName.slice(0, 18) + '...'}
-                  <MoveRight />
-                </h1>
-              </div>
+              <h1 className='text-[17px] w-[95%] flex justify-between  items-center  '>
+                {e.subCategoryName.slice(0, 18) + '...'}
+                <MoveRight />
+              </h1>
             ))
           ) : (
             <div className='flex items-center justify-center mt-10'>
@@ -320,7 +318,7 @@ const Home = () => {
             className="mySwiper">
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
-                <SwiperSlide  key={e.id}>
+                <SwiperSlide key={e.id}>
                   <div className="product-card border rounded ">
                     <div className="image-container relative">
                       <img
