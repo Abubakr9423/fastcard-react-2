@@ -37,6 +37,7 @@ const Home = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
   const notify = () => toast("Wow so easy!");
+  const { setFilters } = useProductStore((state) => state);
 
 
   useEffect(() => {
@@ -69,23 +70,60 @@ const Home = () => {
     getCategory();
   }, [fetchProducts, getCategory, naviget, AddToCard]);
 
+  const [slice2, setslice2] = useState(4)
+
+  const handleSeeMore = () => {
+    setslice2(prev => prev + 6);
+  };
+
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
       <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden gap-3 flex-col  items-start  w-[20%]'>
-          {Array?.isArray(isCategoria) ? (
-            isCategoria.slice(0, 9).map((e) => (
-              <h1 className='text-[17px] w-[95%] flex justify-between  items-center  '>
-                {e.subCategoryName.slice(0, 18) + '...'}
-                <MoveRight />
-              </h1>
-            ))
-          ) : (
-            <div className='flex items-center justify-center mt-10'>
-              <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
-            </div>
-          )}
+          <div className="p-3 border rounded-lg shadow bg-white min-h-[220px]">
+            <h2 className="text-base font-semibold mb-2 text-gray-700">Category</h2>
+
+            {Array.isArray(isCategoria) ? (
+              <div className="space-y-1">
+                {isCategoria.slice(0, slice2).map((e) => (
+                  <div key={e.id}>
+                    <h1
+                      onClick={() => {
+                        setFilters({ categoryId: e.id });
+                        naviget("/products");
+                        fetchProducts();
+                      }}
+                      className="cursor-pointer py-1 px-2 rounded-md 
+                       hover:bg-blue-100 hover:text-blue-600
+                       transition-all duration-200 ease-in-out
+                       transform hover:scale-105"
+                    >
+                      {e.subCategoryName}
+                    </h1>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center mt-6">
+                <p className="font-medium text-sm text-gray-500 animate-pulse">
+                  Маълумот ёфт нашуд...
+                </p>
+              </div>
+            )}
+
+            <button
+              onClick={handleSeeMore}
+              className="mt-4 w-full py-1 px-3 rounded-md 
+               bg-gradient-to-r from-red-400 to-pink-500 
+               text-white text-sm font-medium shadow
+               hover:from-red-500 hover:to-pink-600
+               transition-all duration-200 ease-in-out
+               transform hover:scale-105 active:scale-95"
+            >
+              See more
+            </button>
+          </div>
         </aside>
 
         <aside className='my-2 md:hidden block'>
