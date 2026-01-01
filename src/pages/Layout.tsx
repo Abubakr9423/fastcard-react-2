@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import img1 from "../assets/Group 1116606595 (1).png"
 import { Input } from '@/components/ui/input'
 import img4 from "../assets/Frame 741.png"
@@ -12,9 +12,13 @@ import { useEffect, useState } from 'react'
 const Layout = () => {
   const [token, setToken] = useState(GetToken());
   const { setTheme } = useTheme()
+  const naviget = useNavigate()
 
   useEffect(() => {
     setToken(GetToken());
+    if (!token) {
+      naviget('/')
+    }
   }, []);
 
 
@@ -32,7 +36,9 @@ const Layout = () => {
             <Link to="/products">Product</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/about">About</Link>
-            <Link to="/register">Sign Up</Link>
+            {!token && (
+              <Link to="/register">Sign Up</Link>
+            )}
           </div>
           <div className='flex gap-5 items-center'>
             <Input type="search" placeholder='search' className='md:block w-70 hidden' />
