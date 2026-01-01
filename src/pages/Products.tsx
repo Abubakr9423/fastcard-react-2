@@ -59,17 +59,6 @@ const Products = () => {
         <div className="flex flex-col gap-6 md:w-[300px]  mx-auto">
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
-            {/* {isCategoria.map((cat) => (
-              <p
-                key={cat.id ?? "all"}
-                onClick={() => {
-                  setFilters({ categoryId: cat.id });
-                  fetchProducts();
-                }}
-              >
-                {cat.categoryName}
-              </p>
-            ))} */}
             {Array?.isArray(isCategoria) ? (
               isCategoria.slice(0, slice2).map((e) => (
                 <div key={e.id}>

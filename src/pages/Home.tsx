@@ -37,6 +37,7 @@ const Home = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
   const notify = () => toast("Wow so easy!");
+  const { setFilters } = useProductStore((state) => state);
 
 
   useEffect(() => {
@@ -74,18 +75,39 @@ const Home = () => {
       <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden gap-3 flex-col  items-start  w-[20%]'>
-          {Array?.isArray(isCategoria) ? (
-            isCategoria.slice(0, 9).map((e) => (
-              <h1 className='text-[17px] w-[95%] flex justify-between  items-center  '>
-                {e.subCategoryName.slice(0, 18) + '...'}
-                <MoveRight />
-              </h1>
-            ))
-          ) : (
-            <div className='flex items-center justify-center mt-10'>
-              <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
-            </div>
-          )}
+          <div className="p-3 border h-[320px] flex flex-col w-[260px] rounded-lg shadow bg-white min-h-[220px]">
+            <h2 className="text-base font-semibold mb-2 text-gray-700">Category</h2>
+
+            {Array.isArray(isCategoria) ? (
+              <div
+                className="space-y-1 overflow-y-auto overflow-x-hidden max-h-[260px] 
+                 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-100"
+              >
+                {isCategoria.map((e) => (
+                  <h1
+                    key={e.id}
+                    onClick={() => {
+                      setFilters({ categoryId: e.id });
+                      naviget("/products");
+                      fetchProducts();
+                    }}
+                    className="cursor-pointer py-1 px-2 rounded-md 
+                     hover:bg-blue-100 hover:text-blue-600
+                     transition-all duration-300 ease-in-out
+                     transform hover:scale-105 text-gray-800"
+                  >
+                    {e.subCategoryName}
+                  </h1>
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center mt-6">
+                <p className="font-medium text-sm text-gray-500 animate-pulse">
+                  Маълумот ёфт нашуд...
+                </p>
+              </div>
+            )}
+          </div>
         </aside>
 
         <aside className='my-2 md:hidden block'>
