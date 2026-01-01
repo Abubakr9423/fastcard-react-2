@@ -4,10 +4,24 @@ import { Input } from '@/components/ui/input'
 import img4 from "../assets/Frame 741.png"
 import { Heart, Menu, Moon, ShoppingCart, Sun, User } from 'lucide-react'
 import { useTheme } from '@/components/theme-provider'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { GetToken } from '@/utils/axios'
 import { useEffect, useState } from 'react'
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const Layout = () => {
   const [token, setToken] = useState(GetToken());
@@ -27,7 +41,34 @@ const Layout = () => {
       <header className='border'>
         <nav className='flex items-center max-w-337.5 m-auto md:px-0 px-3  justify-between py-2'>
           <div className='md:hidden flex items-center gap-5'>
-            <Menu />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline"><Menu /></Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56" align="start">
+                <DropdownMenuItem>
+                  <Link to="/home">Home</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/products">Product</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/contact">Contact</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/about">About</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  {!token && (
+                    <Link to="/register">Sign Up</Link>
+                  )}
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/account">
+                  Profile</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <h1 className='text-2xl font-bold'>Exclusive</h1>
           </div>
           <img className='md:block hidden' src={img1} alt="" />

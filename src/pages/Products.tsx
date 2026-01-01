@@ -8,15 +8,14 @@ import { GetToken } from "@/utils/axios";
 import Rating from "@/components/Rating";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ToastContainer } from "react-toastify";
+import { Button } from '@/components/ui/button';
 
 const Products = () => {
-  const { data, fetchProducts, setFilters } = useProductStore((state) => state);
   const { AddToCard } = useAddToCards();
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
   const naviget = useNavigate()
   const { isCategoria, getCategory } = useCategory();
-  const [wishlistIds, setWishlistIds] = useState<number[]>([]);
 
 
   useEffect(() => {
@@ -70,6 +69,15 @@ const Products = () => {
       <div className="flex md:flex-row flex-col justify-center md:p-10 md:px-0 px-3 md:gap-25 gap-5 items-start">
         <ToastContainer />
         <div className="flex flex-col gap-6 md:w-[300px]  mx-auto">
+          <Button
+            onClick={() => {
+              resetFilters();
+              fetchProducts();
+            }}
+          >
+            Clear all Filters
+          </Button>
+
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
             {Array?.isArray(isCategoria) ? (
