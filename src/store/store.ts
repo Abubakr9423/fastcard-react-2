@@ -135,11 +135,11 @@ export const useBeras = create<LogState>((set) => ({
                 loading: false,
                 error: null,
             });
-            return token; // <-- important
+            return token;
         } catch (err: any) {
             let message = err.response?.data?.message || err.message || "Unexpected error";
             set({ loading: false, error: message });
-            return null; // <-- return something so caller knows it failed
+            return null;
         }
     },
 }));
@@ -147,11 +147,28 @@ export const useBeras = create<LogState>((set) => ({
 // const navigat = useNavigate()
 
 
+
 export const useProductStore = create<ProductState>((set, get) => ({
     data: null,
     filters: { pageNumber: 1, pageSize: 10 },
 
-    setFilters: (newFilters) => set((state) => ({ filters: { ...state.filters, ...newFilters } })),
+    setFilters: (newFilters) =>
+        set((state) => ({
+            filters: { ...state.filters, ...newFilters },
+        })),
+
+    resetFilters: () =>
+        set({
+            filters: {
+                categoryId: undefined,
+                brandId: undefined,
+                subcategoryId: undefined,
+                minPrice: undefined,
+                maxPrice: undefined,
+                colorId: undefined,
+            },
+        }),
+
     fetchProducts: async () => {
         try {
             const { filters } = get();
