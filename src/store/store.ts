@@ -135,9 +135,11 @@ export const useBeras = create<LogState>((set) => ({
                 loading: false,
                 error: null,
             });
+            return token; // <-- important
         } catch (err: any) {
             let message = err.response?.data?.message || err.message || "Unexpected error";
             set({ loading: false, error: message });
+            return null; // <-- return something so caller knows it failed
         }
     },
 }));
@@ -309,11 +311,11 @@ export const getProfileInfo = async (id: number): Promise<any> => {
 };
 
 
-export const editProfile = async (edited:any): Promise<any> => {
+export const editProfile = async (edited: any): Promise<any> => {
     try {
-        await axiosRequest.put(`/UserProfile/update-user-profile`,edited)
+        await axiosRequest.put(`/UserProfile/update-user-profile`, edited)
     } catch (error) {
         console.error(error);
-        
+
     }
 }
