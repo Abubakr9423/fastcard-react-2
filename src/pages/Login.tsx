@@ -4,9 +4,8 @@ import { MorphingText } from '@/components/ui/morphing-text'
 import { useFormik } from "formik";
 import { useBeras } from '@/store/store';
 import { Link, useNavigate } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent,  CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MagicCard } from '@/components/ui/magic-card';
-import { Label } from '@radix-ui/react-label';
 import { useTheme } from '@/components/theme-provider';
 
 

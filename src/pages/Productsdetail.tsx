@@ -2,11 +2,9 @@ import { axiosRequest, GetToken } from "@/utils/axios";
 import { Eye, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import img1 from "../assets/Frame 911.png"
-import { useAddToCards, useProductStore } from "@/store/store";
+import { addToWishlist, useAddToCards, useProductStore } from "@/store/store";
 import Rating from "@mui/material/Rating";
-import { NumberTicker } from "@/components/ui/number-ticker";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "../App.css"
 
 const ProductsDetail = () => {
@@ -130,14 +128,17 @@ const ProductsDetail = () => {
                 >
                   Buy now
                 </button>
-                <button className="w-11 h-11 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 active:scale-90">
+                <button onClick={() => {
+                  addToWishlist(info)
+                }} className="w-11 h-11 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 active:scale-90">
                   <Heart className="w-5 h-5" />
                 </button>
               </div>
             </div>
           </div>
         </div>
-      )}
+      )
+      }
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full max-w-[1200px]">
         {Array.isArray(data1?.products) ? (
@@ -156,7 +157,7 @@ const ProductsDetail = () => {
                   Add to Cart
                 </button>
                 <div className="absolute top-2 right-2 flex flex-col gap-2">
-                  <button className="bg-white rounded-full p-2 shadow-sm hover:bg-gray-100">
+                  <button onClick={() => addToWishlist(info)} className="bg-white rounded-full p-2 shadow-sm hover:bg-gray-100">
                     <Heart className="w-4 h-4 text-red-500" />
                   </button>
                   <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow-sm hover:bg-gray-100">
@@ -191,7 +192,7 @@ const ProductsDetail = () => {
         )}
       </div>
       <ToastContainer />
-    </div>
+    </div >
   );
 };
 

@@ -281,6 +281,25 @@ export const addToWishlist = (product: Product): void => {
     }
 };
 
+export const toggleWishlist = (product: Product): boolean => {
+    const wishlistData = localStorage.getItem('wishlist');
+    let wishlist: Product[] = wishlistData ? JSON.parse(wishlistData) : [];
+
+    const index = wishlist.findIndex((item) => item.id === product.id);
+
+    if (index === -1) {
+        wishlist.push(product);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        toast.success("Илова шуд");
+        return true;
+    } else {
+        wishlist = wishlist.filter(item => item.id !== product.id);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        toast.info("Аз рӯйхат гирифта шуд");
+        return false;
+    }
+};
+
 
 
 
