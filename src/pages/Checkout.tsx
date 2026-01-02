@@ -1,9 +1,8 @@
 import { Input } from "@/components/ui/input"
-import { api, useCards, useDeleteToCard, useDeleteToCardAll } from "@/store/store";
+import { api, useCards,  useDeleteToCardAll } from "@/store/store";
 import { GetToken } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import img from "../assets/Frame 834.png";
 import confetti from "canvas-confetti";
 
@@ -13,8 +12,6 @@ const Checkout = () => {
   const [Truee, setTruee] = useState(false);
   const naviget = useNavigate();
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
-
-  const notify = () => toast("Wow so easy!");
 
   useEffect(() => {
     const token = GetToken();
@@ -142,6 +139,7 @@ const Checkout = () => {
               <button className="border-2 my-3 text-white bg-red-500 rounded-sm px-5 py-2" onClick={() => {
                 handleClick()
                 DeleteToCardAll()
+                naviget('/products')
               }}>Place Order</button>
             </div>
           </div>

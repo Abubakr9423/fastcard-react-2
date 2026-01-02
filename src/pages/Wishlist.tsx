@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Trash2, Eye, Heart } from "lucide-react"; // Барои зебоӣ
-import { addToWishlist, useAddToCards, useProductStore } from "@/store/store";
+import { addToWishlist, toggleWishlist, useAddToCards, useProductStore } from "@/store/store";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import Rating from "@mui/material/Rating";
 import { Link } from "react-router-dom";
@@ -16,12 +16,24 @@ const Wishlist = () => {
   const [items, setItems] = useState<any[]>([]);
   const { AddToCard } = useAddToCards();
   const { data, fetchProducts } = useProductStore();
+  const [wishlistIds, setWishlistIds] = useState<number[]>([]);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setItems(data);
     fetchProducts()
   }, []);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  }, []);
+
+  const handleWishlist = (product: any) => {
+    toggleWishlist(product);
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  };
 
   const removeFromWishlist = (id: number) => {
     const filtered = items.filter(item => item.id !== id);
@@ -177,10 +189,16 @@ const Wishlist = () => {
                     }>Add to Cart</button>
                     <div className="absolute top-2 right-2 flex flex-col gap-2">
                       <button
-                        onClick={() => addToWishlist(e)}
-                        className="bg-white rounded-full p-2 shadow"
+                        onClick={() => handleWishlist(e)}
+                        className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
                       >
-                        <Heart className="w-5 h-5 text-red-500" />
+                        <Heart
+                          size={20}
+                          className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
+                            ? "fill-red-500 text-red-500"
+                            : "text-gray-400"
+                            }`}
+                        />
                       </button>
                       <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
                         <Eye className="w-5 h-5 text-blue-600" />
