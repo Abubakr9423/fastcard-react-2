@@ -36,9 +36,20 @@ const Home = () => {
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
   const swiperRef = useRef<SwiperType | null>(null);
   const swiperRef2 = useRef<SwiperType | null>(null);
-  const notify = () => toast("Wow so easy!");
+  const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
   const { setFilters } = useProductStore((state) => state);
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
+
+  const handleAddCart = (productId: number) => {
+    if (token) {
+      AddToCard(productId);
+    } else {
+      errorForBuy();
+      setTimeout(() => {
+        naviget('/');
+      }, 4000);
+    }
+  };
 
 
   useEffect(() => {
@@ -67,18 +78,13 @@ const Home = () => {
 
   const handleWishlist = (product: any) => {
     toggleWishlist(product);
-    // Навсозии State барои дидани ранг
     const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
     setWishlistIds(data.map((item: any) => item.id));
   };
+  const token = GetToken()
 
 
   useEffect(() => {
-    const token = GetToken();
-    if (!token) {
-      naviget('/');
-      return;
-    }
     fetchProducts();
     getCategory();
   }, [fetchProducts, getCategory, naviget, AddToCard]);
@@ -88,14 +94,12 @@ const Home = () => {
       <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden gap-3 flex-col  items-start  w-[20%]'>
-          <div className="p-3 border h-[320px] flex flex-col w-[260px] rounded-lg shadow bg-white min-h-[220px]">
+          <div className="p-3 border h-80 flex flex-col w-65 rounded-lg shadow bg-white min-h-55">
             <h2 className="text-base font-semibold mb-2 text-gray-700">Category</h2>
 
             {Array.isArray(isCategoria) ? (
               <div
-                className="space-y-1 overflow-y-auto overflow-x-hidden max-h-[260px] 
-                 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-100"
-              >
+                className="space-y-1 overflow-y-auto overflow-x-hidden max-h-65 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-100">
                 {isCategoria.map((e) => (
                   <h1
                     key={e.id}
@@ -202,11 +206,9 @@ const Home = () => {
                         alt={e.productName}
                         className="w-full object-cover h-32 mx-auto"
                       />
-                      <button className="add-to-cart" onClick={() => {
-                        AddToCard(e.id)
-                        notify()
-                      }
-                      }>Add to Cart</button>
+                      <button
+                        className="add-to-cart"
+                        onClick={() => handleAddCart(e.id)}>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
@@ -367,7 +369,7 @@ const Home = () => {
                         alt={e.productName}
                         className="w-full object-cover h-32 mx-auto"
                       />
-                      <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                      <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
@@ -481,7 +483,7 @@ const Home = () => {
                     className="w-full object-cover h-32 mx-auto"
                   />
                   <div>
-                    <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
+                    <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
                   </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
