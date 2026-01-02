@@ -49,6 +49,7 @@ interface ProductState {
     filters: ProductFilters;
     setFilters: (filters: Partial<ProductFilters>) => void;
     fetchProducts: () => Promise<void>;
+    resetFilters: () => void;
 }
 
 interface SubCategory {
@@ -135,11 +136,11 @@ export const useBeras = create<LogState>((set) => ({
                 loading: false,
                 error: null,
             });
-            return token; // <-- important
+            return token;
         } catch (err: any) {
             let message = err.response?.data?.message || err.message || "Unexpected error";
             set({ loading: false, error: message });
-            return null; // <-- return something so caller knows it failed
+            return null;
         }
     },
 }));
@@ -147,11 +148,28 @@ export const useBeras = create<LogState>((set) => ({
 // const navigat = useNavigate()
 
 
+
 export const useProductStore = create<ProductState>((set, get) => ({
     data: null,
     filters: { pageNumber: 1, pageSize: 10 },
 
-    setFilters: (newFilters) => set((state) => ({ filters: { ...state.filters, ...newFilters } })),
+    setFilters: (newFilters) =>
+        set((state) => ({
+            filters: { ...state.filters, ...newFilters },
+        })),
+
+    resetFilters: () =>
+        set({
+            filters: {
+                categoryId: undefined,
+                brandId: undefined,
+                subcategoryId: undefined,
+                minPrice: undefined,
+                maxPrice: undefined,
+                colorId: undefined,
+            },
+        }),
+
     fetchProducts: async () => {
         try {
             const { filters } = get();
@@ -278,6 +296,25 @@ export const addToWishlist = (product: Product): void => {
         toast.success("Ба рӯйхати хоҳишҳо илова шуд");
     } else {
         toast.error("Ин маҳсулот аллакай илова шудааст");
+    }
+};
+
+export const toggleWishlist = (product: Product): boolean => {
+    const wishlistData = localStorage.getItem('wishlist');
+    let wishlist: Product[] = wishlistData ? JSON.parse(wishlistData) : [];
+
+    const index = wishlist.findIndex((item) => item.id === product.id);
+
+    if (index === -1) {
+        wishlist.push(product);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        toast.success("Илова шуд");
+        return true;
+    } else {
+        wishlist = wishlist.filter(item => item.id !== product.id);
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        toast.info("Аз рӯйхат гирифта шуд");
+        return false;
     }
 };
 

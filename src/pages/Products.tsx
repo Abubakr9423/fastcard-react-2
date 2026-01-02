@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addToWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
+import { addToWishlist, toggleWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
 import "../App.css";
 import { Eye, Heart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,14 +8,16 @@ import { GetToken } from "@/utils/axios";
 import Rating from "@/components/Rating";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { ToastContainer } from "react-toastify";
+import { Button } from '@/components/ui/button';
 
 const Products = () => {
-  const { data, fetchProducts, setFilters } = useProductStore((state) => state);
   const { AddToCard } = useAddToCards();
   const [min, setMin] = useState(1000);
   const [max, setMax] = useState(3000);
+  const { data, fetchProducts, setFilters, resetFilters } = useProductStore();
   const naviget = useNavigate()
   const { isCategoria, getCategory } = useCategory();
+  const [wishlistIds, setWishlistIds] = useState<number[]>([]);
 
 
   useEffect(() => {
@@ -27,6 +29,18 @@ const Products = () => {
     fetchProducts();
     getCategory()
   }, [fetchProducts]);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  }, []);
+
+  const handleWishlist = (product: any) => {
+    toggleWishlist(product);
+    // Навсозии State барои дидани ранг
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  };
 
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
@@ -57,6 +71,15 @@ const Products = () => {
       <div className="flex md:flex-row flex-col justify-center md:p-10 md:px-0 px-3 md:gap-25 gap-5 items-start">
         <ToastContainer />
         <div className="flex flex-col gap-6 md:w-[300px]  mx-auto">
+          <Button
+            onClick={() => {
+              resetFilters();
+              fetchProducts();
+            }}
+          >
+            Clear all Filters
+          </Button>
+
           <div className="p-4 border rounded-lg shadow-sm bg-white">
             <h2 className="text-lg font-semibold mb-3">Category</h2>
             {Array?.isArray(isCategoria) ? (
@@ -222,14 +245,19 @@ const Products = () => {
                   />
                   <div>
                     <button className="add-to-cart" onClick={() => { AddToCard(e.id) }}>Add to Cart</button>
-                    <ToastContainer />
                   </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
-                      onClick={() => addToWishlist(e)}
-                      className="bg-white rounded-full p-2 shadow"
+                      onClick={() => handleWishlist(e)}
+                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
                     >
-                      <Heart className="w-5 h-5 text-red-500" />
+                      <Heart
+                        size={20}
+                        className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-400"
+                          }`}
+                      />
                     </button>
                     <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
                       <Eye className="w-5 h-5 text-blue-600" />

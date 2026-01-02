@@ -20,7 +20,7 @@ import "../App.css"
 import { Pagination } from 'swiper/modules';
 import { Link, useNavigate } from 'react-router-dom'
 import { GetToken } from '@/utils/axios'
-import { addToWishlist, useAddToCards, useCategory, useProductStore } from '@/store/store'
+import { toggleWishlist, useAddToCards, useCategory, useProductStore } from '@/store/store'
 import SwipperHeader from '@/components/SwiperHeader'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { useRef } from "react";
@@ -38,6 +38,7 @@ const Home = () => {
   const swiperRef2 = useRef<SwiperType | null>(null);
   const notify = () => toast("Wow so easy!");
   const { setFilters } = useProductStore((state) => state);
+  const [wishlistIds, setWishlistIds] = useState<number[]>([]);
 
 
   useEffect(() => {
@@ -58,6 +59,18 @@ const Home = () => {
 
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  }, []);
+
+  const handleWishlist = (product: any) => {
+    toggleWishlist(product);
+    // Навсозии State барои дидани ранг
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  };
 
 
   useEffect(() => {
@@ -196,10 +209,16 @@ const Home = () => {
                       }>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
-                          onClick={() => addToWishlist(e)}
-                          className="bg-white rounded-full p-2 shadow"
+                          onClick={() => handleWishlist(e)}
+                          className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
                         >
-                          <Heart className="w-5 h-5 text-red-500" />
+                          <Heart
+                            size={20}
+                            className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
+                              ? "fill-red-500 text-red-500"
+                              : "text-gray-400"
+                              }`}
+                          />
                         </button>
                         <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
                           <Eye className="w-5 h-5 text-blue-600" />
@@ -226,7 +245,7 @@ const Home = () => {
                             <span className='text-gray-400'>$</span>
                             <NumberTicker
                               value={
-                                e?.price > 4000
+                                e?.discountPrice > 4000
                                   ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
                                   : (Number(e?.discountPrice) || 0)
                               }
@@ -351,10 +370,16 @@ const Home = () => {
                       <button className="add-to-cart" onClick={() => AddToCard(e.id)}>Add to Cart</button>
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
-                          onClick={() => addToWishlist(e)}
-                          className="bg-white rounded-full p-2 shadow"
+                          onClick={() => handleWishlist(e)}
+                          className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
                         >
-                          <Heart className="w-5 h-5 text-red-500" />
+                          <Heart
+                            size={20}
+                            className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
+                              ? "fill-red-500 text-red-500"
+                              : "text-gray-400"
+                              }`}
+                          />
                         </button>
                         <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
                           <Eye className="w-5 h-5 text-blue-600" />
@@ -460,10 +485,16 @@ const Home = () => {
                   </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
-                      onClick={() => addToWishlist(e)}
-                      className="bg-white rounded-full p-2 shadow"
+                      onClick={() => handleWishlist(e)}
+                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
                     >
-                      <Heart className="w-5 h-5 text-red-500" />
+                      <Heart
+                        size={20}
+                        className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
+                          ? "fill-red-500 text-red-500"
+                          : "text-gray-400"
+                          }`}
+                      />
                     </button>
                     <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
                       <Eye className="w-5 h-5 text-blue-600" />
