@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { addToWishlist, toggleWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
+import {  toggleWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
 import "../App.css";
 import { Eye, Heart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { MorphingText } from "@/components/ui/morphing-text";
 import { GetToken } from "@/utils/axios";
 import Rating from "@/components/Rating";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { Button } from '@/components/ui/button';
 
 const Products = () => {
@@ -18,14 +18,27 @@ const Products = () => {
   const naviget = useNavigate()
   const { isCategoria, getCategory } = useCategory();
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
+  const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
+  const token = GetToken()
+
+  const handleAddCart = (productId: number) => {
+    if (token) {
+      AddToCard(productId);
+    } else {
+      errorForBuy();
+      setTimeout(() => {
+        naviget('/');
+      }, 4000);
+    }
+  };
 
 
   useEffect(() => {
-    const token = GetToken();
-    if (!token) {
-      naviget('/');
-      return;
-    }
+    // const token = GetToken();
+    // if (!token) {
+    //   naviget('/');
+    //   return;
+    // }
     fetchProducts();
     getCategory()
   }, [fetchProducts]);
@@ -244,13 +257,12 @@ const Products = () => {
                     className="w-full object-cover h-32 mx-auto"
                   />
                   <div>
-                    <button className="add-to-cart" onClick={() => { AddToCard(e.id) }}>Add to Cart</button>
+                    <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
                   </div>
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
                       onClick={() => handleWishlist(e)}
-                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
-                    >
+                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform">
                       <Heart
                         size={20}
                         className={`transition-colors duration-300 ${wishlistIds.includes(e.id)

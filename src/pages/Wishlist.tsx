@@ -1,22 +1,37 @@
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Trash2, Eye, Heart } from "lucide-react"; // Барои зебоӣ
-import { addToWishlist, toggleWishlist, useAddToCards, useProductStore } from "@/store/store";
+import { toggleWishlist, useAddToCards, useProductStore } from "@/store/store";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import Rating from "@mui/material/Rating";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../App.css";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { GetToken } from "@/utils/axios";
 
 const Wishlist = () => {
   const [items, setItems] = useState<any[]>([]);
   const { AddToCard } = useAddToCards();
   const { data, fetchProducts } = useProductStore();
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
+  const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
+  const token = GetToken()
+  const naviget = useNavigate()
+
+  const handleAddCart = (productId: number) => {
+    if (token) {
+      AddToCard(productId);
+    } else {
+      errorForBuy();
+      setTimeout(() => {
+        naviget('/');
+      }, 4000);
+    }
+  };
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
@@ -40,12 +55,6 @@ const Wishlist = () => {
     setItems(filtered);
     localStorage.setItem('wishlist', JSON.stringify(filtered));
     toast.info("Маҳсулот нест карда шуд");
-  };
-
-  const handleAddToCart = async (product: any) => {
-    await AddToCard(product.id);
-    toast.success("Ба сабад илова шуд!");
-    removeFromWishlist(product.id);
   };
 
   return (
@@ -82,7 +91,7 @@ const Wishlist = () => {
                   alt={item.productName}
                   className="w-full object-cover h-32 mx-auto"
                 />
-                <button className="add-to-cart" onClick={() => handleAddToCart(item)}>Add to Cart</button>
+                <button className="add-to-cart" onClick={() => handleAddCart(item.id)}>Add to Cart</button>
                 <div className="absolute top-2 right-2 flex flex-col gap-2">
                   <Link to={`/productsdetail/${item.id}`} className="bg-white rounded-full p-2 shadow">
                     <Eye className="w-5 h-5 text-blue-600" />
@@ -183,10 +192,7 @@ const Wishlist = () => {
                       alt={e.productName}
                       className="w-full object-cover h-32 mx-auto"
                     />
-                    <button className="add-to-cart" onClick={() => {
-                      AddToCard(e.id)
-                    }
-                    }>Add to Cart</button>
+                    <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
                     <div className="absolute top-2 right-2 flex flex-col gap-2">
                       <button
                         onClick={() => handleWishlist(e)}

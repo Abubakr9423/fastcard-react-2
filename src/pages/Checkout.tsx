@@ -56,12 +56,12 @@ const Checkout = () => {
     : 0;
 
   return (
-    <main className="max-w-337.5 m-auto my-8">
+    <main className="max-w-337.5 m-auto my-8 md:px-0 px-4">
 
       <div >
         <h1>Product / View Cart / <span className="font-bold">CheckOut</span></h1>
       </div>
-      <section className="my-3 flex items-start justify-between">
+      <section className="my-3 flex md:flex-row flex-col md:gap-0 gap-3 items-start justify-between">
         <aside>
           <h1 className="text-3xl ">Billing Details</h1>
           <div className="flex shadow-md px-4 py-4 rounded-sm flex-col gap-2 mt-3">
@@ -79,7 +79,7 @@ const Checkout = () => {
             </div>
           </div>
         </aside>
-        <aside className="w-[35%]">
+        <aside className="md:w-[35%] w-full">
           {Array.isArray(isCards) && isCards.length > 0 ? (
             isCards.map((e) => {
               return (
