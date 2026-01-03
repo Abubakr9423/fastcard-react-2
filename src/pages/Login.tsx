@@ -4,7 +4,7 @@ import { MorphingText } from '@/components/ui/morphing-text'
 import { useFormik } from "formik";
 import { useBeras } from '@/store/store';
 import { Link, useNavigate } from 'react-router-dom';
-import { Card, CardContent,  CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MagicCard } from '@/components/ui/magic-card';
 import { useTheme } from '@/components/theme-provider';
 
@@ -31,23 +31,10 @@ const Login = () => {
 
     return (
         <>
-            {/* <MorphingText className='font-serif-[Inter]' texts={["Welcome", "Please Log in"]} />
-            <form onSubmit={handleSubmit} className='flex flex-col gap-5 items-center'>
-                <Input name='email' onChange={handleChange} value={values.email} className='w-[420px] border-gray-600' type="text" placeholder='rimel1111@gmail.com' />
-                <Input name='password' onChange={handleChange} value={values.password} className='w-[420px] border-gray-600' type="password" placeholder='**********' />
-                <div className='flex gap-5'>
-                    <Button disabled={loading}>Log in</Button>
-                    <Link to='/register'>
-                        <Button>Registrate</Button>
-                    </Link>
-                </div>
-                {error && <p className="text-red-500">{error}</p>}
-            </form> */}
-            {/* <div className='m-auto flex items-center justify-center'> */}
-            <Card className='m-auto flex items-center p-30'>
+            <Card className='m-auto flex items-center border-none shadow-none'>
                 <MagicCard
                     gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-                    className="p-0 w-[350px] md:w-[1000px] h-[600px] md:h-[500px] flex flex-col justify-evenly"
+                    className="p-0 w-[350px] md:w-full h-[400px] md:h-[650px] flex flex-col justify-evenly "
                 >
                     <CardHeader className="">
                         <CardTitle>
@@ -59,7 +46,7 @@ const Login = () => {
                             <Input name='email' onChange={handleChange} value={values.email} className='md:w-[420px] mt-10 md:mt-0 border-gray-600' type="text" placeholder='rimel1111@gmail.com' />
                             <Input name='password' onChange={handleChange} value={values.password} className='md:w-[420px] border-gray-600' type="password" placeholder='**********' />
                             <div className='flex gap-5'>
-                                <Button disabled={loading}>Log in</Button>
+                                <Button disabled={loading} type='submit'>Log in</Button>
                                 <Link to='/register'>
                                     <Button>Registrate</Button>
                                 </Link>
@@ -71,7 +58,6 @@ const Login = () => {
                     </CardFooter>
                 </MagicCard>
             </Card>
-            {/* </div> */}
         </>
     )
 }
