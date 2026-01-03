@@ -14,6 +14,7 @@ const Productsdetail = lazy(() => import("./pages/Productsdetail"));
 const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Accaount = lazy(() => import("./pages/Accaount"));
 const Register = lazy(() => import("./pages/Register"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 // const Text = lazy(() => import("./pages/text"));
 
 const Loader = () => (
@@ -43,6 +44,7 @@ const App = () => {
         { path: "/wishlist", element: <Suspense fallback={<Loader />}><Wishlist /></Suspense> },
         { path: "/account", element: <Suspense fallback={<Loader />}><Accaount /></Suspense> },
         { path: "/register", element: <Suspense fallback={<Loader />}><Register /></Suspense> },
+        { path: "/notfound", element: <Suspense fallback={<Loader />}><NotFound /></Suspense> },
         // { path: "/test", element: <Suspense fallback={<Loader />}><Text /></Suspense> }
       ]
     }
