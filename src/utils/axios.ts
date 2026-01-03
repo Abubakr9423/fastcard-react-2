@@ -1,28 +1,35 @@
 import axios from "axios";
 
-export const SaveToken = (token:any) => {
+// Save token to localStorage
+export const SaveToken = (token: string) => {
   localStorage.setItem("authToken", token);
 };
+
+// Get token from localStorage
 export const GetToken = () => {
   return localStorage.getItem("authToken");
 };
 
+// Remove token from localStorage (for logout)
+export const RemoveToken = () => {
+  localStorage.removeItem("authToken");
+};
+
+// Axios instance with interceptor
 export const axiosRequest = axios.create({
   baseURL: "https://store-api.softclub.tj",
 });
-axiosRequest.interceptors.request.use(
-  (config:any) => {
-    const token = GetToken();
 
+axiosRequest.interceptors.request.use(
+  (config: any) => {
+    const token = GetToken();
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
-
     return config;
   },
-  (error:any) => Promise.reject(error)
+  (error: any) => Promise.reject(error)
 );
-
 
 
 // import axios from "axios";

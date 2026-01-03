@@ -69,6 +69,7 @@ const Layout = () => {
             <Link to="/products">Product</Link>
             <Link to="/contact">Contact</Link>
             <Link to="/about">About</Link>
+            <Link to="/notfound">404</Link>
             {!token && (
               <Link to="/register">Sign Up</Link>
             )}

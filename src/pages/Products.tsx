@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  toggleWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
+import { toggleWishlist, useAddToCards, useCategory, useProductStore } from "../store/store";
 import "../App.css";
 import { Eye, Heart } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -83,45 +83,58 @@ const Products = () => {
     <>
       <div className="flex md:flex-row flex-col justify-center md:p-10 md:px-0 px-3 md:gap-25 gap-5 items-start">
         <ToastContainer />
-        <div className="flex flex-col gap-6 md:w-[300px]  mx-auto">
+        <div className="flex flex-col gap-6 md:w-[300px] mx-auto">
           <Button
             onClick={() => {
               resetFilters();
               fetchProducts();
             }}
+            className="bg-black text-white hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800"
           >
             Clear all Filters
           </Button>
 
-          <div className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-lg font-semibold mb-3">Category</h2>
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Category</h2>
             {Array?.isArray(isCategoria) ? (
               isCategoria.slice(0, slice2).map((e) => (
                 <div key={e.id}>
-                  <h1 onClick={() => {
-                    setFilters({ categoryId: e.id });
-                    fetchProducts();
-                  }} className='cursor-pointer py-1 px-2 rounded hover:bg-blue-50 hover:text-blue-600 transition'>
+                  <h1
+                    onClick={() => {
+                      setFilters({ categoryId: e.id });
+                      fetchProducts();
+                    }}
+                    className="cursor-pointer py-1 px-2 rounded 
+                         hover:bg-neutral-100 hover:text-neutral-900 
+                         dark:hover:bg-neutral-800 dark:hover:text-neutral-200 
+                         transition text-neutral-700 dark:text-neutral-300"
+                  >
                     {e.subCategoryName}
                   </h1>
                 </div>
               ))
             ) : (
-              <div className='flex items-center justify-center mt-10'>
-                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+              <div className="flex items-center justify-center mt-10">
+                <p className="font-bold text-2xl text-neutral-700 dark:text-neutral-400">
+                  Маълумот ёфт нашуд...
+                </p>
               </div>
             )}
             <button
               onClick={handleSeeMore}
-              className="cursor-pointer py-1 px-2 rounded hover:bg-red-50 hover:text-red-600 transition"
+              className="cursor-pointer py-1 px-2 rounded 
+                   hover:bg-neutral-100 hover:text-neutral-900 
+                   dark:hover:bg-neutral-800 dark:hover:text-neutral-200 
+                   transition text-neutral-700 dark:text-neutral-300"
             >
               See more
             </button>
-
           </div>
 
-          <div className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-lg font-semibold mb-3">Brands</h2>
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Brands</h2>
             {["Samsung", "Apple", "Huawei", "Pocco", "Lenovo"].map((brand, idx) => (
               <label key={brand} className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -130,39 +143,44 @@ const Products = () => {
                     setFilters({ brandId: e.target.checked ? idx + 1 : undefined });
                     fetchProducts();
                   }}
-                  className="accent-blue-600"
+                  className="accent-black dark:accent-neutral-900"
                 />
-                <span className="text-gray-700">{brand}</span>
+                <span className="text-neutral-700 dark:text-neutral-300">{brand}</span>
               </label>
             ))}
-            <button className="mt-2 text-sm text-blue-600 hover:underline">See all</button>
-          </div>
-          <div className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-lg font-semibold mb-3">Features</h2>
-            {["Metallic", "Plastic cover", "8GB Ram", "Super power", "Large Memory"].map(
-              (feature, idx) => (
-                <label key={feature} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    onChange={(e) => {
-                      setFilters({ subcategoryId: e.target.checked ? idx + 1 : undefined });
-                      fetchProducts();
-                    }}
-                    className="accent-blue-600"
-                  />
-                  <span className="text-gray-700">{feature}</span>
-                </label>
-              )
-            )}
-            <button className="mt-2 text-sm text-blue-600 hover:underline">See all</button>
+            <button className="mt-2 text-sm text-neutral-900 dark:text-neutral-200 hover:underline">
+              See all
+            </button>
           </div>
 
-          <div className="p-4 border rounded-lg shadow-md bg-white">
-            <h2 className="text-lg font-semibold mb-4">Price Range</h2>
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Features</h2>
+            {["Metallic", "Plastic cover", "8GB Ram", "Super power", "Large Memory"].map((feature, idx) => (
+              <label key={feature} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    setFilters({ subcategoryId: e.target.checked ? idx + 1 : undefined });
+                    fetchProducts();
+                  }}
+                  className="accent-black dark:accent-neutral-900"
+                />
+                <span className="text-neutral-700 dark:text-neutral-300">{feature}</span>
+              </label>
+            ))}
+            <button className="mt-2 text-sm text-neutral-900 dark:text-neutral-200 hover:underline">
+              See all
+            </button>
+          </div>
+
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-md bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">Price Range</h2>
             <div className="relative h-6 mb-6">
-              <div className="absolute w-full h-1 bg-gray-200 rounded top-1/2 -translate-y-1/2" />
+              <div className="absolute w-full h-1 bg-neutral-200 dark:bg-neutral-800 rounded top-1/2 -translate-y-1/2" />
               <div
-                className="absolute h-1 bg-blue-600 rounded top-1/2 -translate-y-1/2"
+                className="absolute h-1 bg-black dark:bg-neutral-900 rounded top-1/2 -translate-y-1/2"
                 style={{
                   left: `${(min / 5000) * 100}%`,
                   width: `${((max - min) / 5000) * 100}%`,
@@ -175,7 +193,7 @@ const Products = () => {
                 step="50"
                 value={min}
                 onChange={handleMinChange}
-                className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-blue-600"
+                className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-black dark:accent-blue-900"
                 style={{ zIndex: 3 }}
               />
               <input
@@ -185,7 +203,7 @@ const Products = () => {
                 step="50"
                 value={max}
                 onChange={handleMaxChange}
-                className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-blue-600"
+                className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-black dark:accent-blue-900"
                 style={{ zIndex: 4 }}
               />
             </div>
@@ -194,25 +212,29 @@ const Products = () => {
                 type="text"
                 value={min}
                 readOnly
-                className="w-1/2 mr-2 border rounded px-2 py-1 text-center bg-gray-50"
+                className="w-1/2 mr-2 border rounded px-2 py-1 text-center 
+                     bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-200"
               />
               <input
                 type="text"
                 value={max}
                 readOnly
-                className="w-1/2 ml-2 border rounded px-2 py-1 text-center bg-gray-50"
+                className="w-1/2 ml-2 border rounded px-2 py-1 text-center 
+                     bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-200"
               />
             </div>
             <button
               onClick={applyPriceFilter}
-              className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              className="w-full bg-black text-white py-2 rounded 
+                   hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 transition"
             >
               Apply
             </button>
           </div>
 
-          <div className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-lg font-semibold mb-3">Condition</h2>
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Condition</h2>
             {["Refurbished", "Brand new", "Old items"].map((condition, idx) => (
               <label key={condition} className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -222,15 +244,16 @@ const Products = () => {
                     setFilters({ subcategoryId: idx + 10 });
                     fetchProducts();
                   }}
-                  className="accent-blue-600"
+                  className="accent-black dark:accent-neutral-900"
                 />
-                <span className="text-gray-700">{condition}</span>
+                <span className="text-neutral-700 dark:text-neutral-300">{condition}</span>
               </label>
             ))}
           </div>
 
-          <div className="p-4 border rounded-lg shadow-sm bg-white">
-            <h2 className="text-lg font-semibold mb-3">Ratings</h2>
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Ratings</h2>
             {[1, 2, 3, 4, 5].map((rating) => (
               <label key={rating} className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -239,87 +262,115 @@ const Products = () => {
                     setFilters({ colorId: e.target.checked ? rating : undefined });
                     fetchProducts();
                   }}
-                  className="accent-blue-600"
+                  className="accent-black dark:accent-neutral-900"
                 />
-                <span className="text-gray-700">{rating} Stars</span>
+                <span className="text-neutral-700 dark:text-neutral-300">{rating} Stars</span>
               </label>
             ))}
           </div>
         </div>
+        <ToastContainer />
         <div className="flex flex-wrap md:w-[1000px]">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
-              <div key={e.id} className="product-card border rounded  w-64">
+              <div
+                key={e.id}
+                className="product-card rounded w-64 
+                   bg-white dark:bg-black 
+                   text-neutral-900 dark:text-neutral-100 
+                   shadow-sm overflow-hidden group"
+              >
                 <div className="image-container relative">
                   <img
                     src={`https://store-api.softclub.tj/images/${e.image}`}
                     alt={e.productName}
-                    className="w-full object-cover h-32 mx-auto"
+                    className="w-full object-cover h-32 mx-auto rounded-t"
                   />
-                  <div>
-                    <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
-                  </div>
+
+                  {/* Add to Cart button appears only on hover */}
+                  <button
+                    className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 
+                       w-full py-2 rounded bg-black text-white 
+                       hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 
+                       transition-all duration-300"
+                    onClick={() => handleAddCart(e.id)}
+                  >
+                    Add to Cart
+                  </button>
+
+                  {/* Wishlist + Details buttons */}
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
                       onClick={() => handleWishlist(e)}
-                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform">
+                      className="bg-white dark:bg-neutral-900 
+                         rounded-full p-2 shadow hover:scale-110 transition-transform"
+                    >
                       <Heart
                         size={20}
                         className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-400"
+                            ? "fill-red-500 text-red-500"
+                            : "text-neutral-400 dark:text-neutral-300"
                           }`}
                       />
                     </button>
-                    <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
-                      <Eye className="w-5 h-5 text-blue-600" />
+                    <Link
+                      to={`/productsdetail/${e.id}`}
+                      className="bg-white dark:bg-neutral-900 
+                         rounded-full p-2 shadow"
+                    >
+                      <Eye className="w-5 h-5 text-neutral-900 dark:text-neutral-100" />
                     </Link>
                   </div>
                 </div>
 
-                <div className="info mt-3 text-start">
+                {/* Info Section */}
+                <div className="info mt-3 px-2 text-start">
                   <h1 className="text-lg font-semibold">{e.productName}</h1>
+
                   {e.hasDiscount ? (
-                    <div className='flex gap-3 items-end'>
-                      <div className="flex justify-center  items-baseline">
+                    <div className="flex gap-3 items-end">
+                      <div className="flex justify-center items-baseline">
                         <span className="text-red-600 font-bold">$</span>
                         <NumberTicker
                           value={
                             e?.price > 4000
-                              ? (Number(e?.price.toString().slice(0, 4)) || 0)
-                              : (Number(e?.price) || 0)
+                              ? Number(e?.price.toString().slice(0, 4)) || 0
+                              : Number(e?.price) || 0
                           }
                           className="text-red-600 font-bold"
                         />
                       </div>
                       <div>
-                        <span className='text-gray-400'>$</span>
+                        <span className="text-neutral-400">$</span>
                         <NumberTicker
                           value={
-                            e?.price > 4000
-                              ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
-                              : (Number(e?.discountPrice) || 0)
+                            e?.discountPrice > 4000
+                              ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
+                              : Number(e?.discountPrice) || 0
                           }
-                          className="line-through text-gray-500"
+                          className="line-through text-neutral-500 dark:text-neutral-400"
                         />
                       </div>
                     </div>
                   ) : (
-                    <p className="text-blue-600 font-bold">${e.price}</p>
+                    <p className="text-neutral-900 dark:text-neutral-100 font-bold">
+                      ${e.price}
+                    </p>
                   )}
-                  <p className="text-xs text-gray-400">{e.categoryName}</p>
-                  <Rating
-                    value={4}
-                    max={5}
-                    className="my-rating"
-                  />
+
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    {e.categoryName}
+                  </p>
+
+                  <Rating value={4} max={5} className="my-rating" />
                 </div>
               </div>
-
             ))
           ) : (
-            <MorphingText className='font-serif-[Inter]' texts={["No product is Availabel", "Please Cahnge your filter"]} />
-
+            <MorphingText
+              className="font-serif-[Inter] text-neutral-700 dark:text-neutral-300"
+              texts={["No product is Available", "Please Change your filter"]}
+            />
           )}
         </div>
       </div >
@@ -328,3 +379,5 @@ const Products = () => {
 };
 
 export default Products;
+
+

@@ -94,12 +94,21 @@ const Home = () => {
       <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden gap-3 flex-col  items-start  w-[20%]'>
-          <div className="p-3 border h-80 flex flex-col w-65 rounded-lg shadow bg-white min-h-55">
-            <h2 className="text-base font-semibold mb-2 text-gray-700">Category</h2>
+          <div className="p-3 border h-80 flex flex-col w-65 rounded-lg shadow 
+                bg-white dark:bg-black 
+                text-gray-800 dark:text-white 
+                min-h-55">
+            <h2 className="text-base font-semibold mb-2 
+                 text-gray-700 dark:text-gray-200">
+              Category
+            </h2>
 
             {Array.isArray(isCategoria) ? (
               <div
-                className="space-y-1 overflow-y-auto overflow-x-hidden max-h-65 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-100">
+                className="space-y-1 overflow-y-auto overflow-x-hidden max-h-65 
+               scrollbar-thin scrollbar-thumb-blue-400 
+               scrollbar-track-gray-100 dark:scrollbar-track-gray-700"
+              >
                 {isCategoria.map((e) => (
                   <h1
                     key={e.id}
@@ -109,9 +118,11 @@ const Home = () => {
                       fetchProducts();
                     }}
                     className="cursor-pointer py-1 px-2 rounded-md 
-                     hover:bg-blue-100 hover:text-blue-600
-                     transition-all duration-300 ease-in-out
-                     transform hover:scale-105 text-gray-800"
+                   hover:bg-blue-100 hover:text-blue-600 
+                   dark:hover:bg-blue-900 dark:hover:text-blue-300
+                   transition-all duration-300 ease-in-out 
+                   transform hover:scale-105 
+                   text-gray-800 dark:text-gray-100"
                   >
                     {e.subCategoryName}
                   </h1>
@@ -119,7 +130,8 @@ const Home = () => {
               </div>
             ) : (
               <div className="flex items-center justify-center mt-6">
-                <p className="font-medium text-sm text-gray-500 animate-pulse">
+                <p className="font-medium text-sm 
+                 text-gray-500 dark:text-gray-400 animate-pulse">
                   Маълумот ёфт нашуд...
                 </p>
               </div>
@@ -180,97 +192,106 @@ const Home = () => {
             spaceBetween={5}
             onSwiper={(swiper) => (swiperRef.current = swiper)}
             breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 2,
-                spaceBetween: 50,
-              },
-              1024: {
-                slidesPerView: 4,
-                spaceBetween: 60,
-              },
+              640: { slidesPerView: 2, spaceBetween: 20 },
+              768: { slidesPerView: 2, spaceBetween: 50 },
+              1024: { slidesPerView: 4, spaceBetween: 60 },
             }}
             modules={[Pagination]}
             className="mySwiper"
           >
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
-                <SwiperSlide>
-                  <div key={e.id} className="product-card border rounded  w-64">
+                <SwiperSlide key={e.id}>
+                  <div className="product-card border border-gray-200 dark:border-gray-700 
+                          rounded w-64 bg-white dark:bg-gray-900 
+                          text-gray-800 dark:text-gray-100 shadow">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
                         alt={e.productName}
-                        className="w-full object-cover h-32 mx-auto"
+                        className="w-full object-cover h-32 mx-auto rounded-t"
                       />
                       <button
-                        className="add-to-cart"
-                        onClick={() => handleAddCart(e.id)}>Add to Cart</button>
+                        className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded 
+                           hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 
+                           transition-colors shadow-md dark:shadow-sm"
+                        onClick={() => handleAddCart(e.id)}
+                      >
+                        Add to Cart
+                      </button>
+
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
-                          className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
+                          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+                             rounded-full p-2 shadow hover:scale-110 transition-transform"
                         >
                           <Heart
                             size={20}
                             className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-400"
+                                ? "fill-red-500 text-red-500"
+                                : "text-gray-400 dark:text-gray-300"
                               }`}
                           />
                         </button>
-                        <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
-                          <Eye className="w-5 h-5 text-blue-600" />
+                        <Link
+                          to={`/productsdetail/${e.id}`}
+                          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
+                             rounded-full p-2 shadow"
+                        >
+                          <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </Link>
                       </div>
                     </div>
 
                     <div className="info mt-3 text-start">
                       <h1 className="text-lg font-semibold">{e.productName}</h1>
+
                       {e.hasDiscount ? (
-                        <div className='flex gap-3 items-end'>
-                          <div className="flex justify-center  items-baseline">
+                        <div className="flex gap-3 items-end">
+                          <div className="flex justify-center items-baseline">
                             <span className="text-red-600 font-bold">$</span>
                             <NumberTicker
                               value={
                                 e?.price > 4000
-                                  ? (Number(e?.price.toString().slice(0, 4)) || 0)
-                                  : (Number(e?.price) || 0)
+                                  ? Number(e?.price.toString().slice(0, 4)) || 0
+                                  : Number(e?.price) || 0
                               }
                               className="text-red-600 font-bold"
                             />
                           </div>
                           <div>
-                            <span className='text-gray-400'>$</span>
+                            <span className="text-gray-400 dark:text-gray-500">$</span>
                             <NumberTicker
                               value={
                                 e?.discountPrice > 4000
-                                  ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
-                                  : (Number(e?.discountPrice) || 0)
+                                  ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
+                                  : Number(e?.discountPrice) || 0
                               }
-                              className="line-through text-gray-500"
+                              className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                             />
                           </div>
                         </div>
                       ) : (
-                        <p className="text-blue-600 font-bold">${e.price}</p>
+                        <p className="text-blue-600 dark:text-blue-400 font-bold">
+                          ${e.price}
+                        </p>
                       )}
-                      <p className="text-xs text-gray-400">{e.categoryName}</p>
-                      <Rating
-                        value={4}
-                        max={5}
-                        className="my-rating"
-                      />
+
+                      <p className="text-xs text-gray-400 dark:text-gray-500">
+                        {e.categoryName}
+                      </p>
+
+                      <Rating value={4} max={5} className="my-rating" />
                     </div>
                   </div>
                 </SwiperSlide>
               ))
             ) : (
-              <div className='flex items-center justify-center mt-10'>
-                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+              <div className="flex items-center justify-center mt-10">
+                <p className="font-bold text-2xl text-gray-700 dark:text-gray-300 animate-pulse">
+                  Маълумот ёфт нашуд...
+                </p>
               </div>
             )}
           </Swiper>

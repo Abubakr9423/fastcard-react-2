@@ -2,11 +2,11 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { MorphingText } from '@/components/ui/morphing-text'
 import { useFormik } from "formik";
-import { useBeras } from '@/store/store';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MagicCard } from '@/components/ui/magic-card';
 import { useTheme } from '@/components/theme-provider';
+import { useAuthStore } from '@/store/store';
 
 
 const Login = () => {
@@ -14,9 +14,9 @@ const Login = () => {
     const navigate = useNavigate()
     const { theme } = useTheme()
 
-    const loginUser = useBeras((state: any) => state.loginUser);
-    const loading = useBeras((state: any) => state.loading);
-    const error = useBeras((state: any) => state.error);
+    const loginUser = useAuthStore((state: any) => state.loginUser);
+    const loading = useAuthStore((state: any) => state.loading);
+    const error = useAuthStore((state: any) => state.error);
 
     const { handleSubmit, handleChange, resetForm, values } = useFormik({
         initialValues: { email: "", password: "" },

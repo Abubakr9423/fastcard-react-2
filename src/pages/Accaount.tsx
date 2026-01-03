@@ -1,13 +1,26 @@
 import { Input } from "@/components/ui/input";
-import { editProfile, getProfileInfo } from "@/store/store";
+import { editProfile, getProfileInfo, useAuthStore } from "@/store/store";
 import { GetToken } from "@/utils/axios";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useFormik } from "formik";
 
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogDescription } from "@radix-ui/react-dialog";
+
 const Account = () => {
   const token = GetToken();
   const [profile, setProfile] = useState<any>(null);
+  const logoutUser = useAuthStore((state) => state.logoutUser); // <-- get logout function
 
   useEffect(() => {
     if (token) {
@@ -36,7 +49,7 @@ const Account = () => {
       email: profile?.email || "",
       phoneNumber: profile?.phoneNumber || "",
       dob: profile?.dob || "",
-      image: null, // ✅ single file, start as null
+      image: null,
     },
     onSubmit: (values) => {
       const formdata = new FormData();
@@ -54,7 +67,6 @@ const Account = () => {
       editProfile(formdata);
     },
   });
-
 
   return (
     <div className="max-w-337.5 m-auto my-10 md:px-0 px-4">
@@ -126,10 +138,15 @@ const Account = () => {
                 accept="image/*"
                 onChange={(event) => {
                   const file = event.currentTarget.files?.[0];
-                  formik.setFieldValue("image", file); // store File object
+                  formik.setFieldValue("image", file);
                 }}
               />
-              <Input name="dob" value={formik.values.dob} onChange={formik.handleChange} type="text" />
+              <Input
+                name="dob"
+                value={formik.values.dob}
+                onChange={formik.handleChange}
+                type="text"
+              />
             </div>
             <div className="flex justify-end gap-8 md:my-5 my-3">
               <button type="button">Cancel</button>
@@ -139,6 +156,40 @@ const Account = () => {
               >
                 Save Changes
               </button>
+
+              {/* Logout Dialog */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className="text-[#DB4444] font-bold px-5 py-3 rounded-sm"
+                  >
+                    Log Out
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                    <DialogTitle>Are you sure you want to log out?</DialogTitle>
+                    <DialogDescription>
+                      This will end your current session.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DialogClose>
+                    <Button
+                      className="bg-[#DB4444] text-white"
+                      onClick={async () => {
+                        await logoutUser();
+                        window.location.href = "/"; 
+                      }}
+                    >
+                      Confirm Logout
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
           </form>
         </aside>
