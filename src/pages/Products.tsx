@@ -270,16 +270,15 @@ const Products = () => {
           </div>
         </div>
         <ToastContainer />
-        <div className="flex flex-wrap md:w-[1000px]">
+        <div className="grid md:grid-cols-4 grid-cols-1 justify-items-center">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
               <div
                 key={e.id}
-                className="product-card rounded w-64 
+                className="product-card rounded
                    bg-white dark:bg-black 
                    text-neutral-900 dark:text-neutral-100 
-                   shadow-sm overflow-hidden group"
-              >
+                   shadow-sm overflow-hidden group">
                 <div className="image-container relative">
                   <img
                     src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -287,7 +286,6 @@ const Products = () => {
                     className="w-full object-cover h-32 mx-auto rounded-t"
                   />
 
-                  {/* Add to Cart button appears only on hover */}
                   <button
                     className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 
                        w-full py-2 rounded bg-black text-white 
@@ -298,7 +296,6 @@ const Products = () => {
                     Add to Cart
                   </button>
 
-                  {/* Wishlist + Details buttons */}
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
                       onClick={() => handleWishlist(e)}
@@ -308,8 +305,8 @@ const Products = () => {
                       <Heart
                         size={20}
                         className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                            ? "fill-red-500 text-red-500"
-                            : "text-neutral-400 dark:text-neutral-300"
+                          ? "fill-red-500 text-red-500"
+                          : "text-neutral-400 dark:text-neutral-300"
                           }`}
                       />
                     </button>
@@ -323,42 +320,41 @@ const Products = () => {
                   </div>
                 </div>
 
-                {/* Info Section */}
-                <div className="info mt-3 px-2 text-start">
-                  <h1 className="text-lg font-semibold">{e.productName}</h1>
+                <div className="info mt-3 text-start">
+                  <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
 
                   {e.hasDiscount ? (
                     <div className="flex gap-3 items-end">
                       <div className="flex justify-center items-baseline">
-                        <span className="text-red-600 font-bold">$</span>
+                        <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                         <NumberTicker
                           value={
                             e?.price > 4000
                               ? Number(e?.price.toString().slice(0, 4)) || 0
                               : Number(e?.price) || 0
                           }
-                          className="text-red-600 font-bold"
+                          className="text-red-600 font-bold  dark:text-blue-800"
                         />
                       </div>
                       <div>
-                        <span className="text-neutral-400">$</span>
+                        <span className="text-gray-400 dark:text-gray-500">$</span>
                         <NumberTicker
                           value={
                             e?.discountPrice > 4000
                               ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
                               : Number(e?.discountPrice) || 0
                           }
-                          className="line-through text-neutral-500 dark:text-neutral-400"
+                          className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                         />
                       </div>
                     </div>
                   ) : (
-                    <p className="text-neutral-900 dark:text-neutral-100 font-bold">
+                    <p className="text-blue-600 dark:text-blue-400 font-bold">
                       ${e.price}
                     </p>
                   )}
 
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                  <p className="text-xs text-gray-400 dark:text-gray-500">
                     {e.categoryName}
                   </p>
 

@@ -1,7 +1,6 @@
 import { axiosRequest, RemoveToken, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
 
 export const api = import.meta.env.VITE_API;
 
@@ -299,7 +298,7 @@ export const useDeleteToCardAll = create<DeleteToCardsStateAll>((set) => ({
         try {
             await axiosRequest.delete(`/Cart/clear-cart`);
             useCards.getState().getCategory();
-            toast.success("Сабад тоза шуд");
+            toast("Сабад тоза шуд");
             set({ loading: false });
         } catch (error) {
             set({ loading: false });

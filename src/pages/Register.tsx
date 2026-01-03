@@ -3,6 +3,8 @@ import { Globe } from "lucide-react"
 import { useFormik } from 'formik'
 import { useNavigate } from "react-router-dom"
 import { useUserStore } from "@/store/store";
+import { useEffect } from "react";
+import { GetToken } from "@/utils/axios";
 
 
 function Register() {
@@ -29,6 +31,13 @@ function Register() {
             }
         }
     })
+
+    useEffect(() => {
+        const token = GetToken()
+        if (token) {
+            naviget('/home')
+        }
+    })
     return (
         <div className="flex items-center justify-center py-20">
             <div className="flex flex-col w-80 gap-3">
@@ -41,7 +50,7 @@ function Register() {
                     <Input value={formik.values.password} onChange={formik.handleChange} name="password" className="border rounded-sm px-2 py-2" placeholder="Password" type="text" />
                     <Input value={formik.values.confirmPassword} onChange={formik.handleChange} name="confirmPassword" className="border rounded-sm px-2 py-2" placeholder="confirmPassword" type="text" />
                     <button className="bg-[#DB4444] text-white py-2 px-2 rounded-sm font-medium" type="submit">Create Account</button>
-                    <button className="text-black py-2 px-2 rounded-sm border flex justify-center items-center gap-2"><Globe /> <span>Sign up with Google</span></button>
+                    <button className="text-black dark:text-white py-2 px-2 rounded-sm border flex justify-center items-center gap-2"><Globe /> <span>Sign up with Google</span></button>
                 </form>
                 <p className="text-center">Already have account? <span className="font-bold underline hover:cursor-pointer" onClick={() => naviget('/')}>Log in</span></p>
             </div>
