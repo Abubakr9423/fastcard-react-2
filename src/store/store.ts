@@ -1,4 +1,4 @@
-import { axiosRequest, SaveToken } from '@/utils/axios';
+import { axiosRequest, RemoveToken, SaveToken } from '@/utils/axios';
 import { create } from 'zustand';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
@@ -119,28 +119,64 @@ interface UserProfileGet {
     getProfile: (username: string) => Promise<void>;
 }
 
-export const useBeras = create<LogState>((set) => ({
+
+interface AuthState {
+    user: any;
+    token: string | null;
+    loading: boolean;
+    error: string | null;
+    loginUser: (values: any) => Promise<string | null>;
+    logoutUser: () => Promise<boolean>;
+}
+
+export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     token: null,
     loading: false,
     error: null,
+
     loginUser: async (values) => {
         set({ loading: true, error: null });
         try {
             const response = await axiosRequest.post("/Account/login", values);
             const token = response.data.data;
             SaveToken(token);
+
             set({
                 user: response.data.user || null,
                 token,
                 loading: false,
                 error: null,
             });
+
             return token;
         } catch (err: any) {
-            let message = err.response?.data?.message || err.message || "Unexpected error";
+            let message =
+                err.response?.data?.message || err.message || "Unexpected error";
             set({ loading: false, error: message });
             return null;
+        }
+    },
+
+    logoutUser: async () => {
+        try {
+
+
+            RemoveToken();
+
+            set({
+                user: null,
+                token: null,
+                loading: false,
+                error: null,
+            });
+
+            return true;
+        } catch (err: any) {
+            let message =
+                err.response?.data?.message || err.message || "Unexpected error";
+            set({ error: message });
+            return false;
         }
     },
 }));

@@ -94,7 +94,6 @@ const Products = () => {
             Clear all Filters
           </Button>
 
-          {/* Category */}
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-sm bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Category</h2>
@@ -133,7 +132,6 @@ const Products = () => {
             </button>
           </div>
 
-          {/* Brands */}
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-sm bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Brands</h2>
@@ -155,7 +153,6 @@ const Products = () => {
             </button>
           </div>
 
-          {/* Features */}
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-sm bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Features</h2>
@@ -177,7 +174,6 @@ const Products = () => {
             </button>
           </div>
 
-          {/* Price Range */}
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-md bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">Price Range</h2>
@@ -236,7 +232,6 @@ const Products = () => {
             </button>
           </div>
 
-          {/* Condition */}
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-sm bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Condition</h2>
@@ -256,7 +251,6 @@ const Products = () => {
             ))}
           </div>
 
-          {/* Ratings */}
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-sm bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Ratings</h2>
@@ -279,77 +273,104 @@ const Products = () => {
         <div className="flex flex-wrap md:w-[1000px]">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
-              <div key={e.id} className="product-card border rounded  w-64">
+              <div
+                key={e.id}
+                className="product-card rounded w-64 
+                   bg-white dark:bg-black 
+                   text-neutral-900 dark:text-neutral-100 
+                   shadow-sm overflow-hidden group"
+              >
                 <div className="image-container relative">
                   <img
                     src={`https://store-api.softclub.tj/images/${e.image}`}
                     alt={e.productName}
-                    className="w-full object-cover h-32 mx-auto"
+                    className="w-full object-cover h-32 mx-auto rounded-t"
                   />
-                  <div>
-                    <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
-                  </div>
+
+                  {/* Add to Cart button appears only on hover */}
+                  <button
+                    className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 
+                       w-full py-2 rounded bg-black text-white 
+                       hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 
+                       transition-all duration-300"
+                    onClick={() => handleAddCart(e.id)}
+                  >
+                    Add to Cart
+                  </button>
+
+                  {/* Wishlist + Details buttons */}
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
                       onClick={() => handleWishlist(e)}
-                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform">
+                      className="bg-white dark:bg-neutral-900 
+                         rounded-full p-2 shadow hover:scale-110 transition-transform"
+                    >
                       <Heart
                         size={20}
                         className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-400"
+                            ? "fill-red-500 text-red-500"
+                            : "text-neutral-400 dark:text-neutral-300"
                           }`}
                       />
                     </button>
-                    <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
-                      <Eye className="w-5 h-5 text-blue-600" />
+                    <Link
+                      to={`/productsdetail/${e.id}`}
+                      className="bg-white dark:bg-neutral-900 
+                         rounded-full p-2 shadow"
+                    >
+                      <Eye className="w-5 h-5 text-neutral-900 dark:text-neutral-100" />
                     </Link>
                   </div>
                 </div>
 
-                <div className="info mt-3 text-start">
+                {/* Info Section */}
+                <div className="info mt-3 px-2 text-start">
                   <h1 className="text-lg font-semibold">{e.productName}</h1>
+
                   {e.hasDiscount ? (
-                    <div className='flex gap-3 items-end'>
-                      <div className="flex justify-center  items-baseline">
+                    <div className="flex gap-3 items-end">
+                      <div className="flex justify-center items-baseline">
                         <span className="text-red-600 font-bold">$</span>
                         <NumberTicker
                           value={
                             e?.price > 4000
-                              ? (Number(e?.price.toString().slice(0, 4)) || 0)
-                              : (Number(e?.price) || 0)
+                              ? Number(e?.price.toString().slice(0, 4)) || 0
+                              : Number(e?.price) || 0
                           }
                           className="text-red-600 font-bold"
                         />
                       </div>
                       <div>
-                        <span className='text-gray-400'>$</span>
+                        <span className="text-neutral-400">$</span>
                         <NumberTicker
                           value={
-                            e?.price > 4000
-                              ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
-                              : (Number(e?.discountPrice) || 0)
+                            e?.discountPrice > 4000
+                              ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
+                              : Number(e?.discountPrice) || 0
                           }
-                          className="line-through text-gray-500"
+                          className="line-through text-neutral-500 dark:text-neutral-400"
                         />
                       </div>
                     </div>
                   ) : (
-                    <p className="text-blue-600 font-bold">${e.price}</p>
+                    <p className="text-neutral-900 dark:text-neutral-100 font-bold">
+                      ${e.price}
+                    </p>
                   )}
-                  <p className="text-xs text-gray-400">{e.categoryName}</p>
-                  <Rating
-                    value={4}
-                    max={5}
-                    className="my-rating"
-                  />
+
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                    {e.categoryName}
+                  </p>
+
+                  <Rating value={4} max={5} className="my-rating" />
                 </div>
               </div>
-
             ))
           ) : (
-            <MorphingText className='font-serif-[Inter]' texts={["No product is Availabel", "Please Cahnge your filter"]} />
-
+            <MorphingText
+              className="font-serif-[Inter] text-neutral-700 dark:text-neutral-300"
+              texts={["No product is Available", "Please Change your filter"]}
+            />
           )}
         </div>
       </div >
