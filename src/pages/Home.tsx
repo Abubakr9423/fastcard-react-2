@@ -142,15 +142,15 @@ const Home = () => {
         <aside className='my-2 md:hidden block'>
           <Input type="text" className='px-2' placeholder='Search' />
           <div className='flex flex-wrap my-2 gap-2'>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Woman’s Fashion {'->'}</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Men’s Fashion {'->'}</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Electronics</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Home & Lifestyle</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Medicine</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Sports & Outdoor</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Baby’s & Toys</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Groceries & Pets</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] '>Health & Beauty</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>Woman’s Fashion {'->'}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Men’s Fashion {'->'}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Electronics</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Home & Lifestyle</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Medicine</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Sports & Outdoor</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Baby’s & Toys</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Groceries & Pets</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Health & Beauty</p>
           </div>
         </aside>
 
@@ -182,8 +182,8 @@ const Home = () => {
             </div>
           </div>
           <div className='md:flex hidden items-center gap-2'>
-            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef.current?.slidePrev()}><MoveLeft /></button>
-            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef.current?.slideNext()}><MoveRight /></button>
+            <button className='bg-[#F5F5F5] dark:bg-[#1a1a1a] rounded-full p-4' onClick={() => swiperRef.current?.slidePrev()}><MoveLeft /></button>
+            <button className='bg-[#F5F5F5] dark:bg-[#1a1a1a] rounded-full p-4' onClick={() => swiperRef.current?.slideNext()}><MoveRight /></button>
           </div>
         </div>
         <div className='my-5'>
@@ -194,7 +194,7 @@ const Home = () => {
             breakpoints={{
               640: { slidesPerView: 2, spaceBetween: 20 },
               768: { slidesPerView: 2, spaceBetween: 50 },
-              1024: { slidesPerView: 4, spaceBetween: 60 },
+              1024: { slidesPerView: 4, spaceBetween: 50 },
             }}
             modules={[Pagination]}
             className="mySwiper"
@@ -203,7 +203,7 @@ const Home = () => {
               data.products.map((e) => (
                 <SwiperSlide key={e.id}>
                   <div className="product-card border border-gray-200 dark:border-gray-700 
-                          rounded w-64 bg-white dark:bg-gray-900 
+                          rounded w-75 bg-white dark:bg-[#1a1a1a]
                           text-gray-800 dark:text-gray-100 shadow">
                     <div className="image-container relative">
                       <img
@@ -223,41 +223,41 @@ const Home = () => {
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
-                          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                             rounded-full p-2 shadow hover:scale-110 transition-transform"
-                        >
+                          className=" bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
                           <Heart
                             size={20}
                             className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                                ? "fill-red-500 text-red-500"
-                                : "text-gray-400 dark:text-gray-300"
+                              ? "fill-red-500 text-red-500"
+                              : "text-gray-400 dark:text-gray-300"
                               }`}
                           />
                         </button>
+
                         <Link
                           to={`/productsdetail/${e.id}`}
-                          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 
-                             rounded-full p-2 shadow"
+                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform
+    "
                         >
                           <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </Link>
                       </div>
+
                     </div>
 
                     <div className="info mt-3 text-start">
-                      <h1 className="text-lg font-semibold">{e.productName}</h1>
+                      <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
 
                       {e.hasDiscount ? (
                         <div className="flex gap-3 items-end">
                           <div className="flex justify-center items-baseline">
-                            <span className="text-red-600 font-bold">$</span>
+                            <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                             <NumberTicker
                               value={
                                 e?.price > 4000
                                   ? Number(e?.price.toString().slice(0, 4)) || 0
                                   : Number(e?.price) || 0
                               }
-                              className="text-red-600 font-bold"
+                              className="text-red-600 font-bold  dark:text-blue-800"
                             />
                           </div>
                           <div>
@@ -310,8 +310,8 @@ const Home = () => {
             <h1 className='text-4xl font-bold'>Browse By Category</h1>
           </div>
           <div className='md:flex hidden items-center gap-2'>
-            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef2.current?.slidePrev()}><MoveLeft /></button>
-            <button className='bg-[#F5F5F5] rounded-full p-4' onClick={() => swiperRef2.current?.slideNext()}><MoveRight /></button>
+            <button className='bg-[#F5F5F5] dark:bg-[#1a1a1a] rounded-full p-4' onClick={() => swiperRef2.current?.slidePrev()}><MoveLeft /></button>
+            <button className='bg-[#F5F5F5] dark:bg-[#1a1a1a] rounded-full p-4' onClick={() => swiperRef2.current?.slideNext()}><MoveRight /></button>
           </div>
         </div>
         <div className='my-5'>
@@ -383,69 +383,87 @@ const Home = () => {
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide key={e.id}>
-                  <div className="product-card border rounded ">
+                  <div className="product-card border border-gray-200 dark:border-gray-700 
+                          rounded w-64 bg-white dark:bg-[#1a1a1a]
+                          text-gray-800 dark:text-gray-100 shadow">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
                         alt={e.productName}
-                        className="w-full object-cover h-32 mx-auto"
+                        className="w-full object-cover h-32 mx-auto rounded-t"
                       />
-                      <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
+                      <button
+                        className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded 
+                           hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 
+                           transition-colors shadow-md dark:shadow-sm"
+                        onClick={() => handleAddCart(e.id)}
+                      >
+                        Add to Cart
+                      </button>
+
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
-                          className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
-                        >
+                          className=" bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
                           <Heart
                             size={20}
                             className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
                               ? "fill-red-500 text-red-500"
-                              : "text-gray-400"
+                              : "text-gray-400 dark:text-gray-300"
                               }`}
                           />
                         </button>
-                        <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
-                          <Eye className="w-5 h-5 text-blue-600" />
+
+                        <Link
+                          to={`/productsdetail/${e.id}`}
+                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform
+    "
+                        >
+                          <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </Link>
                       </div>
+
                     </div>
 
                     <div className="info mt-3 text-start">
-                      <h1 className="text-lg font-semibold">{e.productName}</h1>
+                      <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
+
                       {e.hasDiscount ? (
-                        <div className='flex gap-3 items-end'>
-                          <div className="flex justify-center  items-baseline">
-                            <span className="text-red-600 font-bold">$</span>
+                        <div className="flex gap-3 items-end">
+                          <div className="flex justify-center items-baseline">
+                            <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                             <NumberTicker
                               value={
                                 e?.price > 4000
-                                  ? (Number(e?.price.toString().slice(0, 4)) || 0)
-                                  : (Number(e?.price) || 0)
+                                  ? Number(e?.price.toString().slice(0, 4)) || 0
+                                  : Number(e?.price) || 0
                               }
-                              className="text-red-600 font-bold"
+                              className="text-red-600 font-bold  dark:text-blue-800"
                             />
                           </div>
                           <div>
-                            <span className='text-gray-400'>$</span>
+                            <span className="text-gray-400 dark:text-gray-500">$</span>
                             <NumberTicker
                               value={
-                                e?.price > 4000
-                                  ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
-                                  : (Number(e?.discountPrice) || 0)
+                                e?.discountPrice > 4000
+                                  ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
+                                  : Number(e?.discountPrice) || 0
                               }
-                              className="line-through text-gray-500"
+                              className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                             />
                           </div>
                         </div>
                       ) : (
-                        <p className="text-blue-600 font-bold">${e.price}</p>
+                        <p className="text-blue-600 dark:text-blue-400 font-bold">
+                          ${e.price}
+                        </p>
                       )}
-                      <p className="text-xs text-gray-400">{e.categoryName}</p>
-                      <Rating
-                        value={4}
-                        max={5}
-                        className="my-rating"
-                      />
+
+                      <p className="text-xs text-gray-400 dark:text-gray-500">
+                        {e.categoryName}
+                      </p>
+
+                      <Rating value={4} max={5} className="my-rating" />
                     </div>
                   </div>
                 </SwiperSlide>
@@ -463,15 +481,15 @@ const Home = () => {
           <p className='text-[#00FF66]'>Categories</p>
           <h1 className='text-6xl'>Enhance Your Music Experience</h1>
           <div className='text-black text-center flex gap-2'>
-            <div className='bg-white rounded-full w-18 h-17 p-2'>
+            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-2'>
               <p className='font-bold'>{timeLeft.hours}</p>
               <p>Hours</p>
             </div>
-            <div className='bg-white rounded-full w-18 h-17 p-2'>
+            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-2'>
               <p className='font-bold'>{timeLeft.minutes}</p>
               <p>Minutes</p>
             </div>
-            <div className='bg-white rounded-full w-18 h-17 p-1'>
+            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-1'>
               <p className='font-bold'>{timeLeft.seconds}</p>
               <p>Seconds</p>
             </div>
@@ -496,71 +514,87 @@ const Home = () => {
         <div className='my-5 grid md:grid-cols-4 grid-cols-1  justify-items-center md:gap-3'>
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
-              <div key={e.id} className="product-card border rounded  w-64">
+              <div className="product-card border border-gray-200 dark:border-gray-700 
+                          rounded w-64 bg-white dark:bg-[#1a1a1a]
+                          text-gray-800 dark:text-gray-100 shadow">
                 <div className="image-container relative">
                   <img
                     src={`https://store-api.softclub.tj/images/${e.image}`}
                     alt={e.productName}
-                    className="w-full object-cover h-32 mx-auto"
+                    className="w-full object-cover h-32 mx-auto rounded-t"
                   />
-                  <div>
-                    <button className="add-to-cart" onClick={() => handleAddCart(e.id)}>Add to Cart</button>
-                  </div>
+                  <button
+                    className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded 
+                           hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 
+                           transition-colors shadow-md dark:shadow-sm"
+                    onClick={() => handleAddCart(e.id)}
+                  >
+                    Add to Cart
+                  </button>
+
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
                       onClick={() => handleWishlist(e)}
-                      className="bg-white rounded-full p-2 shadow hover:scale-110 transition-transform"
-                    >
+                      className=" bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
                       <Heart
                         size={20}
                         className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
                           ? "fill-red-500 text-red-500"
-                          : "text-gray-400"
+                          : "text-gray-400 dark:text-gray-300"
                           }`}
                       />
                     </button>
-                    <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow">
-                      <Eye className="w-5 h-5 text-blue-600" />
+
+                    <Link
+                      to={`/productsdetail/${e.id}`}
+                      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform
+    "
+                    >
+                      <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                     </Link>
                   </div>
+
                 </div>
 
                 <div className="info mt-3 text-start">
-                  <h1 className="text-lg font-semibold">{e.productName}</h1>
+                  <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
+
                   {e.hasDiscount ? (
-                    <div className='flex gap-3 items-end'>
-                      <div className="flex justify-center  items-baseline">
-                        <span className="text-red-600 font-bold">$</span>
+                    <div className="flex gap-3 items-end">
+                      <div className="flex justify-center items-baseline">
+                        <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                         <NumberTicker
                           value={
                             e?.price > 4000
-                              ? (Number(e?.price.toString().slice(0, 4)) || 0)
-                              : (Number(e?.price) || 0)
+                              ? Number(e?.price.toString().slice(0, 4)) || 0
+                              : Number(e?.price) || 0
                           }
-                          className="text-red-600 font-bold"
+                          className="text-red-600 font-bold  dark:text-blue-800"
                         />
                       </div>
                       <div>
-                        <span className='text-gray-400'>$</span>
+                        <span className="text-gray-400 dark:text-gray-500">$</span>
                         <NumberTicker
                           value={
-                            e?.price > 4000
-                              ? (Number(e?.discountPrice.toString().slice(0, 4)) || 0)
-                              : (Number(e?.discountPrice) || 0)
+                            e?.discountPrice > 4000
+                              ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
+                              : Number(e?.discountPrice) || 0
                           }
-                          className="line-through text-gray-500"
+                          className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                         />
                       </div>
                     </div>
                   ) : (
-                    <p className="text-blue-600 font-bold">${e.price}</p>
+                    <p className="text-blue-600 dark:text-blue-400 font-bold">
+                      ${e.price}
+                    </p>
                   )}
-                  <p className="text-xs text-gray-400">{e.categoryName}</p>
-                  <Rating
-                    value={4}
-                    max={5}
-                    className="my-rating"
-                  />
+
+                  <p className="text-xs text-gray-400 dark:text-gray-500">
+                    {e.categoryName}
+                  </p>
+
+                  <Rating value={4} max={5} className="my-rating" />
                 </div>
               </div>
             ))

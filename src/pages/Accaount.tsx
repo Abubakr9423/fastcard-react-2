@@ -20,7 +20,7 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 const Account = () => {
   const token = GetToken();
   const [profile, setProfile] = useState<any>(null);
-  const logoutUser = useAuthStore((state) => state.logoutUser); // <-- get logout function
+  const logoutUser = useAuthStore((state) => state.logoutUser);
 
   useEffect(() => {
     if (token) {
@@ -72,12 +72,11 @@ const Account = () => {
     <div className="max-w-337.5 m-auto my-10 md:px-0 px-4">
       <div>
         <h1 className="text-gray-300">
-          Home / <span className="text-black">My Account</span>
+          Home / <span className="text-black dark:text-white font-bold">My Account</span>
         </h1>
       </div>
       <br />
       <section className="flex md:flex-row flex-col items-start gap-10">
-        {/* Sidebar */}
         <aside className="flex items-start gap-6 flex-col md:w-[35%]">
           <div>
             <h1 className="text-[20px] font-bold">Manage My Account</h1>
@@ -103,7 +102,7 @@ const Account = () => {
               Profile
             </label>
             <br />
-            <div className="flex justify-between md:gap-10 gap-2">
+            <div className="flex justify-between md:gap-5 gap-2">
               <Input
                 name="firstName"
                 value={formik.values.firstName}
@@ -117,7 +116,7 @@ const Account = () => {
                 type="text"
               />
             </div>
-            <div className="flex justify-between my-3 md:gap-10 gap-2">
+            <div className="flex justify-between my-3 md:gap-5 gap-2">
               <Input
                 name="email"
                 value={formik.values.email}
@@ -131,7 +130,7 @@ const Account = () => {
                 type="text"
               />
             </div>
-            <div className="flex md:mt-5 mt-3 gap-8">
+            <div className="flex md:mt-4 mt-3 md:gap-5 gap-2">
               <Input
                 type="file"
                 name="image"
@@ -148,16 +147,15 @@ const Account = () => {
                 type="text"
               />
             </div>
-            <div className="flex justify-end gap-8 md:my-5 my-3">
-              <button type="button">Cancel</button>
+            <div className="flex justify-end gap-2 md:my-5 my-3">
+              <button type="button" className="border rounded-sm px-6.5 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 duration-200">Cancel</button>
               <button
                 type="submit"
-                className="bg-[#DB4444] font-bold text-white px-5 py-3 rounded-sm"
+                className="bg-[#DB4444] hover:bg-[#db4444d5] duration-200  text-white px-3 py-1.5 rounded-sm"
               >
                 Save Changes
               </button>
 
-              {/* Logout Dialog */}
               <Dialog>
                 <DialogTrigger asChild>
                   <Button

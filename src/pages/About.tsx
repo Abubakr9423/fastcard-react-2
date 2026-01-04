@@ -9,6 +9,7 @@ import img8 from "../assets/image 47.png"
 import img9 from "../assets/image 51.png"
 import img7 from "../assets/Frame 877.png"
 import img10 from "../assets/Services (7).png"
+import { Instagram, Link2, Linkedin, Twitter } from "lucide-react"
 
 const About = () => {
   return (
@@ -61,28 +62,40 @@ const About = () => {
       </div>
       <div className="flex justify-evenly flex-col gap-15 md:flex-row items-center md:p-10">
         <article className="flex flex-col gap-2 items-start">
-          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
+          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] dark:bg-[#1a1a1a] flex items-center justify-center">
             <img src={img6} alt="" />
           </div>
           <h1 className="font-[500] text-[32px]">Tom Cruise</h1>
           <p className="font-[400] text-[16px]">Founder & Chairman</p>
-          <img src={img7} alt="" />
+          <div className="flex gap-3">
+            <Twitter />
+            <Instagram />
+            <Linkedin />
+          </div>
         </article>
         <article className="flex flex-col gap-2 items-start">
-          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
+          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] dark:text-white  dark:bg-[#1a1a1a] flex items-center justify-center">
             <img src={img8} alt="" />
           </div>
           <h1 className="font-[500] text-[32px]">Tom Cruise</h1>
           <p className="font-[400] text-[16px]">Founder & Chairman</p>
-          <img src={img7} alt="" />
+          <div className="flex gap-3">
+            <Twitter />
+            <Instagram />
+            <Linkedin />
+          </div>
         </article>
         <article className="flex flex-col gap-2 items-start">
-          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5] flex items-center justify-center">
+          <div className="md:w-[370px] w-[350px] h-[430px] bg-[#F5F5F5]  dark:bg-[#1a1a1a] flex items-center justify-center">
             <img src={img9} alt="" />
           </div>
           <h1 className="font-[500] text-[32px]">Tom Cruise</h1>
           <p className="font-[400] text-[16px]">Founder & Chairman</p>
-          <img src={img7} alt="" />
+          <div className="flex gap-3">
+            <Twitter />
+            <Instagram />
+            <Linkedin />
+          </div>
         </article>
       </div>
       <div className="flex justify-evenly md:gap-0 gap-6 p-10 mt-20 mb-20 flex-col md:flex-row">

@@ -13,6 +13,7 @@ const Cart = () => {
   const naviget = useNavigate();
 
   const notify = () => toast("Wow so easy!");
+  const notifyError = () => toast("Лутфан аввал бояд худро ба кайд гиред");
 
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
@@ -29,6 +30,7 @@ const Cart = () => {
     const token = GetToken();
     if (!token) {
       naviget("/");
+      notifyError()
       return;
     }
     getCategory();
