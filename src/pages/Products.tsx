@@ -45,7 +45,6 @@ const Products = () => {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    setWishlistIds(data.map((item: any) => item.id));
   }, []);
 
   const handleWishlist = (product: any) => {

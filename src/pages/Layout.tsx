@@ -62,6 +62,9 @@ const Layout = () => {
                 <DropdownMenuItem>
                   <Link to="/account">{t("profile")}</Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/wishlist">Wishlist</Link>
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <h1 className='text-2xl font-bold'>Exclusive</h1>
@@ -83,15 +86,17 @@ const Layout = () => {
           <div className='flex gap-10 items-center'>
             <Input type="search" placeholder={t("search")} className='md:block w-70 hidden' />
             <div className="flex gap-5 items-center">
-              <Link to={'/wishlist'}>
-                <Heart className="w-5 h-5 text-red-500" />
-              </Link>
-              <Link to={'/cart'}>
-                <ShoppingCart className="w-5 h-5 text-blue-600" />
-              </Link>
-              <Link to={'/account'}>
-                <User className='md:block hidden' />
-              </Link>
+              <div className='md:flex gap-5 hidden'>
+                <Link to={'/wishlist'}>
+                  <Heart className="w-5 h-5 text-red-500" />
+                </Link>
+                <Link to={'/cart'}>
+                  <ShoppingCart className="w-5 h-5 text-blue-600" />
+                </Link>
+                <Link to={'/account'}>
+                  <User/>
+                </Link>
+              </div>
 
               {/* Theme switcher */}
               <DropdownMenu>
