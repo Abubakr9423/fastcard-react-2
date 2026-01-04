@@ -79,22 +79,16 @@ const Products = () => {
 
 
   return (
-    <div className="px-3">
-      <div className="flex justify-between flex-col items-center md:flex-row md:items-start md:w-[800px] py-3">
-        <ToastContainer
-          theme="colored"
-        />
-        <div className="flex flex-col gap-6 md:w-[300px] mx-auto">
+    <div className="px-3 max-w-337.5 m-auto">
+      {/* <ToastContainer theme="colored" /> */}
+      <div className="flex md:flex-row flex-col gap-8 justify-between py-3">
+        <div className="flex flex-col gap-6 md:w-[350px] mx-auto">
           <Button
             onClick={() => {
               resetFilters();
               fetchProducts();
             }}
-            className="bg-black text-white hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800"
-          >
-            Clear all Filters
-          </Button>
-
+            className="bg-black text-white hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800">Clear all Filters</Button>
           <div className="p-4 border border-neutral-200 dark:border-neutral-800 
                     rounded-lg shadow-sm bg-white dark:bg-black">
             <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Category</h2>
@@ -270,8 +264,8 @@ const Products = () => {
             ))}
           </div>
         </div>
-        <ToastContainer />
-        <div>
+        <div className="grid md:grid-cols-4 grid-cols-1  xl:grid-cols-4 
+                gap-6 justify-items-center mx-auto w-full">
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
               <div
@@ -364,10 +358,12 @@ const Products = () => {
               </div>
             ))
           ) : (
-            <MorphingText
-              // className="font-serif-[Inter] text-neutral-700 dark:text-neutral-300"
-              texts={["No product is Available", "Please Change your filter"]}
-            />
+            <div className="h-[60vh] w-full">
+              <MorphingText
+                // className="font-serif-[Inter] text-neutral-700 dark:text-neutral-300"
+                texts={["No product is Available", "Please Change your filter"]}
+              />
+            </div>
           )}
         </div>
       </div >
