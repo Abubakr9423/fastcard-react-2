@@ -41,6 +41,7 @@ const Home = () => {
   const { setFilters } = useProductStore((state) => state);
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
   const { t } = useTranslation();
+  
 
   const handleAddCart = (productId: number) => {
     if (token) {

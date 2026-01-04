@@ -142,7 +142,15 @@ i18n
 
           /* ===== ERRORS ===== */
           pageNotFound: "Page Not Found",
-          dob: "Date of Birth"
+          dob: "Date of Birth",
+          productStock: "In Stock: ",
+          outOfStock: "Out of Stock",
+          colors: "Colors",
+          size: "Size",
+          buyNowBtn: "Buy Now",
+          relatedItems: "Related Items",
+          loginError: "Sorry, you are not registered yet!",
+          noProducts: "No products available",
         },
       },
 

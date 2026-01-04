@@ -2,11 +2,12 @@ import { axiosRequest, GetToken } from "@/utils/axios";
 import { Eye, Heart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { addToWishlist, useAddToCards, useProductStore } from "@/store/store";
+import { addToWishlist, toggleWishlist, useAddToCards, useProductStore } from "@/store/store";
 import Rating from "@mui/material/Rating";
-import {ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "../App.css"
 import { useTheme } from "@emotion/react";
+import { NumberTicker } from "@/components/ui/number-ticker";
 
 const ProductsDetail = () => {
   const { id } = useParams();
@@ -14,6 +15,9 @@ const ProductsDetail = () => {
   const { fetchProducts } = useProductStore((state) => state);
   const { theme } = useTheme()
   const data1 = useProductStore((state) => state.data);
+  const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
+  const [wishlistIds, setWishlistIds] = useState<number[]>([]);
+
 
   async function getById() {
     try {
@@ -25,19 +29,48 @@ const ProductsDetail = () => {
     }
   }
   const { AddToCard } = useAddToCards();
-  const naviget = useNavigate()
 
   useEffect(() => {
-    const token = GetToken();
-    if (!token) {
-      naviget('/');
-      return;
-    }
+
     fetchProducts()
     if (id) getById()
   }, [id, AddToCard]);
 
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  }, []);
+
+  const handleWishlist = (product: any) => {
+    toggleWishlist(product);
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  };
+
+  const token = GetToken();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    setWishlistIds(data.map((item: any) => item.id));
+  }, []);
+
+  const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+
+
   console.log(info);
+
+  const handleAddCart = (productId: number) => {
+    if (token) {
+      AddToCard(productId);
+    } else {
+      errorForBuy();
+      setTimeout(() => {
+        navigate('/');
+      }, 4000);
+    }
+  };
 
 
   const [imgidx, setimgidx] = useState(0)
@@ -133,7 +166,18 @@ const ProductsDetail = () => {
                 <button onClick={() => {
                   addToWishlist(info)
                 }} className="w-11 h-11 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 active:scale-90">
-                  <Heart className="w-5 h-5" />
+                  <button
+                    onClick={() => handleWishlist(info)}
+                    className="w-11 h-11 border border-gray-300 rounded-md flex items-center justify-center"
+                  >
+                    <Heart
+                      className={`w-5 h-5 ${wishlistIds.includes(info?.id)
+                        ? "fill-red-500 text-red-500"
+                        : "text-gray-400"
+                        }`}
+                    />
+                  </button>
+
                 </button>
               </div>
             </div>
@@ -145,45 +189,91 @@ const ProductsDetail = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full max-w-[1200px]">
         {Array.isArray(data1?.products) ? (
           data1.products.map((e) => (
-            <div key={e.id} className="group border rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-              <div className="relative aspect-square bg-[#F5F5F5] flex items-center justify-center p-4">
+            <div
+              key={e.id}
+              className="product-card rounded
+                   bg-white dark:bg-black 
+                   text-neutral-900 dark:text-neutral-100 
+                   shadow-sm overflow-hidden group">
+              <div className="image-container relative">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.image}`}
                   alt={e.productName}
-                  className="w-full h-full object-contain mix-blend-multiply"
+                  className="w-full object-cover h-32 mx-auto rounded-t"
                 />
+
                 <button
-                  className="absolute bottom-0 left-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium"
-                  onClick={() => { AddToCard(e.id) }}
-                >
+                  className="absolute inset-x-0 bottom-0 opacity-0 group-hover:opacity-100 
+                       w-full py-2 rounded bg-black text-white 
+                       hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 
+                       transition-all duration-300"
+                  onClick={() => handleAddCart(e.id)}>
                   Add to Cart
                 </button>
+
                 <div className="absolute top-2 right-2 flex flex-col gap-2">
-                  <button onClick={() => addToWishlist(info)} className="bg-white rounded-full p-2 shadow-sm hover:bg-gray-100">
-                    <Heart className="w-4 h-4 text-red-500" />
+                  <button
+                    onClick={() => handleWishlist(e)}
+                    className="bg-white dark:bg-neutral-900 
+                         rounded-full p-2 shadow hover:scale-110 transition-transform"
+                  >
+                    <Heart
+                      size={20}
+                      className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
+                        ? "fill-red-500 text-red-500"
+                        : "text-neutral-400 dark:text-neutral-300"
+                        }`}
+                    />
                   </button>
-                  <Link to={`/productsdetail/${e.id}`} className="bg-white rounded-full p-2 shadow-sm hover:bg-gray-100">
-                    <Eye className="w-4 h-4 text-blue-600" />
+                  <Link
+                    to={`/productsdetail/${e.id}`}
+                    className="bg-white dark:bg-neutral-900 
+                         rounded-full p-2 shadow"
+                  >
+                    <Eye className="w-5 h-5 text-neutral-900 dark:text-neutral-100" />
                   </Link>
                 </div>
               </div>
 
-              <div className="p-4 space-y-2">
-                <h1 className="text-[16px] font-semibold truncate">{e.productName}</h1>
-                <div className="flex items-center gap-2">
-                  {e.hasDiscount ? (
-                    <>
-                      <span className="text-[#DB4444] font-bold text-lg">${e.price}</span>
-                      <span className="text-gray-400 line-through text-sm">${e.discountPrice}</span>
-                    </>
-                  ) : (
-                    <span className="text-[#DB4444] font-bold text-lg">${e.price}</span>
-                  )}
-                </div>
-                <div className="flex items-center justify-between">
-                  <p className="text-xs text-gray-500 uppercase tracking-wider">{e.categoryName}</p>
-                  <Rating value={4} max={5} className="scale-75 origin-right" />
-                </div>
+              <div className="info mt-3 text-start">
+                <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
+
+                {e.hasDiscount ? (
+                  <div className="flex gap-3 items-end">
+                    <div className="flex justify-center items-baseline">
+                      <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
+                      <NumberTicker
+                        value={
+                          e?.price > 4000
+                            ? Number(e?.price.toString().slice(0, 4)) || 0
+                            : Number(e?.price) || 0
+                        }
+                        className="text-red-600 font-bold  dark:text-blue-800"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-gray-400 dark:text-gray-500">$</span>
+                      <NumberTicker
+                        value={
+                          e?.discountPrice > 4000
+                            ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
+                            : Number(e?.discountPrice) || 0
+                        }
+                        className="line-through text-gray-500 dark:text-gray-400 opacity-80"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-blue-600 dark:text-blue-400 font-bold">
+                    ${e.price}
+                  </p>
+                )}
+
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                  {e.categoryName}
+                </p>
+
+                <Rating value={4} max={5} className="my-rating" />
               </div>
             </div>
           ))
@@ -193,9 +283,21 @@ const ProductsDetail = () => {
           </div>
         )}
       </div>
-      <ToastContainer
+      {/* <ToastContainer
         theme={theme}
+      /> */}
+      {/* <ToastContainer toastStyle={{ backgroundColor: "crimson" }} /> */}
+      <ToastContainer
+        theme={isDarkMode ? "dark" : "light"}
+        toastStyle={{
+          backgroundColor: isDarkMode ? "#1f2937" : "crimson", // Tailwind dark:bg-neutral-800
+          color: isDarkMode ? "#f9fafb" : "#fff", // text-neutral-100
+        }}
+        position="top-right"
+        autoClose={3000}
       />
+
+
     </div >
   );
 };
