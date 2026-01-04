@@ -79,9 +79,11 @@ const Products = () => {
 
 
   return (
-    <>
-      <div className="flex justify-evenly flex-col items-center md:flex-row md:items-start w-[800px]">
-        <ToastContainer />
+    <div className="px-3">
+      <div className="flex justify-between flex-col items-center md:flex-row md:items-start md:w-[800px] py-3">
+        <ToastContainer
+          theme="colored"
+        />
         <div className="flex flex-col gap-6 md:w-[300px] mx-auto">
           <Button
             onClick={() => {
@@ -369,7 +371,7 @@ const Products = () => {
           )}
         </div>
       </div >
-    </>
+    </div>
   );
 };
 
