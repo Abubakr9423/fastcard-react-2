@@ -73,16 +73,106 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="flex justify-evenly flex-col items-center md:flex-row md:items-start w-[800px]">
-      <ToastContainer />
-      <div className="flex flex-col gap-6 md:w-[300px]">
-        <div className="px-3 max-w-337.5 m-auto">
-          <div className="flex md:flex-row flex-col gap-8 justify-between py-3">
-            <div className="flex flex-col gap-6 md:w-[350px] mx-auto">
-              <Button
-                onClick={() => {
-                  resetFilters();
-                  fetchProducts();
+    <div className="px-3 max-w-337.5 m-auto">
+      <ToastContainer theme="colored" />
+      <div className="flex md:flex-row flex-col gap-8 justify-between py-3">
+        <div className="flex flex-col gap-6 md:w-[350px] mx-auto">
+          <Button
+            onClick={() => {
+              resetFilters();
+              fetchProducts();
+            }}
+            className="bg-black text-white hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800">Clear all Filters</Button>
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Category</h2>
+            {Array?.isArray(isCategoria) ? (
+              isCategoria.slice(0, slice2).map((e) => (
+                <div key={e.id}>
+                  <h1
+                    onClick={() => {
+                      setFilters({ categoryId: e.id });
+                      fetchProducts();
+                    }}
+                    className="cursor-pointer py-1 px-2 rounded 
+                         hover:bg-neutral-100 hover:text-neutral-900 
+                         dark:hover:bg-neutral-800 dark:hover:text-neutral-200 
+                         transition text-neutral-700 dark:text-neutral-300"
+                  >
+                    {e.subCategoryName}
+                  </h1>
+                </div>
+              ))
+            ) : (
+              <div className="flex items-center justify-center mt-10">
+                <p className="font-bold text-2xl text-neutral-700 dark:text-neutral-400">
+                  Маълумот ёфт нашуд...
+                </p>
+              </div>
+            )}
+            <button
+              onClick={handleSeeMore}
+              className="cursor-pointer py-1 px-2 rounded 
+                   hover:bg-neutral-100 hover:text-neutral-900 
+                   dark:hover:bg-neutral-800 dark:hover:text-neutral-200 
+                   transition text-neutral-700 dark:text-neutral-300"
+            >
+              See more
+            </button>
+          </div>
+
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Brands</h2>
+            {["Samsung", "Apple", "Huawei", "Pocco", "Lenovo"].map((brand, idx) => (
+              <label key={brand} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    setFilters({ brandId: e.target.checked ? idx + 1 : undefined });
+                    fetchProducts();
+                  }}
+                  className="accent-black dark:accent-neutral-900"
+                />
+                <span className="text-neutral-700 dark:text-neutral-300">{brand}</span>
+              </label>
+            ))}
+            <button className="mt-2 text-sm text-neutral-900 dark:text-neutral-200 hover:underline">
+              See all
+            </button>
+          </div>
+
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-sm bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Features</h2>
+            {["Metallic", "Plastic cover", "8GB Ram", "Super power", "Large Memory"].map((feature, idx) => (
+              <label key={feature} className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  onChange={(e) => {
+                    setFilters({ subcategoryId: e.target.checked ? idx + 1 : undefined });
+                    fetchProducts();
+                  }}
+                  className="accent-black dark:accent-neutral-900"
+                />
+                <span className="text-neutral-700 dark:text-neutral-300">{feature}</span>
+              </label>
+            ))}
+            <button className="mt-2 text-sm text-neutral-900 dark:text-neutral-200 hover:underline">
+              See all
+            </button>
+          </div>
+
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
+                    rounded-lg shadow-md bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">Price Range</h2>
+            <div className="relative h-6 mb-6">
+              <div className="absolute w-full h-1 bg-neutral-200 dark:bg-neutral-800 rounded top-1/2 -translate-y-1/2" />
+              <div
+                className="absolute h-1 bg-black dark:bg-neutral-900 rounded top-1/2 -translate-y-1/2"
+                style={{
+                  left: `${(min / 5000) * 100}%`,
+                  width: `${((max - min) / 5000) * 100}%`,
                 }}
                 className="bg-black text-white hover:bg-neutral-800"
               >

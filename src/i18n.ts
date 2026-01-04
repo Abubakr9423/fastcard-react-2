@@ -151,6 +151,8 @@ i18n
           relatedItems: "Related Items",
           loginError: "Sorry, you are not registered yet!",
           noProducts: "No products available",
+        
+          filterEmpty: ["No product is Available", "Please Change your filter"],
         },
       },
 
@@ -232,14 +234,16 @@ i18n
           womensCol: "Женские коллекции",
           womensDesc: "Коллекции для женщин с новым стилем.",
           shopNowLink: "Купить сейчас",
-
           freeDeliveryTitle: "БЕСПЛАТНАЯ И БЫСТРАЯ ДОСТАВКА",
-          freeDeliveryDesc: "Бесплатная доставка для заказов свыше $140",
+          freeDeliveryDesc: "Бесплатная доставка для всех заказов свыше $140",
           customerServiceTitle: "СЛУЖБА ПОДДЕРЖКИ 24/7",
-          customerServiceDesc: "Дружелюбная поддержка 24/7",
+          customerServiceDesc: "Дружелюбная поддержка клиентов 24/7",
           moneyBackTitle: "ГАРАНТИЯ ВОЗВРАТА ДЕНЕГ",
-          moneyBackDesc: "Возврат денег в течение 30 дней",
+          moneyBackDesc: "Мы возвращаем деньги в течение 30 дней",
+        
+          filterEmpty: ["Товары не найдены", "Пожалуйста, измените фильтр"],
 
+    
           contactTitle: "Контакты",
           callToUs: "Позвоните нам",
           callDesc: "Мы доступны 24/7, 7 дней в неделю.",
