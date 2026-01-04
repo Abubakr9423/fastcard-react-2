@@ -13,7 +13,6 @@ const ProductsDetail = () => {
   const { id } = useParams();
   const [info, setInfo] = useState<any>(null);
   const { fetchProducts } = useProductStore((state) => state);
-  const { theme } = useTheme()
   const data1 = useProductStore((state) => state.data);
   const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
@@ -29,6 +28,12 @@ const ProductsDetail = () => {
     }
   }
   const { AddToCard } = useAddToCards();
+
+  const [darkMode, setDarkMode] = useState(
+    document.documentElement.classList.contains("dark")
+  );
+
+
 
   useEffect(() => {
 
@@ -71,6 +76,16 @@ const ProductsDetail = () => {
       }, 4000);
     }
   };
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setDarkMode(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
+
 
 
   const [imgidx, setimgidx] = useState(0)
@@ -243,22 +258,14 @@ const ProductsDetail = () => {
                     <div className="flex justify-center items-baseline">
                       <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                       <NumberTicker
-                        value={
-                          e?.price > 4000
-                            ? Number(e?.price.toString().slice(0, 4)) || 0
-                            : Number(e?.price) || 0
-                        }
-                        className="text-red-600 font-bold  dark:text-blue-800"
+                        value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price.toString().split(",")[0])}
+                        className="text-red-600 font-bold dark:text-blue-800"
                       />
                     </div>
                     <div>
                       <span className="text-gray-400 dark:text-gray-500">$</span>
                       <NumberTicker
-                        value={
-                          e?.discountPrice > 4000
-                            ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
-                            : Number(e?.discountPrice) || 0
-                        }
+                        value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice.toString().split(",")[0])}
                         className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                       />
                     </div>
@@ -288,14 +295,18 @@ const ProductsDetail = () => {
       /> */}
       {/* <ToastContainer toastStyle={{ backgroundColor: "crimson" }} /> */}
       <ToastContainer
-        theme={isDarkMode ? "dark" : "light"}
-        toastStyle={{
-          backgroundColor: isDarkMode ? "#1f2937" : "crimson", // Tailwind dark:bg-neutral-800
-          color: isDarkMode ? "#f9fafb" : "#fff", // text-neutral-100
-        }}
         position="top-right"
         autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={darkMode ? "dark" : "light"} // works now
       />
+
 
 
     </div >

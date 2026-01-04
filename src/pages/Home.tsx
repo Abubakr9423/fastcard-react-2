@@ -41,7 +41,7 @@ const Home = () => {
   const { setFilters } = useProductStore((state) => state);
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
   const { t } = useTranslation();
-  
+
 
   const handleAddCart = (productId: number) => {
     if (token) {
@@ -53,6 +53,20 @@ const Home = () => {
       }, 4000);
     }
   };
+
+
+  const [darkMode, setDarkMode] = useState(
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setDarkMode(document.documentElement.classList.contains("dark"));
+    });
+    observer.observe(document.documentElement, { attributes: true });
+    return () => observer.disconnect();
+  }, []);
+
 
 
   useEffect(() => {
@@ -94,7 +108,19 @@ const Home = () => {
 
   return (
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
-      <ToastContainer />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={darkMode ? "dark" : "light"} // works now
+      />
+
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
         <aside className='md:flex hidden gap-3 flex-col items-start w-[20%]'>
           <div className="p-3 border h-80 flex flex-col w-65 rounded-lg shadow bg-white dark:bg-black text-gray-800 dark:text-white min-h-55">
@@ -191,7 +217,7 @@ const Home = () => {
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide key={e.id}>
-                  <div className="product-card border border-gray-200 dark:border-gray-700 rounded w-75 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-100 shadow">
+                  <div className="product-card border">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -228,14 +254,14 @@ const Home = () => {
                           <div className="flex justify-center items-baseline">
                             <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                             <NumberTicker
-                              value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price)}
+                              value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price.toString().split(",")[0])}
                               className="text-red-600 font-bold dark:text-blue-800"
                             />
                           </div>
                           <div>
                             <span className="text-gray-400 dark:text-gray-500">$</span>
                             <NumberTicker
-                              value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice)}
+                              value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice.toString().split(",")[0])}
                               className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                             />
                           </div>
@@ -365,20 +391,20 @@ const Home = () => {
                           <div className="flex justify-center items-baseline">
                             <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                             <NumberTicker
-                              value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price)}
+                              value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price.toString().split(",")[0])}
                               className="text-red-600 font-bold dark:text-blue-800"
                             />
                           </div>
                           <div>
                             <span className="text-gray-400 dark:text-gray-500">$</span>
                             <NumberTicker
-                              value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice)}
+                              value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice.toString().split(",")[0])}
                               className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                             />
                           </div>
                         </div>
                       ) : (
-                        <p className="text-blue-600 dark:text-blue-400 font-bold">${e.price}</p>
+                        <p className="text-blue-600 dark:text-blue-400 font-bold">${Number(e?.price.toString().split(",")[0])}</p>
                       )}
                       <p className="text-xs text-gray-400 dark:text-gray-500">{e.categoryName}</p>
                       <Rating value={4} max={5} className="my-rating" />
@@ -475,14 +501,14 @@ const Home = () => {
                       <div className="flex justify-center items-baseline">
                         <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                         <NumberTicker
-                          value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price)}
+                          value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price.toString().split(",")[0])}
                           className="text-red-600 font-bold dark:text-blue-800"
                         />
                       </div>
                       <div>
                         <span className="text-gray-400 dark:text-gray-500">$</span>
                         <NumberTicker
-                          value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice)}
+                          value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice.toString().split(",")[0])}
                           className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                         />
                       </div>
