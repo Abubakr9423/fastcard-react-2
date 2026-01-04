@@ -64,7 +64,7 @@ const ProductsDetail = () => {
               <img
                 src={`https://store-api.softclub.tj/images/${info.images[imgidx].images}`}
                 alt="Product"
-                className="w-full h-full object-contain md:object-cover transform transition duration-300 md:hover:scale-105"
+                className="w-full h-full  object-cover transform transition duration-300 md:hover:scale-105"
               />
             )}
           </div>
@@ -75,7 +75,7 @@ const ProductsDetail = () => {
                 <img
                   src={`https://store-api.softclub.tj/images/${e.images}`}
                   alt={`Thumb ${idx}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full  object-cover"
                   onClick={() => setimgidx(idx)}
                 />
               </div>
@@ -143,12 +143,12 @@ const ProductsDetail = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full max-w-[1200px]">
         {Array.isArray(data1?.products) ? (
           data1.products.map((e) => (
-            <div key={e.id} className="group border rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-              <div className="relative aspect-square bg-[#F5F5F5] flex items-center justify-center p-4">
+            <div key={e.id} className="group border rounded-xl overflow-hidden bg-white dark:bg-[#1a1a1a] shadow-sm hover:shadow-md transition-shadow">
+              <div className="relative aspect-square bg-[#F5F5F5] flex items-center justify-center">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.image}`}
                   alt={e.productName}
-                  className="w-full h-full object-contain mix-blend-multiply"
+                  className="w-full h-full object-cover"
                 />
                 <button
                   className="absolute bottom-0 left-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium"
