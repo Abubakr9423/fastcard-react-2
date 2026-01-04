@@ -81,7 +81,7 @@ const Products = () => {
 
   return (
     <>
-      <div className="flex md:flex-row flex-col justify-center md:p-10 md:px-0 px-3 md:gap-25 gap-5 items-start">
+      <div className="flex justify-evenly flex-col items-center md:flex-row md:items-start w-[800px]">
         <ToastContainer />
         <div className="flex flex-col gap-6 md:w-[300px] mx-auto">
           <Button
@@ -270,7 +270,7 @@ const Products = () => {
           </div>
         </div>
         <ToastContainer />
-        <div className="grid md:grid-cols-4 grid-cols-1 justify-items-center">
+        <div>
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
               <div
@@ -364,7 +364,7 @@ const Products = () => {
             ))
           ) : (
             <MorphingText
-              className="font-serif-[Inter] text-neutral-700 dark:text-neutral-300"
+              // className="font-serif-[Inter] text-neutral-700 dark:text-neutral-300"
               texts={["No product is Available", "Please Change your filter"]}
             />
           )}
