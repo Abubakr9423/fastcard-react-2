@@ -80,7 +80,7 @@ const Products = () => {
 
   return (
     <div className="px-3 max-w-337.5 m-auto">
-      {/* <ToastContainer theme="colored" /> */}
+      <ToastContainer theme="colored" />
       <div className="flex md:flex-row flex-col gap-8 justify-between py-3">
         <div className="flex flex-col gap-6 md:w-[350px] mx-auto">
           <Button
