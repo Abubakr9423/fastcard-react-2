@@ -328,7 +328,20 @@ export const addToWishlist = (product: Product): void => {
     if (!isExist) {
         const updatedWishlist = [...existingWishlist, product];
         localStorage.setItem('wishlist', JSON.stringify(updatedWishlist));
-        toast.success("Ба рӯйхати хоҳишҳо илова шуд");
+        toast.success("Ба рӯйхати хоҳишҳо илова шуд", {
+            style: {
+                background: "#ffffff", // white background
+                color: "#333333",      // dark text
+                fontWeight: "bold",
+            },
+        });
+        toast.success("Ба рӯйхати хоҳишҳо илова шуд", {
+            style: {
+                background: "#333333", // dark background
+                color: "#ffffff",      // white text
+                fontWeight: "bold",
+            },
+        });
     } else {
         toast.error("Ин маҳсулот аллакай илова шудааст");
     }

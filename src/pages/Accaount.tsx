@@ -2,8 +2,8 @@ import { Input } from "@/components/ui/input";
 import { editProfile, getProfileInfo, useAuthStore } from "@/store/store";
 import { GetToken } from "@/utils/axios";
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import { useFormik } from "formik";
+import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +16,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { jwtDecode } from 'jwt-decode';
 
 const Account = () => {
+  const { t } = useTranslation();
   const token = GetToken();
   const [profile, setProfile] = useState<any>(null);
   const logoutUser = useAuthStore((state) => state.logoutUser);
@@ -28,7 +30,6 @@ const Account = () => {
         try {
           const decoded: any = jwtDecode(token);
           const userId = decoded.sid;
-          console.log("Decoded userId:", userId);
 
           const data = await getProfileInfo(userId);
           setProfile(data);
@@ -36,7 +37,6 @@ const Account = () => {
           console.error("Invalid token or failed request", error);
         }
       };
-
       fetchProfile();
     }
   }, [token]);
@@ -59,11 +59,8 @@ const Account = () => {
       formdata.append("phoneNumber", values.phoneNumber);
       formdata.append("dob", values.dob);
 
-      if (values.image) {
-        formdata.append("image", values.image);
-      }
+      if (values.image) formdata.append("image", values.image);
 
-      console.log("Form submitted:", values);
       editProfile(formdata);
     },
   });
@@ -72,34 +69,35 @@ const Account = () => {
     <div className="max-w-337.5 m-auto my-10 md:px-0 px-4">
       <div>
         <h1 className="text-gray-300">
-          Home / <span className="text-black dark:text-white font-bold">My Account</span>
+          {t("link1")} /{" "}
+          <span className="text-black dark:text-white font-bold">{t("welcome")}</span>
         </h1>
       </div>
       <br />
       <section className="flex md:flex-row flex-col items-start gap-10">
         <aside className="flex items-start gap-6 flex-col md:w-[35%]">
           <div>
-            <h1 className="text-[20px] font-bold">Manage My Account</h1>
+            <h1 className="text-[20px] font-bold">{t("welcome")}</h1>
             <ul className="text-gray-400 ml-4">
-              <li className="hover:text-red-600">My Profile</li>
-              <li className="hover:text-red-600">Address Book</li>
-              <li className="hover:text-red-600">My Payment Options</li>
+              <li className="hover:text-red-600">{t("buttonlog")}</li>
+              <li className="hover:text-red-600">{t("buttonreg")}</li>
+              <li className="hover:text-red-600">{t("checkout")}</li>
             </ul>
           </div>
           <div>
-            <h1 className="text-[20px] font-bold">My Orders</h1>
+            <h1 className="text-[20px] font-bold">{t("link2")}</h1>
             <ul className="text-gray-400 ml-4 ">
-              <li className="hover:text-red-600">My Returns</li>
-              <li className="hover:text-red-600">My Cancellations</li>
+              <li className="hover:text-red-600">{t("link3")}</li>
+              <li className="hover:text-red-600">{t("link4")}</li>
             </ul>
           </div>
-          <h1 className="text-[20px] font-bold">My WishList</h1>
+          <h1 className="text-[20px] font-bold">{t("link5")}</h1>
         </aside>
 
         <aside className="md:w-[60%] shadow-sm md:px-8 px-3 py-5">
           <form onSubmit={formik.handleSubmit}>
             <label className="text-red-600 font-bold text-2xl mb-3">
-              Profile
+              {t("contactTitle")}
             </label>
             <br />
             <div className="flex justify-between md:gap-5 gap-2">
@@ -107,13 +105,13 @@ const Account = () => {
                 name="firstName"
                 value={formik.values.firstName}
                 onChange={formik.handleChange}
-                type="text"
+                placeholder={t("firstName")}
               />
               <Input
                 name="lastName"
                 value={formik.values.lastName}
                 onChange={formik.handleChange}
-                type="text"
+                placeholder={t("lastName")}
               />
             </div>
             <div className="flex justify-between my-3 md:gap-5 gap-2">
@@ -121,13 +119,13 @@ const Account = () => {
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
-                type="text"
+                placeholder={t("email")}
               />
               <Input
                 name="phoneNumber"
                 value={formik.values.phoneNumber}
                 onChange={formik.handleChange}
-                type="text"
+                placeholder={t("phoneField")}
               />
             </div>
             <div className="flex md:mt-4 mt-3 md:gap-5 gap-2">
@@ -135,25 +133,29 @@ const Account = () => {
                 type="file"
                 name="image"
                 accept="image/*"
-                onChange={(event) => {
-                  const file = event.currentTarget.files?.[0];
-                  formik.setFieldValue("image", file);
-                }}
+                onChange={(event) =>
+                  formik.setFieldValue("image", event.currentTarget.files?.[0])
+                }
               />
               <Input
                 name="dob"
                 value={formik.values.dob}
                 onChange={formik.handleChange}
-                type="text"
+                placeholder={t("dob")}
               />
             </div>
             <div className="flex justify-end gap-2 md:my-5 my-3">
-              <button type="button" className="border rounded-sm px-6.5 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 duration-200">Cancel</button>
+              <button
+                type="button"
+                className="border rounded-sm px-6.5 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 duration-200"
+              >
+                {t("cancel")}
+              </button>
               <button
                 type="submit"
                 className="bg-[#DB4444] hover:bg-[#db4444d5] duration-200  text-white px-3 py-1.5 rounded-sm"
               >
-                Save Changes
+                {t("saveChanges")}
               </button>
 
               <Dialog>
@@ -162,28 +164,28 @@ const Account = () => {
                     variant="outline"
                     className="text-[#DB4444] font-bold px-5 py-3 rounded-sm"
                   >
-                    Log Out
+                    {t("buttonlog")}
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
-                    <DialogTitle>Are you sure you want to log out?</DialogTitle>
+                    <DialogTitle>{t("pageNotFound")}</DialogTitle>
                     <DialogDescription>
-                      This will end your current session.
+                      {t("callDesc")}
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
                     <DialogClose asChild>
-                      <Button variant="outline">Cancel</Button>
+                      <Button variant="outline">{t("cancel")}</Button>
                     </DialogClose>
                     <Button
                       className="bg-[#DB4444] text-white"
                       onClick={async () => {
                         await logoutUser();
-                        window.location.href = "/"; 
+                        window.location.href = "/";
                       }}
                     >
-                      Confirm Logout
+                      {t("buttonlog")}
                     </Button>
                   </DialogFooter>
                 </DialogContent>

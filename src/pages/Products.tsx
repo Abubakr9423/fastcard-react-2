@@ -9,6 +9,7 @@ import Rating from "@/components/Rating";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { toast, ToastContainer } from "react-toastify";
 import { Button } from '@/components/ui/button';
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
   const { AddToCard } = useAddToCards();
@@ -21,6 +22,7 @@ const Products = () => {
   const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
   const token = GetToken()
 
+  const { t } = useTranslation();
   const handleAddCart = (productId: number) => {
     if (token) {
       AddToCard(productId);
@@ -82,102 +84,104 @@ const Products = () => {
     <>
       <div className="flex justify-evenly flex-col items-center md:flex-row md:items-start w-[800px]">
         <ToastContainer />
-        <div className="flex flex-col gap-6 md:w-[300px] mx-auto">
+        <div className="flex flex-col gap-6 md:w-[300px]">
+
           <Button
             onClick={() => {
               resetFilters();
               fetchProducts();
             }}
-            className="bg-black text-white hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800"
+            className="bg-black text-white hover:bg-neutral-800"
           >
-            Clear all Filters
+            {t("clearFilters")}
           </Button>
 
-          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
-                    rounded-lg shadow-sm bg-white dark:bg-black">
-            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Category</h2>
-            {Array?.isArray(isCategoria) ? (
+          {/* CATEGORY */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3">
+              {t("category")}
+            </h2>
+
+            {Array.isArray(isCategoria) ? (
               isCategoria.slice(0, slice2).map((e) => (
-                <div key={e.id}>
-                  <h1
-                    onClick={() => {
-                      setFilters({ categoryId: e.id });
-                      fetchProducts();
-                    }}
-                    className="cursor-pointer py-1 px-2 rounded 
-                         hover:bg-neutral-100 hover:text-neutral-900 
-                         dark:hover:bg-neutral-800 dark:hover:text-neutral-200 
-                         transition text-neutral-700 dark:text-neutral-300"
-                  >
-                    {e.subCategoryName}
-                  </h1>
-                </div>
+                <p
+                  key={e.id}
+                  onClick={() => {
+                    setFilters({ categoryId: e.id });
+                    fetchProducts();
+                  }}
+                  className="cursor-pointer py-1 px-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                >
+                  {e.subCategoryName}
+                </p>
               ))
             ) : (
-              <div className="flex items-center justify-center mt-10">
-                <p className="font-bold text-2xl text-neutral-700 dark:text-neutral-400">
-                  Маълумот ёфт нашуд...
-                </p>
-              </div>
+              <p className="text-center text-gray-400">
+                {t("noData")}
+              </p>
             )}
-            <button
-              onClick={handleSeeMore}
-              className="cursor-pointer py-1 px-2 rounded 
-                   hover:bg-neutral-100 hover:text-neutral-900 
-                   dark:hover:bg-neutral-800 dark:hover:text-neutral-200 
-                   transition text-neutral-700 dark:text-neutral-300"
-            >
-              See more
+
+            <button onClick={handleSeeMore} className="mt-2 text-sm underline">
+              {t("seeMore")}
             </button>
           </div>
 
-          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
-                    rounded-lg shadow-sm bg-white dark:bg-black">
-            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Brands</h2>
-            {["Samsung", "Apple", "Huawei", "Pocco", "Lenovo"].map((brand, idx) => (
-              <label key={brand} className="flex items-center gap-2 cursor-pointer">
+          {/* BRANDS */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3">
+              {t("brands")}
+            </h2>
+
+            {["samsung", "apple", "huawei", "pocco", "lenovo"].map((brand, idx) => (
+              <label key={brand} className="flex gap-2">
                 <input
                   type="checkbox"
                   onChange={(e) => {
                     setFilters({ brandId: e.target.checked ? idx + 1 : undefined });
                     fetchProducts();
                   }}
-                  className="accent-black dark:accent-neutral-900"
                 />
-                <span className="text-neutral-700 dark:text-neutral-300">{brand}</span>
+                {t(brand)}
               </label>
             ))}
-            <button className="mt-2 text-sm text-neutral-900 dark:text-neutral-200 hover:underline">
-              See all
+
+            <button className="mt-2 text-sm underline">
+              {t("seeAll")}
             </button>
           </div>
 
-          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
-                    rounded-lg shadow-sm bg-white dark:bg-black">
-            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Features</h2>
-            {["Metallic", "Plastic cover", "8GB Ram", "Super power", "Large Memory"].map((feature, idx) => (
-              <label key={feature} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    setFilters({ subcategoryId: e.target.checked ? idx + 1 : undefined });
-                    fetchProducts();
-                  }}
-                  className="accent-black dark:accent-neutral-900"
-                />
-                <span className="text-neutral-700 dark:text-neutral-300">{feature}</span>
-              </label>
-            ))}
-            <button className="mt-2 text-sm text-neutral-900 dark:text-neutral-200 hover:underline">
-              See all
-            </button>
+          {/* FEATURES */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3">
+              {t("features")}
+            </h2>
+
+            {["metallic", "plasticCover", "ram8gb", "superPower", "largeMemory"].map(
+              (feature, idx) => (
+                <label key={feature} className="flex gap-2">
+                  <input
+                    type="checkbox"
+                    onChange={(e) => {
+                      setFilters({ subcategoryId: e.target.checked ? idx + 1 : undefined });
+                      fetchProducts();
+                    }}
+                  />
+                  {t(feature)}
+                </label>
+              )
+            )}
           </div>
 
-          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
-                    rounded-lg shadow-md bg-white dark:bg-black">
-            <h2 className="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">Price Range</h2>
+          {/* PRICE */}
+          <div className="p-4 border border-neutral-200 dark:border-neutral-800 rounded-lg shadow-md bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-4 text-neutral-900 dark:text-neutral-100">
+              {t("priceRange")}
+            </h2>
+
+            {/* SLIDER */}
             <div className="relative h-6 mb-6">
               <div className="absolute w-full h-1 bg-neutral-200 dark:bg-neutral-800 rounded top-1/2 -translate-y-1/2" />
+
               <div
                 className="absolute h-1 bg-black dark:bg-neutral-900 rounded top-1/2 -translate-y-1/2"
                 style={{
@@ -185,6 +189,7 @@ const Products = () => {
                   width: `${((max - min) / 5000) * 100}%`,
                 }}
               />
+
               <input
                 type="range"
                 min="0"
@@ -195,6 +200,7 @@ const Products = () => {
                 className="absolute w-full appearance-none bg-transparent pointer-events-auto accent-black dark:accent-blue-900"
                 style={{ zIndex: 3 }}
               />
+
               <input
                 type="range"
                 min="0"
@@ -206,36 +212,41 @@ const Products = () => {
                 style={{ zIndex: 4 }}
               />
             </div>
-            <div className="flex justify-between mb-4">
+
+            {/* VALUES */}
+            <div className="flex justify-between mb-4 gap-2">
               <input
                 type="text"
-                value={min}
                 readOnly
-                className="w-1/2 mr-2 border rounded px-2 py-1 text-center 
-                     bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-200"
+                value={min}
+                className="w-1/2 border rounded px-2 py-1 text-center bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-200"
               />
               <input
                 type="text"
-                value={max}
                 readOnly
-                className="w-1/2 ml-2 border rounded px-2 py-1 text-center 
-                     bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-200"
+                value={max}
+                className="w-1/2 border rounded px-2 py-1 text-center bg-neutral-100 dark:bg-neutral-800 dark:text-neutral-200"
               />
             </div>
+
+            {/* APPLY */}
             <button
               onClick={applyPriceFilter}
-              className="w-full bg-black text-white py-2 rounded 
-                   hover:bg-neutral-800 dark:bg-neutral-900 dark:hover:bg-neutral-800 transition"
+              className="w-full bg-black text-white py-2 rounded hover:bg-neutral-800 transition"
             >
-              Apply
+              {t("apply")}
             </button>
           </div>
 
-          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
-                    rounded-lg shadow-sm bg-white dark:bg-black">
-            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Condition</h2>
-            {["Refurbished", "Brand new", "Old items"].map((condition, idx) => (
-              <label key={condition} className="flex items-center gap-2 cursor-pointer">
+
+          {/* CONDITION */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3">
+              {t("condition")}
+            </h2>
+
+            {["refurbished", "brandNew", "oldItems"].map((c, idx) => (
+              <label key={c} className="flex gap-2">
                 <input
                   type="radio"
                   name="condition"
@@ -243,31 +254,28 @@ const Products = () => {
                     setFilters({ subcategoryId: idx + 10 });
                     fetchProducts();
                   }}
-                  className="accent-black dark:accent-neutral-900"
                 />
-                <span className="text-neutral-700 dark:text-neutral-300">{condition}</span>
+                {t(c)}
               </label>
             ))}
           </div>
 
-          <div className="p-4 border border-neutral-200 dark:border-neutral-800 
-                    rounded-lg shadow-sm bg-white dark:bg-black">
-            <h2 className="text-lg font-semibold mb-3 text-neutral-900 dark:text-neutral-100">Ratings</h2>
+          {/* RATINGS */}
+          <div className="p-4 border rounded-lg bg-white dark:bg-black">
+            <h2 className="text-lg font-semibold mb-3">
+              {t("ratings")}
+            </h2>
+
             {[1, 2, 3, 4, 5].map((rating) => (
-              <label key={rating} className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  onChange={(e) => {
-                    setFilters({ colorId: e.target.checked ? rating : undefined });
-                    fetchProducts();
-                  }}
-                  className="accent-black dark:accent-neutral-900"
-                />
-                <span className="text-neutral-700 dark:text-neutral-300">{rating} Stars</span>
+              <label key={rating} className="flex gap-2">
+                <input type="checkbox" />
+                {rating} {t("stars")}
               </label>
             ))}
           </div>
+
         </div>
+
         <ToastContainer />
         <div>
           {Array.isArray(data?.products) ? (

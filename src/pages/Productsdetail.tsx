@@ -194,7 +194,6 @@ const ProductsDetail = () => {
         )}
       </div>
       <ToastContainer
-        className="dark:bg-neutral-900 dark:text-white bg-white text-black"
         theme={theme}
       />
     </div >

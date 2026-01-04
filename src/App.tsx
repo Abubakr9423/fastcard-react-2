@@ -1,6 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react"; 
 import CircularProgress from "@mui/material/CircularProgress";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
 
 const Layout = lazy(() => import("./pages/Layout"));
 const Login = lazy(() => import("./pages/Login"));
@@ -15,7 +17,6 @@ const Wishlist = lazy(() => import("./pages/Wishlist"));
 const Accaount = lazy(() => import("./pages/Accaount"));
 const Register = lazy(() => import("./pages/Register"));
 const NotFound = lazy(() => import("./pages/NotFound"));
-// const Text = lazy(() => import("./pages/text"));
 
 const Loader = () => (
   <div className="flex justify-center items-center h-screen">
@@ -24,6 +25,12 @@ const Loader = () => (
 );
 
 const App = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    setIsDarkMode(document.documentElement.classList.contains("dark"));
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -50,7 +57,28 @@ const App = () => {
     }
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme={isDarkMode ? "dark" : "light"} 
+        toastStyle={{
+          background: isDarkMode ? "#1F2937" : "#ffffff", 
+          color: isDarkMode ? "#F9FAFB" : "#111827",      
+          fontWeight: "bold",
+        }}
+      />
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default App;
