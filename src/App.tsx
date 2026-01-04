@@ -45,7 +45,7 @@ const App = () => {
         { path: "/account", element: <Suspense fallback={<Loader />}><Accaount /></Suspense> },
         { path: "/register", element: <Suspense fallback={<Loader />}><Register /></Suspense> },
         { path: "/notfound", element: <Suspense fallback={<Loader />}><NotFound /></Suspense> },
-        // { path: "/test", element: <Suspense fallback={<Loader />}><Text /></Suspense> }
+        { path: "*", element: <Suspense fallback={<Loader />}><NotFound /></Suspense> },
       ]
     }
   ]);

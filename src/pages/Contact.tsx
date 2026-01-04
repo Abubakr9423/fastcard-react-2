@@ -6,7 +6,7 @@ const Contact = () => {
   return (
     <div className="max-w-337.5 m-auto my-10 md:px-0 px-4">
       <div>
-        <h1 className="text-gray-300">Home / <span className="text-black">Cantact</span></h1>
+        <h1 className="text-gray-300">Home / <span className="text-black dark:text-white font-bold">Cantact</span></h1>
       </div><br />
       <section className="flex md:flex-row flex-col items-start  gap-10">
         <aside className="flex items-start gap-6 flex-col md:w-[35%]">
@@ -33,7 +33,7 @@ const Contact = () => {
           <h1 className="text-[18px] font-bold">Emails: support@exclusive.com</h1>
         </aside>
 
-        <aside className="md:w-[60%] shadow-sm md:px-8 px-3 py-5">
+        <aside className="md:w-[60%] dark:border rounded-sm shadow-sm md:px-8 px-3 py-5">
           <form action="">
             <div className="flex justify-between md:gap-10 gap-2">
               <Input placeholder="Name" type="text" />

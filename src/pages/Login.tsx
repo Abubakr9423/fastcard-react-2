@@ -7,11 +7,14 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { MagicCard } from '@/components/ui/magic-card';
 import { useTheme } from '@/components/theme-provider';
 import { useAuthStore } from '@/store/store';
+import { useEffect } from 'react';
+import { GetToken } from '@/utils/axios';
 
 
 const Login = () => {
 
     const navigate = useNavigate()
+
     const { theme } = useTheme()
 
     const loginUser = useAuthStore((state: any) => state.loginUser);
@@ -27,6 +30,12 @@ const Login = () => {
             navigate("/home");
         }
     });
+    useEffect(() => {
+        const token = GetToken()
+        if (token) {
+            navigate('/home')
+        }
+    })
 
 
     return (

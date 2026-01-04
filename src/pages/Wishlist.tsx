@@ -34,21 +34,24 @@ const Wishlist = () => {
   };
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    setItems(data);
     fetchProducts()
   }, []);
 
-  useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    setWishlistIds(data.map((item: any) => item.id));
-  }, []);
-
   const handleWishlist = (product: any) => {
-    toggleWishlist(product);
-    const data = JSON.parse(localStorage.getItem('wishlist') || '[]');
-    setWishlistIds(data.map((item: any) => item.id));
+    const exists = items.find(item => item.id === product.id);
+
+    let updated;
+    if (exists) {
+      updated = items.filter(item => item.id !== product.id);
+    } else {
+      updated = [...items, product];
+    }
+
+    setItems(updated);
+    setWishlistIds(updated.map(item => item.id));
+    localStorage.setItem("wishlist", JSON.stringify(updated));
   };
+
 
   const removeFromWishlist = (id: number) => {
     const filtered = items.filter(item => item.id !== id);
