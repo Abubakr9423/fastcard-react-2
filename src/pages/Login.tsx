@@ -9,11 +9,14 @@ import { useTheme } from '@/components/theme-provider';
 import { useAuthStore } from '@/store/store';
 import { useEffect } from 'react';
 import { GetToken } from '@/utils/axios';
+import { useTranslation } from 'react-i18next';
 
 
 const Login = () => {
 
     const navigate = useNavigate()
+    const { t, i18n } = useTranslation();
+
 
     const { theme } = useTheme()
 
@@ -41,13 +44,14 @@ const Login = () => {
     return (
         <>
             <Card className='m-auto flex items-center border-none shadow-none'>
+
                 <MagicCard
                     gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-                    className="p-0 w-[350px] md:w-full h-[400px] md:h-[650px] flex flex-col justify-evenly "
+                    className="p-0 w-[350px] md:w-full h-[400px] md:h-[650px] gap-12  flex flex-col justify-evenly "
                 >
                     <CardHeader className="">
-                        <CardTitle>
-                            <MorphingText className='font-serif-[Inter]' texts={["Welcome", "Please Log in"]} />
+                        <CardTitle className='mb-25'>
+                            <MorphingText className='font-serif-[Inter]' texts={[t("welcome"), t("welcome1")]} />
                         </CardTitle>
                     </CardHeader>
                     <CardContent className="p-4">
@@ -55,9 +59,9 @@ const Login = () => {
                             <Input name='email' onChange={handleChange} value={values.email} className='md:w-[420px] mt-10 md:mt-0 border-gray-600' type="text" placeholder='rimel1111@gmail.com' />
                             <Input name='password' onChange={handleChange} value={values.password} className='md:w-[420px] border-gray-600' type="password" placeholder='**********' />
                             <div className='flex gap-5'>
-                                <Button disabled={loading} type='submit'>Log in</Button>
+                                <Button disabled={loading} type='submit'>{[t("buttonlog")]}</Button>
                                 <Link to='/register'>
-                                    <Button>Registrate</Button>
+                                    <Button>{[t("buttonreg")]}</Button>
                                 </Link>
                             </div>
                             {error && <p className="text-red-500">{error}</p>}
