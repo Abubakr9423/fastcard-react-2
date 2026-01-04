@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { addToWishlist, useAddToCards, useProductStore } from "@/store/store";
 import Rating from "@mui/material/Rating";
-import { toast, ToastContainer } from "react-toastify";
+import {ToastContainer } from "react-toastify";
 import "../App.css"
+import { useTheme } from "@emotion/react";
 
 const ProductsDetail = () => {
   const { id } = useParams();
   const [info, setInfo] = useState<any>(null);
   const { fetchProducts } = useProductStore((state) => state);
+  const { theme } = useTheme()
   const data1 = useProductStore((state) => state.data);
 
   async function getById() {
@@ -48,7 +50,7 @@ const ProductsDetail = () => {
         <div className="flex md:flex-row flex-col justify-center md:gap-10 gap-5 items-center md:p-20 p-4 w-full">
           <div className="hidden md:flex md:flex-col gap-5">
             {info.images?.map((e: any, idx: any) => (
-              <div key={idx} className="md:w-42.5 md:h-34.5 rounded-lg bg-[#F5F5F5] overflow-hidden cursor-pointer">
+              <div key={idx} className="md:w-42.5 md:h-34.5 rounded-lg bg-[#F5F5F5] dark:bg-[#1a1a1a] overflow-hidden cursor-pointer">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.images}`}
                   alt={`Product ${idx}`}
@@ -59,23 +61,23 @@ const ProductsDetail = () => {
             ))}
           </div>
 
-          <div className="w-full max-w-[550px] md:w-205 md:h-150 aspect-square md:aspect-auto rounded-lg flex justify-center items-center bg-[#F5F5F5] overflow-hidden">
+          <div className="w-full max-w-[550px] md:w-205 md:h-150 aspect-square md:aspect-auto rounded-lg flex justify-center items-center bg-[#F5F5F5] dark:bg-[#1a1a1a] overflow-hidden">
             {info.images?.[imgidx] && (
               <img
                 src={`https://store-api.softclub.tj/images/${info.images[imgidx].images}`}
                 alt="Product"
-                className="w-full h-full  object-cover transform transition duration-300 md:hover:scale-105"
+                className="w-full h-full object-contain md:object-cover transform transition duration-300 md:hover:scale-105"
               />
             )}
           </div>
 
           <div className="flex flex-row md:hidden gap-2 overflow-x-auto w-full px-2 pb-2">
             {info.images?.map((e: any, idx: any) => (
-              <div key={idx} className="min-w-[80px] h-20 rounded-md bg-[#F5F5F5] overflow-hidden border border-gray-200">
+              <div key={idx} className="min-w-[80px] h-20 rounded-md bg-[#F5F5F5] dark:bg-[black] overflow-hidden border border-gray-200">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.images}`}
                   alt={`Thumb ${idx}`}
-                  className="w-full h-full  object-cover"
+                  className="w-full h-full object-cover"
                   onClick={() => setimgidx(idx)}
                 />
               </div>
@@ -143,12 +145,12 @@ const ProductsDetail = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-4 w-full max-w-[1200px]">
         {Array.isArray(data1?.products) ? (
           data1.products.map((e) => (
-            <div key={e.id} className="group border rounded-xl overflow-hidden bg-white dark:bg-[#1a1a1a] shadow-sm hover:shadow-md transition-shadow">
-              <div className="relative aspect-square bg-[#F5F5F5] flex items-center justify-center">
+            <div key={e.id} className="group border rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+              <div className="relative aspect-square bg-[#F5F5F5] flex items-center justify-center p-4">
                 <img
                   src={`https://store-api.softclub.tj/images/${e.image}`}
                   alt={e.productName}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain mix-blend-multiply"
                 />
                 <button
                   className="absolute bottom-0 left-0 w-full bg-black text-white py-2 opacity-0 group-hover:opacity-100 transition-opacity text-sm font-medium"
@@ -191,7 +193,10 @@ const ProductsDetail = () => {
           </div>
         )}
       </div>
-      <ToastContainer />
+      <ToastContainer
+        className="dark:bg-neutral-900 dark:text-white bg-white text-black"
+        theme={theme}
+      />
     </div >
   );
 };
