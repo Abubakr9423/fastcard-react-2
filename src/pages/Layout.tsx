@@ -76,7 +76,6 @@ const Layout = () => {
             <Link to="/products">{t("link2")}</Link>
             <Link to="/contact">{t("link3")}</Link>
             <Link to="/about">{t("link4")}</Link>
-            <Link to="/notfound">{t("link6")}</Link>
             {!token && <Link to="/register">{t("link5")}</Link>}
           </div>
 
