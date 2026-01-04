@@ -26,6 +26,7 @@ import { NumberTicker } from '@/components/ui/number-ticker'
 import { useRef } from "react";
 import type { Swiper as SwiperType } from "swiper";
 import { toast, ToastContainer } from 'react-toastify'
+import { useTranslation } from "react-i18next";
 
 
 const Home = () => {
@@ -39,6 +40,7 @@ const Home = () => {
   const errorForBuy = () => toast("Бубахшед шумо то хол худро ба кайд нагирифтаuд!");
   const { setFilters } = useProductStore((state) => state);
   const [wishlistIds, setWishlistIds] = useState<number[]>([]);
+  const { t } = useTranslation();
 
   const handleAddCart = (productId: number) => {
     if (token) {
@@ -93,22 +95,14 @@ const Home = () => {
     <main className='max-w-337.5 m-auto my-2 md:px-0 px-3'>
       <ToastContainer />
       <section className='flex mt-5 mb-8 md:flex-row flex-col gap-5'>
-        <aside className='md:flex hidden gap-3 flex-col  items-start  w-[20%]'>
-          <div className="p-3 border h-80 flex flex-col w-65 rounded-lg shadow 
-                bg-white dark:bg-black 
-                text-gray-800 dark:text-white 
-                min-h-55">
-            <h2 className="text-base font-semibold mb-2 
-                 text-gray-700 dark:text-gray-200">
-              Category
+        <aside className='md:flex hidden gap-3 flex-col items-start w-[20%]'>
+          <div className="p-3 border h-80 flex flex-col w-65 rounded-lg shadow bg-white dark:bg-black text-gray-800 dark:text-white min-h-55">
+            <h2 className="text-base font-semibold mb-2 text-gray-700 dark:text-gray-200">
+              {t("category")}
             </h2>
 
             {Array.isArray(isCategoria) ? (
-              <div
-                className="space-y-1 overflow-y-auto overflow-x-hidden max-h-65 
-               scrollbar-thin scrollbar-thumb-blue-400 
-               scrollbar-track-gray-100 dark:scrollbar-track-gray-700"
-              >
+              <div className="space-y-1 overflow-y-auto overflow-x-hidden max-h-65 scrollbar-thin scrollbar-thumb-blue-400 scrollbar-track-gray-100 dark:scrollbar-track-gray-700">
                 {isCategoria.map((e) => (
                   <h1
                     key={e.id}
@@ -117,12 +111,7 @@ const Home = () => {
                       naviget("/products");
                       fetchProducts();
                     }}
-                    className="cursor-pointer py-1 px-2 rounded-md 
-                   hover:bg-blue-100 hover:text-blue-600 
-                   dark:hover:bg-blue-900 dark:hover:text-blue-300
-                   transition-all duration-300 ease-in-out 
-                   transform hover:scale-105 
-                   text-gray-800 dark:text-gray-100"
+                    className="cursor-pointer py-1 px-2 rounded-md hover:bg-blue-100 hover:text-blue-600 dark:hover:bg-blue-900 dark:hover:text-blue-300 transition-all duration-300 ease-in-out transform hover:scale-105 text-gray-800 dark:text-gray-100"
                   >
                     {e.subCategoryName}
                   </h1>
@@ -130,9 +119,8 @@ const Home = () => {
               </div>
             ) : (
               <div className="flex items-center justify-center mt-6">
-                <p className="font-medium text-sm 
-                 text-gray-500 dark:text-gray-400 animate-pulse">
-                  Маълумот ёфт нашуд...
+                <p className="font-medium text-sm text-gray-500 dark:text-gray-400 animate-pulse">
+                  {t("noData")}
                 </p>
               </div>
             )}
@@ -140,43 +128,43 @@ const Home = () => {
         </aside>
 
         <aside className='my-2 md:hidden block'>
-          <Input type="text" className='px-2' placeholder='Search' />
+          <Input type="text" className='px-2' placeholder={t("search")} />
           <div className='flex flex-wrap my-2 gap-2'>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>Woman’s Fashion {'->'}</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Men’s Fashion {'->'}</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Electronics</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Home & Lifestyle</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Medicine</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Sports & Outdoor</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Baby’s & Toys</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Groceries & Pets</p>
-            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a]  '>Health & Beauty</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("womanFashion")} {'->'}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("menFashion")} {'->'}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("electronics")}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("homeLifestyle")}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("medicine")}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("sportsOutdoor")}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("babyToys")}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("groceriesPets")}</p>
+            <p className='px-2 py-2 rounded-sm bg-[#F5F5F5] dark:bg-[#1a1a1a] '>{t("healthBeauty")}</p>
           </div>
         </aside>
 
         <SwipperHeader />
       </section>
       <section className='my-5'>
-        <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
-          <p className='font-bold text-xl'>Today’s</p>
+        <div className='text-[#DB4444] flex items-center gap-2'>
+          <div className='bg-[#DB4444] rounded-lg py-2 px-1 '>.</div>
+          <p className='font-bold text-xl'>{t("todays")}</p>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
           <div className='flex md:flex-row flex-col md:items-center md:gap-25'>
-            <h1 className='text-5xl font-bold'>Flash Sales</h1>
+            <h1 className='text-5xl font-bold'>{t("flashSales")}</h1>
             <div className='flex items-center gap-2'>
               <div>
-                <p className='font-bold'>Hours</p>
+                <p className='font-bold'>{t("hours")}</p>
                 <h1 className='text-5xl font-bold'>{timeLeft.hours}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
-                <p className='font-bold'>Minutes</p>
+                <p className='font-bold'>{t("minutes")}</p>
                 <h1 className='text-5xl font-bold'>{timeLeft.minutes}</h1>
               </div>
               <span className='text-3xl font-bold mt-5 text-[#DB4444]'>:</span>
               <div>
-                <p className='font-bold'>Seconds</p>
+                <p className='font-bold'>{t("seconds")}</p>
                 <h1 className='text-5xl font-bold'>{timeLeft.seconds}</h1>
               </div>
             </div>
@@ -202,9 +190,7 @@ const Home = () => {
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide key={e.id}>
-                  <div className="product-card border border-gray-200 dark:border-gray-700 
-                          rounded w-75 bg-white dark:bg-[#1a1a1a]
-                          text-gray-800 dark:text-gray-100 shadow">
+                  <div className="product-card border border-gray-200 dark:border-gray-700 rounded w-75 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-100 shadow">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -212,76 +198,51 @@ const Home = () => {
                         className="w-full object-cover h-32 mx-auto rounded-t"
                       />
                       <button
-                        className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded 
-                           hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 
-                           transition-colors shadow-md dark:shadow-sm"
+                        className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 transition-colors shadow-md dark:shadow-sm"
                         onClick={() => handleAddCart(e.id)}
                       >
-                        Add to Cart
+                        {t("addToCart")}
                       </button>
-
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
-                          className=" bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
+                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
                           <Heart
                             size={20}
-                            className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-400 dark:text-gray-300"
-                              }`}
+                            className={`transition-colors duration-300 ${wishlistIds.includes(e.id) ? "fill-red-500 text-red-500" : "text-gray-400 dark:text-gray-300"}`}
                           />
                         </button>
-
                         <Link
                           to={`/productsdetail/${e.id}`}
-                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform
-    "
+                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform"
                         >
                           <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </Link>
                       </div>
-
                     </div>
-
                     <div className="info mt-3 text-start">
-                      <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
-
+                      <h1 className="text-lg font-semibold dark:text-blue-800">{e.productName}</h1>
                       {e.hasDiscount ? (
                         <div className="flex gap-3 items-end">
                           <div className="flex justify-center items-baseline">
                             <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                             <NumberTicker
-                              value={
-                                e?.price > 4000
-                                  ? Number(e?.price.toString().slice(0, 4)) || 0
-                                  : Number(e?.price) || 0
-                              }
-                              className="text-red-600 font-bold  dark:text-blue-800"
+                              value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price)}
+                              className="text-red-600 font-bold dark:text-blue-800"
                             />
                           </div>
                           <div>
                             <span className="text-gray-400 dark:text-gray-500">$</span>
                             <NumberTicker
-                              value={
-                                e?.discountPrice > 4000
-                                  ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
-                                  : Number(e?.discountPrice) || 0
-                              }
+                              value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice)}
                               className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                             />
                           </div>
                         </div>
                       ) : (
-                        <p className="text-blue-600 dark:text-blue-400 font-bold">
-                          ${e.price}
-                        </p>
+                        <p className="text-blue-600 dark:text-blue-400 font-bold">${e.price}</p>
                       )}
-
-                      <p className="text-xs text-gray-400 dark:text-gray-500">
-                        {e.categoryName}
-                      </p>
-
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{e.categoryName}</p>
                       <Rating value={4} max={5} className="my-rating" />
                     </div>
                   </div>
@@ -290,24 +251,26 @@ const Home = () => {
             ) : (
               <div className="flex items-center justify-center mt-10">
                 <p className="font-bold text-2xl text-gray-700 dark:text-gray-300 animate-pulse">
-                  Маълумот ёфт нашуд...
+                  {t("noData")}
                 </p>
               </div>
             )}
           </Swiper>
         </div>
         <div className='flex py-5 justify-center'>
-          <button className='bg-[#DB4444] rounded-sm px-3 py-2 text-white' onClick={() => naviget('/products')}>View All Products</button>
+          <button className='bg-[#DB4444] rounded-sm px-3 py-2 text-white' onClick={() => naviget('/products')}>
+            {t("viewAll")}
+          </button>
         </div>
       </section>
       <section className='my-8'>
-        <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
-          <p className='font-bold text-xl'>Categories</p>
+        <div className='text-[#DB4444] flex items-center gap-2'>
+          <div className='bg-[#DB4444] rounded-lg py-2 px-1 '>.</div>
+          <p className='font-bold text-xl'>{t("categories")}</p>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
           <div className='flex md:flex-row flex-col md:items-center md:gap-25'>
-            <h1 className='text-4xl font-bold'>Browse By Category</h1>
+            <h1 className='text-4xl font-bold'>{t("browseByCategory")}</h1>
           </div>
           <div className='md:flex hidden items-center gap-2'>
             <button className='bg-[#F5F5F5] dark:bg-[#1a1a1a] rounded-full p-4' onClick={() => swiperRef2.current?.slidePrev()}><MoveLeft /></button>
@@ -320,18 +283,9 @@ const Home = () => {
             spaceBetween={10}
             onSwiper={(swiper) => (swiperRef2.current = swiper)}
             breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 4,
-                spaceBetween: 40,
-              },
-              1024: {
-                slidesPerView: 6,
-                spaceBetween: 50,
-              },
+              640: { slidesPerView: 2, spaceBetween: 20 },
+              768: { slidesPerView: 4, spaceBetween: 40 },
+              1024: { slidesPerView: 6, spaceBetween: 50 },
             }}
             modules={[Pagination]}
             className="mySwiper"
@@ -339,10 +293,7 @@ const Home = () => {
             {Array.isArray(isCategoria) ? (
               isCategoria.map((e) => (
                 <SwiperSlide key={e.id}>
-                  <div
-
-                    className='border hover:bg-[#DB4444] transition-colors duration-500 hover:text-white rounded-sm py-5 px-3 w-40 h-30 flex flex-col items-center justify-center'
-                  >
+                  <div className='border hover:bg-[#DB4444] transition-colors duration-500 hover:text-white rounded-sm py-5 px-3 w-40 h-30 flex flex-col items-center justify-center cursor-pointer'>
                     <span className='text-[17px] font-bold text-center'>
                       {e.subCategoryName}
                     </span>
@@ -351,41 +302,32 @@ const Home = () => {
               ))
             ) : (
               <div className='flex items-center justify-center mt-10'>
-                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+                <p className='font-bold text-2xl'>{t("noData")}</p>
               </div>
             )}
           </Swiper>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
-          <h1 className='text-4xl font-bold'>Best Selling Products</h1>
-          <button className='bg-[#DB4444] px-3 py-2 rounded-sm text-white' onClick={() => naviget('/products')}>View All</button>
+          <h1 className='text-4xl font-bold'>{t("bestSelling")}</h1>
+          <button className='bg-[#DB4444] px-3 py-2 rounded-sm text-white' onClick={() => naviget('/products')}>
+            {t("viewAllBtn")}
+          </button>
         </div>
         <div className='my-5'>
           <Swiper
             slidesPerView={1}
             spaceBetween={2}
             breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              768: {
-                slidesPerView: 2,
-                spaceBetween: 50,
-              },
-              1024: {
-                slidesPerView: 4,
-                spaceBetween: 10,
-              },
+              640: { slidesPerView: 2, spaceBetween: 20 },
+              768: { slidesPerView: 2, spaceBetween: 50 },
+              1024: { slidesPerView: 4, spaceBetween: 10 },
             }}
             modules={[Pagination]}
             className="mySwiper">
             {Array.isArray(data?.products) ? (
               data.products.map((e) => (
                 <SwiperSlide key={e.id}>
-                  <div className="product-card border border-gray-200 dark:border-gray-700 
-                          rounded w-64 bg-white dark:bg-[#1a1a1a]
-                          text-gray-800 dark:text-gray-100 shadow">
+                  <div className="product-card border border-gray-200 dark:border-gray-700 rounded w-64 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-100 shadow">
                     <div className="image-container relative">
                       <img
                         src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -393,76 +335,51 @@ const Home = () => {
                         className="w-full object-cover h-32 mx-auto rounded-t"
                       />
                       <button
-                        className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded 
-                           hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 
-                           transition-colors shadow-md dark:shadow-sm"
+                        className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 transition-colors shadow-md dark:shadow-sm"
                         onClick={() => handleAddCart(e.id)}
                       >
-                        Add to Cart
+                        {t("addToCart")}
                       </button>
-
                       <div className="absolute top-2 right-2 flex flex-col gap-2">
                         <button
                           onClick={() => handleWishlist(e)}
-                          className=" bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
+                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
                           <Heart
                             size={20}
-                            className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                              ? "fill-red-500 text-red-500"
-                              : "text-gray-400 dark:text-gray-300"
-                              }`}
+                            className={`transition-colors duration-300 ${wishlistIds.includes(e.id) ? "fill-red-500 text-red-500" : "text-gray-400 dark:text-gray-300"}`}
                           />
                         </button>
-
                         <Link
                           to={`/productsdetail/${e.id}`}
-                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform
-    "
+                          className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform"
                         >
                           <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </Link>
                       </div>
-
                     </div>
-
-                    <div className="info mt-3 text-start">
-                      <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
-
+                    <div className="info mt-3 text-start px-2 pb-2">
+                      <h1 className="text-lg font-semibold dark:text-blue-800 truncate">{e.productName}</h1>
                       {e.hasDiscount ? (
                         <div className="flex gap-3 items-end">
                           <div className="flex justify-center items-baseline">
                             <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                             <NumberTicker
-                              value={
-                                e?.price > 4000
-                                  ? Number(e?.price.toString().slice(0, 4)) || 0
-                                  : Number(e?.price) || 0
-                              }
-                              className="text-red-600 font-bold  dark:text-blue-800"
+                              value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price)}
+                              className="text-red-600 font-bold dark:text-blue-800"
                             />
                           </div>
                           <div>
                             <span className="text-gray-400 dark:text-gray-500">$</span>
                             <NumberTicker
-                              value={
-                                e?.discountPrice > 4000
-                                  ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
-                                  : Number(e?.discountPrice) || 0
-                              }
+                              value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice)}
                               className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                             />
                           </div>
                         </div>
                       ) : (
-                        <p className="text-blue-600 dark:text-blue-400 font-bold">
-                          ${e.price}
-                        </p>
+                        <p className="text-blue-600 dark:text-blue-400 font-bold">${e.price}</p>
                       )}
-
-                      <p className="text-xs text-gray-400 dark:text-gray-500">
-                        {e.categoryName}
-                      </p>
-
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{e.categoryName}</p>
                       <Rating value={4} max={5} className="my-rating" />
                     </div>
                   </div>
@@ -470,53 +387,53 @@ const Home = () => {
               ))
             ) : (
               <div className='flex items-center justify-center mt-10'>
-                <p className='font-bold text-2xl'>Маълумот ёфт нашуд...</p>
+                <p className='font-bold text-2xl'>{t("noData")}</p>
               </div>
             )}
           </Swiper>
-        </div >
-      </section >
+        </div>
+      </section>
       <section className='bg-[#000000] flex md:flex-row flex-col items-center justify-between text-white rounded-sm md:p-10 p-5'>
         <aside className='flex flex-col items-start gap-5 md:w-[50%]'>
-          <p className='text-[#00FF66]'>Categories</p>
-          <h1 className='text-6xl'>Enhance Your Music Experience</h1>
+          <p className='text-[#00FF66]'>{t("categories")}</p>
+          <h1 className='text-6xl font-bold'>{t("enhanceMusic")}</h1>
           <div className='text-black text-center flex gap-2'>
-            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-2'>
+            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-3'>
               <p className='font-bold'>{timeLeft.hours}</p>
-              <p>Hours</p>
+              <p className='text-xs'>{t("hours")}</p>
             </div>
-            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-2'>
+            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-3'>
               <p className='font-bold'>{timeLeft.minutes}</p>
-              <p>Minutes</p>
+              <p className='text-xs'>{t("minutes")}</p>
             </div>
-            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-1'>
+            <div className='bg-white dark:bg-[#a1a1a1] rounded-full w-19 h-18 p-3'>
               <p className='font-bold'>{timeLeft.seconds}</p>
-              <p>Seconds</p>
+              <p className='text-xs'>{t("seconds")}</p>
             </div>
           </div>
-          <button className='bg-[#00FF66] text-black rounded-sm px-8 py-3 font-bold'>Buy Now!</button>
+          <button className='bg-[#00FF66] text-black rounded-sm px-8 py-3 font-bold hover:bg-[#00e65c] transition-colors'>
+            {t("buyNow")}
+          </button>
         </aside>
-        <aside className='md:w-[50%]'>
-          <img src={img1} alt="" />
+        <aside className='md:w-[50%] mt-8 md:mt-0'>
+          <img src={img1} alt="Promotion" className="w-full h-auto object-contain" />
         </aside>
       </section>
       <section className='my-8'>
-        <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
-          <p className='font-bold text-xl'>Our Products</p>
+        <div className='text-[#DB4444] flex items-center gap-2'>
+          <div className='bg-[#DB4444] rounded-lg py-2 px-1 '>.</div>
+          <p className='font-bold text-xl'>{t("ourProducts")}</p>
         </div>
         <div className='flex md:my-0 my-5 md:items-center md:flex-row flex-col justify-between'>
           <div className='flex md:flex-row flex-col md:items-center md:gap-25'>
-            <h1 className='text-4xl font-bold'>Explore Our Products</h1>
+            <h1 className='text-4xl font-bold'>{t("exploreProducts")}</h1>
           </div>
         </div>
 
-        <div className='my-5 grid md:grid-cols-4 grid-cols-1  justify-items-center md:gap-3'>
+        <div className='my-5 grid md:grid-cols-4 grid-cols-1 justify-items-center md:gap-3'>
           {Array.isArray(data?.products) ? (
             data.products.map((e) => (
-              <div className="product-card border border-gray-200 dark:border-gray-700 
-                          rounded w-64 bg-white dark:bg-[#1a1a1a]
-                          text-gray-800 dark:text-gray-100 shadow">
+              <div key={e.id} className="product-card border border-gray-200 dark:border-gray-700 rounded w-64 bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-100 shadow">
                 <div className="image-container relative">
                   <img
                     src={`https://store-api.softclub.tj/images/${e.image}`}
@@ -524,70 +441,53 @@ const Home = () => {
                     className="w-full object-cover h-32 mx-auto rounded-t"
                   />
                   <button
-                    className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded 
-                           hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 
-                           transition-colors shadow-md dark:shadow-sm"
+                    className="add-to-cart bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-400 transition-colors shadow-md dark:shadow-sm"
                     onClick={() => handleAddCart(e.id)}
                   >
-                    Add to Cart
+                    {t("addToCart")}
                   </button>
 
                   <div className="absolute top-2 right-2 flex flex-col gap-2">
                     <button
                       onClick={() => handleWishlist(e)}
-                      className=" bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform">
+                      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md hover:scale-110 transition-transform">
                       <Heart
                         size={20}
-                        className={`transition-colors duration-300 ${wishlistIds.includes(e.id)
-                          ? "fill-red-500 text-red-500"
-                          : "text-gray-400 dark:text-gray-300"
-                          }`}
+                        className={`transition-colors duration-300 ${wishlistIds.includes(e.id) ? "fill-red-500 text-red-500" : "text-gray-400 dark:text-gray-300"}`}
                       />
                     </button>
 
                     <Link
                       to={`/productsdetail/${e.id}`}
-                      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md dark:shadow-black/40 hover:scale-110 transition-transform
-    "
+                      className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-full p-2 shadow-md hover:scale-110 transition-transform"
                     >
                       <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                     </Link>
                   </div>
-
                 </div>
 
-                <div className="info mt-3 text-start">
-                  <h1 className="text-lg font-semibold  dark:text-blue-800">{e.productName}</h1>
+                <div className="info mt-3 text-start px-2 pb-2">
+                  <h1 className="text-lg font-semibold dark:text-blue-800 truncate">{e.productName}</h1>
 
                   {e.hasDiscount ? (
                     <div className="flex gap-3 items-end">
                       <div className="flex justify-center items-baseline">
                         <span className="text-red-600 dark:text-blue-800 font-bold">$</span>
                         <NumberTicker
-                          value={
-                            e?.price > 4000
-                              ? Number(e?.price.toString().slice(0, 4)) || 0
-                              : Number(e?.price) || 0
-                          }
-                          className="text-red-600 font-bold  dark:text-blue-800"
+                          value={e?.price > 4000 ? Number(e?.price.toString().slice(0, 4)) : Number(e?.price)}
+                          className="text-red-600 font-bold dark:text-blue-800"
                         />
                       </div>
                       <div>
                         <span className="text-gray-400 dark:text-gray-500">$</span>
                         <NumberTicker
-                          value={
-                            e?.discountPrice > 4000
-                              ? Number(e?.discountPrice.toString().slice(0, 4)) || 0
-                              : Number(e?.discountPrice) || 0
-                          }
+                          value={e?.discountPrice > 4000 ? Number(e?.discountPrice.toString().slice(0, 4)) : Number(e?.discountPrice)}
                           className="line-through text-gray-500 dark:text-gray-400 opacity-80"
                         />
                       </div>
                     </div>
                   ) : (
-                    <p className="text-blue-600 dark:text-blue-400 font-bold">
-                      ${e.price}
-                    </p>
+                    <p className="text-blue-600 dark:text-blue-400 font-bold">${e.price}</p>
                   )}
 
                   <p className="text-xs text-gray-400 dark:text-gray-500">
@@ -599,19 +499,26 @@ const Home = () => {
               </div>
             ))
           ) : (
-            <p>Маълумот ёфт нашуд...</p>
+            <p className="col-span-4 text-center py-10 font-bold text-xl">{t("noData")}</p>
           )}
         </div>
+
         <div className='flex justify-center'>
-          <button className='px-5 py-2 rounded-sm text-white bg-[#DB4444]' onClick={() => naviget('/products')}>View All Products</button>
+          <button
+            className='px-5 py-2 rounded-sm text-white bg-[#DB4444] hover:bg-[#c13e3e] transition-colors'
+            onClick={() => naviget('/products')}
+          >
+            {t("viewAll")}
+          </button>
         </div>
       </section>
       <section>
-        <div className='text-[#DB4444]  flex items-center gap-2'>
-          <div className='bg-[#DB4444] rounded-lg  py-2 px-1'>O</div>
-          <p className='font-bold text-xl'>Featured</p>
+        <div className='text-[#DB4444] flex items-center gap-2'>
+          <div className='bg-[#DB4444] rounded-lg py-2 px-1 '>.</div>
+          <p className='font-bold text-xl'>{t("featured")}</p>
         </div>
-        <h1 className='text-4xl font-bold'>New Arrival</h1>
+        <h1 className='text-4xl font-bold mb-5'>{t("newArrival")}</h1>
+
         <div className='flex md:flex-row flex-col gap-1'>
           <aside
             style={{
@@ -619,37 +526,40 @@ const Home = () => {
             }}
             className='md:w-[50%] bg-black p-8 text-white bg-cover bg-center md:h-150 flex flex-col justify-end rounded-lg'>
             <div className='max-w-62.5 space-y-2'>
-              <h1 className='text-3xl font-bold tracking-wider'>PlayStation 5</h1>
+              <h1 className='text-3xl font-bold tracking-wider'>{t("ps5Title")}</h1>
               <p className='text-sm text-gray-200'>
-                Black and White version of the PS5 coming out on sale.
+                {t("ps5Desc")}
               </p>
               <button className='mt-2 font-semibold border-b-2 border-white w-fit hover:text-gray-300 hover:border-gray-300 transition-all'>
-                Shop Now
+                {t("shopNowLink")}
               </button>
             </div>
           </aside>
+
           <aside className='flex flex-col gap-1 md:w-[50%]'>
             <div
               style={{
                 backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img6}')`
               }}
-              className=' bg-black p-8 text-white bg-cover bg-center md:h-75  w-full flex flex-col justify-end rounded-lg'>
-              <h1 className='text-2xl font-bold'>Women’s Collections</h1>
-              <p>Featured woman collections that give you another vibe.</p>
-              <h1>Shop Now</h1>
+              className='bg-black p-8 text-white bg-cover bg-center md:h-75 w-full flex flex-col justify-end rounded-lg'>
+              <h1 className='text-2xl font-bold'>{t("womensCol")}</h1>
+              <p>{t("womensDesc")}</p>
+              <h1 className='underline cursor-pointer'>{t("shopNowLink")}</h1>
             </div>
+
             <div className='flex md:flex-row flex-col gap-2'>
               <div style={{ backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img7}')` }}
                 className='md:w-[50%] bg-black p-8 text-white bg-cover bg-center md:h-75 flex flex-col justify-end rounded-lg'>
-                <h1 className='text-2xl font-bold'>PlayStation 5</h1>
-                <p>Black and White version of the PS5 coming out on sale.</p>
-                <h1>Shop Now</h1>
+                <h1 className='text-2xl font-bold'>{t("ps5Title")}</h1>
+                <p className='text-sm'>{t("ps5Desc")}</p>
+                <h1 className='underline cursor-pointer'>{t("shopNowLink")}</h1>
               </div>
+
               <div style={{ backgroundImage: `linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0)), url('${img8}')` }}
                 className='md:w-[50%] bg-black p-8 text-white bg-cover bg-center md:h-75 w-full flex flex-col justify-end rounded-lg'>
-                <h1 className='text-2xl font-bold'>PlayStation 5</h1>
-                <p>Black and White version of the PS5 coming out on sale.</p>
-                <h1>Shop Now</h1>
+                <h1 className='text-2xl font-bold'>{t("ps5Title")}</h1>
+                <p className='text-sm'>{t("ps5Desc")}</p>
+                <h1 className='underline cursor-pointer'>{t("shopNowLink")}</h1>
               </div>
             </div>
           </aside>
@@ -658,18 +568,18 @@ const Home = () => {
       <section className='flex md:flex-row flex-col md:items-start md:gap-0 gap-15 justify-between my-20'>
         <div className='flex flex-col items-center gap-2'>
           <img src={img2} alt="" />
-          <h1 className='text-2xl font-bold'>FREE AND FAST DELIVERY</h1>
-          <p>Free delivery for all orders over $140</p>
+          <h1 className='text-2xl font-bold'>{t("freeDeliveryTitle")}</h1>
+          <p>{t("freeDeliveryDesc")}</p>
         </div>
         <div className='flex flex-col items-center gap-2'>
           <img src={img3} alt="" />
-          <h1 className='text-2xl font-bold'>24/7 CUSTOMER SERVICE</h1>
-          <p>Friendly 24/7 customer support</p>
+          <h1 className='text-2xl font-bold'>{t("customerServiceTitle")}</h1>
+          <p>{t("customerServiceDesc")}</p>
         </div>
         <div className='flex flex-col items-center gap-2'>
           <img src={img4} alt="" />
-          <h1 className='text-2xl font-bold'>MONEY BACK GUARANTEE</h1>
-          <p>We reurn money within 30 days</p>
+          <h1 className='text-2xl font-bold'>{t("moneyBackTitle")}</h1>
+          <p>{t("moneyBackDesc")}</p>
         </div>
       </section>
     </main >
