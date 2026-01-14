@@ -66,7 +66,7 @@ const Account = () => {
   });
 
   return (
-    <div className="max-w-337.5 m-auto my-10 md:px-0 px-4">
+    <div className="max-w-337.5 m-auto my-10 md:px-0 md:py-5 px-4">
       <div>
         <h1 className="text-gray-300">
           {t("link1")} /{" "}

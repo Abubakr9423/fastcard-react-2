@@ -86,7 +86,7 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 w-full px-4 md:px-8">
+    <div className="flex max-w-337.5 m-auto flex-col md:flex-row gap-6 w-full px-4 md:px-8">
       {/* Filters Sidebar */}
       <div className="md:w-[300px] flex flex-col gap-6">
 
@@ -110,7 +110,7 @@ const Products = () => {
             resetFilters();
             fetchProducts();
           }}
-          className="bg-black text-white hover:bg-neutral-800"
+          className="bg-black text-white hover:bg-gray-600 dark:bg-[#1a1a1a]"
         >
           {t("clearFilters")}
         </Button>
